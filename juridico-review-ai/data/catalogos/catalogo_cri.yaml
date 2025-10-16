@@ -1,0 +1,125 @@
+# Catálogo de Referência para Certificados de Recebíveis Imobiliários (CRI)
+
+nome: "Catálogo CRI"
+versao: "1.0"
+descricao: "Cláusulas de referência para emissão de CRI"
+
+clausulas:
+  definicoes:
+    - titulo: "Definições Gerais"
+      importancia: "alta"
+      keywords: ["definições", "termos", "conceitos", "glossário"]
+      conteudo: |
+        Para os fins desta escritura, os termos e expressões abaixo terão os seguintes significados:
+        - CRI: Certificado de Recebíveis Imobiliários
+        - Emissora: [Nome da securitizadora]
+        - Agente Fiduciário: [Nome do agente]
+        - Créditos Imobiliários: direitos creditórios originados de operações imobiliárias
+        - Data de Emissão: data da primeira integralização
+        - Cedente: pessoa que transfere os créditos à Emissora
+
+    - titulo: "Lastro dos CRIs"
+      importancia: "alta"
+      keywords: ["lastro", "recebíveis", "créditos", "garantia"]
+      conteudo: |
+        Os CRIs terão como lastro os Créditos Imobiliários, conforme descrito no Anexo I,
+        representando direitos creditórios originados de operações imobiliárias realizadas
+        no mercado imobiliário brasileiro, incluindo contratos de compra e venda, locação,
+        arrendamento e financiamento de imóveis.
+
+  emissao:
+    - titulo: "Características da Emissão"
+      importancia: "alta"
+      keywords: ["emissão", "série", "quantidade", "valor nominal"]
+      conteudo: |
+        A emissão será realizada em [número] séries:
+        - Série [X]: quantidade de [N] CRIs
+        - Valor Nominal Unitário: R$ [valor]
+        - Valor Total da Emissão: R$ [valor total]
+        - Forma: escritural, nominativa
+        - Regime de Colocação: [público/privado]
+
+  remuneracao:
+    - titulo: "Remuneração e Amortização"
+      importancia: "alta"
+      keywords: ["remuneração", "juros", "amortização", "pagamento"]
+      conteudo: |
+        Os CRIs farão jus à remuneração correspondente à:
+        - Taxa: [X]% ao ano + [índice de correção]
+        - Base de Cálculo: 252 dias úteis
+        - Periodicidade de Pagamento: [mensal/trimestral/semestral]
+        - Amortização: [programada/bullet]
+        - Data de Pagamento: todo dia [X] de cada mês/período
+
+  garantias:
+    - titulo: "Garantias"
+      importancia: "alta"
+      keywords: ["garantias", "alienação fiduciária", "cessão fiduciária", "seguro"]
+      conteudo: |
+        Constituem garantias dos CRIs:
+        1. Cessão Fiduciária dos Créditos Imobiliários
+        2. [Alienação Fiduciária de Imóveis, se aplicável]
+        3. [Fiança, se aplicável]
+        4. [Seguro de Crédito, se aplicável]
+        Todas as garantias deverão ser devidamente registradas nos órgãos competentes.
+
+  covenants:
+    - titulo: "Obrigações do Cedente (Covenants)"
+      importancia: "alta"
+      keywords: ["covenants", "obrigações", "indicadores", "financeiros"]
+      conteudo: |
+        O Cedente se compromete a:
+        1. Manter índice de endividamento inferior a [X]
+        2. Manter patrimônio líquido mínimo de R$ [valor]
+        3. Não distribuir dividendos se inadimplente
+        4. Fornecer demonstrações financeiras trimestrais
+        5. Manter seguros vigentes sobre os imóveis
+        6. Não alienar ativos essenciais sem anuência dos titulares
+
+  eventos_inadimplemento:
+    - titulo: "Eventos de Inadimplemento"
+      importancia: "alta"
+      keywords: ["inadimplemento", "vencimento antecipado", "default", "mora"]
+      conteudo: |
+        Constituem eventos de inadimplemento:
+        1. Não pagamento de qualquer valor devido por mais de [X] dias
+        2. Descumprimento de covenants por mais de [Y] dias após notificação
+        3. Decretação de falência, recuperação judicial ou extrajudicial
+        4. Falta de constituição ou perda de garantias
+        5. Prestação de informações falsas ou omissão de fatos relevantes
+        Em caso de inadimplemento, os titulares poderão declarar vencimento antecipado.
+
+  agente_fiduciario:
+    - titulo: "Agente Fiduciário - Atribuições"
+      importancia: "alta"
+      keywords: ["agente fiduciário", "deveres", "representação", "assembleia"]
+      conteudo: |
+        Compete ao Agente Fiduciário:
+        1. Zelar pela proteção dos direitos dos titulares
+        2. Fiscalizar o cumprimento das obrigações
+        3. Verificar a regularidade das garantias
+        4. Convocar assembleia quando necessário
+        5. Notificar imediatamente qualquer inadimplemento
+        6. Exercer direitos creditórios em nome dos titulares
+        Remuneração: [valor/percentual] conforme contrato.
+
+  negociacao:
+    - titulo: "Negociação e Transferência"
+      importancia: "media"
+      keywords: ["negociação", "transferência", "mercado secundário", "custódia"]
+      conteudo: |
+        Os CRIs poderão ser livremente negociados no mercado secundário,
+        observadas as restrições da regulamentação aplicável.
+        - Forma: escritural, custodiados na [B3/outra instituição]
+        - Transferência: mediante ordem à instituição custodiante
+        - Prazo de Liquidação: D+[X]
+
+  resgate_antecipado:
+    - titulo: "Resgate Antecipado"
+      importancia: "media"
+      keywords: ["resgate", "antecipado", "opcional", "prepagamento"]
+      conteudo: |
+        A Emissora poderá, mediante prévia comunicação de [X] dias,
+        resgatar antecipadamente a totalidade ou parte dos CRIs em circulação,
+        pelo valor nominal unitário acrescido da remuneração pro rata,
+        sem aplicação de prêmio ou penalidade.

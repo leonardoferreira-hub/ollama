@@ -1,0 +1,151 @@
+# Catálogo de Referência para Certificados de Recebíveis do Agronegócio (CRA)
+
+nome: "Catálogo CRA"
+versao: "1.0"
+descricao: "Cláusulas de referência para emissão de CRA"
+
+clausulas:
+  definicoes:
+    - titulo: "Definições Gerais"
+      importancia: "alta"
+      keywords: ["definições", "termos", "agronegócio", "conceitos"]
+      conteudo: |
+        Para os fins desta escritura, os termos e expressões abaixo terão os seguintes significados:
+        - CRA: Certificado de Recebíveis do Agronegócio
+        - Emissora: [Nome da securitizadora]
+        - Agente Fiduciário: [Nome do agente]
+        - Direitos Creditórios do Agronegócio: direitos de crédito originários de negócios
+          realizados entre produtores rurais, cooperativas e terceiros
+        - Cedente: pessoa que transfere os direitos creditórios à Emissora
+        - Devedor: pessoa responsável pelo pagamento dos créditos
+
+    - titulo: "Lastro dos CRAs"
+      importancia: "alta"
+      keywords: ["lastro", "recebíveis", "agronegócio", "origem"]
+      conteudo: |
+        Os CRAs terão como lastro os Direitos Creditórios do Agronegócio, conforme
+        descrito no Anexo I, representando direitos creditórios originados de negócios
+        realizados entre produtores rurais e/ou cooperativas e terceiros, incluindo
+        financiamento ou venda de produção, insumos, máquinas e serviços relacionados
+        à produção agropecuária, beneficiamento ou comercialização de produtos
+        ou insumos agropecuários.
+
+  emissao:
+    - titulo: "Características da Emissão"
+      importancia: "alta"
+      keywords: ["emissão", "série", "quantidade", "valor"]
+      conteudo: |
+        A emissão será realizada em [número] séries:
+        - Série [X]: quantidade de [N] CRAs
+        - Valor Nominal Unitário: R$ [valor]
+        - Valor Total da Emissão: R$ [valor total]
+        - Forma: escritural, nominativa
+        - Regime de Colocação: [público/privado]
+        - Destinação: exclusivamente para investidores qualificados [se aplicável]
+
+  remuneracao:
+    - titulo: "Remuneração e Amortização"
+      importancia: "alta"
+      keywords: ["remuneração", "juros", "índice", "amortização"]
+      conteudo: |
+        Os CRAs farão jus à remuneração correspondente à variação de:
+        - Taxa: [X]% ao ano ou [percentual do CDI]
+        - Índice de Atualização: [IPCA/IGP-M/outro, se aplicável]
+        - Base de Cálculo: 252 dias úteis
+        - Periodicidade: [mensal/trimestral/semestral]
+        - Amortização: [conforme cronograma anexo/bullet]
+        - Data de Vencimento: [data]
+
+  garantias:
+    - titulo: "Garantias"
+      importancia: "alta"
+      keywords: ["garantias", "penhor", "alienação", "seguro"]
+      conteudo: |
+        Constituem garantias dos CRAs:
+        1. Cessão Fiduciária dos Direitos Creditórios do Agronegócio
+        2. [Alienação Fiduciária de bens móveis/equipamentos, se aplicável]
+        3. [Penhor rural, se aplicável]
+        4. [Aval ou fiança, se aplicável]
+        5. [Seguro rural, se aplicável]
+        As garantias deverão ser devidamente registradas conforme legislação aplicável.
+
+  covenants:
+    - titulo: "Obrigações do Cedente e Devedores"
+      importancia: "alta"
+      keywords: ["covenants", "obrigações", "restrições", "financeiros"]
+      conteudo: |
+        O Cedente e/ou Devedores se comprometem a:
+        1. Manter índice de endividamento inferior a [X]
+        2. Manter capital circulante líquido mínimo de R$ [valor]
+        3. Fornecer relatórios de produção e comercialização
+        4. Manter seguros rurais vigentes
+        5. Não alienar máquinas e equipamentos dados em garantia
+        6. Permitir inspeção das propriedades rurais
+        7. Cumprir regulamentação ambiental e trabalhista
+
+  sustentabilidade:
+    - titulo: "Critérios ESG e Sustentabilidade"
+      importancia: "media"
+      keywords: ["ESG", "sustentabilidade", "ambiental", "social"]
+      conteudo: |
+        Os recursos captados serão destinados a projetos que atendam critérios ESG:
+        1. Práticas agrícolas sustentáveis
+        2. Preservação de áreas de reserva legal
+        3. Cumprimento da legislação trabalhista
+        4. [Certificações: Rainforest Alliance, Orgânico, etc.]
+        5. Monitoramento de pegada de carbono [se aplicável]
+        O descumprimento poderá ensejar vencimento antecipado.
+
+  eventos_inadimplemento:
+    - titulo: "Eventos de Inadimplemento"
+      importancia: "alta"
+      keywords: ["inadimplemento", "vencimento antecipado", "default"]
+      conteudo: |
+        Constituem eventos de inadimplemento:
+        1. Não pagamento por mais de [X] dias corridos
+        2. Violação de covenants por mais de [Y] dias após notificação
+        3. Decretação de falência ou recuperação judicial
+        4. Perda ou falta de renovação de garantias
+        5. Inadimplência cruzada superior a R$ [valor]
+        6. Descumprimento de obrigações ambientais graves
+        Declarado o vencimento antecipado, os CRAs serão resgatados pelo saldo devedor.
+
+  agente_fiduciario:
+    - titulo: "Agente Fiduciário - Deveres"
+      importancia: "alta"
+      keywords: ["agente fiduciário", "fiscalização", "deveres"]
+      conteudo: |
+        Compete ao Agente Fiduciário:
+        1. Zelar pelos interesses dos titulares de CRAs
+        2. Fiscalizar o cumprimento de covenants
+        3. Verificar a manutenção das garantias
+        4. Promover vistorias nas propriedades rurais
+        5. Convocar assembleia geral quando necessário
+        6. Comunicar imediatamente qualquer inadimplemento
+        7. Executar garantias em caso de default
+        Remuneração: [especificar valor ou percentual].
+
+  negociacao:
+    - titulo: "Negociação no Mercado Secundário"
+      importancia: "media"
+      keywords: ["negociação", "transferência", "mercado", "custódia"]
+      conteudo: |
+        Os CRAs poderão ser negociados no mercado secundário.
+        - Forma: escritural
+        - Custódia: [B3 ou instituição autorizada]
+        - Transferência: mediante registro na instituição custodiante
+        - Liquidação: [D+0, D+1, D+2]
+        - Restrições: observar legislação de valores mobiliários
+
+  substituicao_lastro:
+    - titulo: "Substituição de Lastro"
+      importancia: "media"
+      keywords: ["substituição", "lastro", "recebíveis", "critérios"]
+      conteudo: |
+        A Emissora poderá substituir Direitos Creditórios do Agronegócio,
+        desde que observados os seguintes critérios:
+        1. Manutenção ou melhoria do rating
+        2. Mesmo setor do agronegócio
+        3. Prazo de vencimento compatível
+        4. Prévia anuência do Agente Fiduciário
+        5. Comunicação aos titulares em até [X] dias

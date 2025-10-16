@@ -1,0 +1,81 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+
+# Large files - documentos
+*.pdf
+*.docx
+*.doc
+*.xlsx
+*.xls
+
+# Exceto arquivos de exemplo (permitir alguns testes pequenos)
+!tests/exemplos_minutas/*.pdf
+!tests/exemplos_minutas/*.docx
+
+# Output files
+data/saida/*
+!data/saida/.gitkeep
+
+# Entrada (minutas sensíveis)
+data/entrada/*
+!data/entrada/.gitkeep
+
+# Logs
+*.log
+logs/
+
+# Cache
+.cache/
+*.cache
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Model files (embeddings podem ser grandes)
+*.bin
+*.pt
+*.pth
+models/
+
+# Temporary files
+*.tmp
+*.temp
+~$*

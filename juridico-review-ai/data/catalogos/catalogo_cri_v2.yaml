@@ -1,0 +1,411 @@
+# Catálogo CRI v2.0 - Com Regex Patterns e Templates de Variáveis
+
+metadata:
+  nome: "Catálogo CRI v2"
+  versao: "2.0.0"
+  hash: "cri_v2_2025_01"
+  descricao: "Catálogo para revisão automatizada de CRI"
+  data_atualizacao: "2025-01-15"
+
+clausulas:
+  - id: "CRI_DEF_001"
+    titulo: "Definições Gerais"
+    categoria: "definicoes"
+    importancia: "alta"
+    obrigatoria: true
+
+    keywords:
+      - "definições"
+      - "termos"
+      - "significados"
+      - "glossário"
+      - "expressões"
+
+    regex_patterns:
+      - "(?i)defini[çc][õo]es\\s+gerais"
+      - "(?i)termos\\s+e\\s+express[õo]es"
+      - "(?i)significados?"
+      - "(?i)CRI.*Certificado.*Receb[íi]veis.*Imobili[áa]rios"
+
+    template: |
+      CLÁUSULA {{numero}} – DEFINIÇÕES
+
+      Para os fins desta Escritura de Emissão, os termos e expressões iniciados em letra
+      maiúscula terão os seguintes significados:
+
+      **CRI ou Certificados de Recebíveis Imobiliários**: valores mobiliários de emissão
+      da Emissora, representativos de promessa de pagamento em dinheiro, lastreados nos
+      Créditos Imobiliários.
+
+      **Emissora**: {{emissora_nome}}, sociedade anônima com registro de companhia securitizadora.
+
+      **Agente Fiduciário**: {{agente_fiduciario_nome}}.
+
+      **Créditos Imobiliários**: direitos creditórios originados de operações imobiliárias
+      realizadas no mercado financeiro e de capitais brasileiro.
+
+      **Data de Emissão**: {{data_emissao}}.
+
+      **Cedente**: {{cedente_nome}}.
+
+    variaveis:
+      - nome: "emissora_nome"
+        tipo: "string"
+        obrigatoria: true
+        exemplo: "XYZ Securitizadora S.A."
+      - nome: "agente_fiduciario_nome"
+        tipo: "string"
+        obrigatoria: true
+        exemplo: "Oliveira Trust DTVM S.A."
+      - nome: "data_emissao"
+        tipo: "date"
+        obrigatoria: true
+        formato: "DD/MM/AAAA"
+      - nome: "cedente_nome"
+        tipo: "string"
+        obrigatoria: true
+        exemplo: "ABC Incorporadora Ltda."
+
+    criterios_validacao:
+      - campo: "CRI"
+        regra: "deve conter definição completa"
+      - campo: "Emissora"
+        regra: "deve mencionar securitizadora"
+      - campo: "Agente Fiduciário"
+        regra: "deve estar nomeado"
+      - campo: "Créditos Imobiliários"
+        regra: "deve definir lastro"
+
+  - id: "CRI_EMI_001"
+    titulo: "Características da Emissão"
+    categoria: "emissao"
+    importancia: "alta"
+    obrigatoria: true
+
+    keywords:
+      - "emissão"
+      - "série"
+      - "quantidade"
+      - "valor nominal"
+      - "valor total"
+
+    regex_patterns:
+      - "(?i)caracter[íi]sticas\\s+da\\s+emiss[ãa]o"
+      - "(?i)valor\\s+nominal\\s+unit[áa]rio"
+      - "(?i)quantidade.*CRIs?"
+      - "(?i)s[ée]rie\\s+[úu]nica"
+      - "R\\$\\s*[\\d.,]+"
+
+    template: |
+      CLÁUSULA {{numero}} – CARACTERÍSTICAS DA EMISSÃO
+
+      A {{numero_emissao}}ª ({{numero_emissao_extenso}}) emissão de CRI da Emissora será
+      realizada em série única, com as seguintes características:
+
+      - **Número da Emissão**: {{numero_emissao}}ª
+      - **Quantidade**: {{quantidade_cris}} ({{quantidade_cris_extenso}}) CRIs
+      - **Valor Nominal Unitário**: R$ {{valor_unitario}}
+      - **Valor Total da Emissão**: R$ {{valor_total}}
+      - **Forma**: escritural, nominativa
+      - **Regime de Colocação**: {{regime_colocacao}}
+
+    variaveis:
+      - nome: "numero_emissao"
+        tipo: "integer"
+        obrigatoria: true
+      - nome: "quantidade_cris"
+        tipo: "integer"
+        obrigatoria: true
+      - nome: "valor_unitario"
+        tipo: "decimal"
+        obrigatoria: true
+        formato: "###,###,##0.00"
+      - nome: "valor_total"
+        tipo: "decimal"
+        obrigatoria: true
+      - nome: "regime_colocacao"
+        tipo: "enum"
+        opcoes: ["público", "privado"]
+        obrigatoria: true
+
+    criterios_validacao:
+      - campo: "quantidade"
+        regra: "deve ser número inteiro positivo"
+      - campo: "valor_total"
+        regra: "deve ser = quantidade × valor_unitario"
+      - campo: "forma"
+        regra: "deve ser escritural"
+
+  - id: "CRI_REM_001"
+    titulo: "Remuneração"
+    categoria: "remuneracao"
+    importancia: "alta"
+    obrigatoria: true
+
+    keywords:
+      - "remuneração"
+      - "juros"
+      - "taxa"
+      - "CDI"
+      - "IPCA"
+      - "percentual"
+
+    regex_patterns:
+      - "(?i)remunera[çc][ãa]o"
+      - "(?i)juros.*ao\\s+ano"
+      - "(?i)\\d+[,.]\\d+%\\s+ao\\s+ano"
+      - "(?i)\\d+%\\s+do\\s+CDI"
+      - "(?i)IPCA|IGP-M"
+      - "(?i)252\\s+dias\\s+[úu]teis"
+
+    template: |
+      CLÁUSULA {{numero}} – REMUNERAÇÃO
+
+      Os CRIs farão jus a remuneração correspondente a:
+
+      {{#if indexador}}
+      - **Indexador**: {{indexador}}
+      - **Taxa de Juros**: {{taxa_juros}}% ao ano
+      {{else}}
+      - **Taxa**: {{percentual_cdi}}% do CDI
+      {{/if}}
+
+      - **Base de Cálculo**: 252 (duzentos e cinquenta e dois) Dias Úteis
+      - **Periodicidade de Pagamento**: {{periodicidade}}
+      - **Primeira Data de Pagamento**: {{primeira_data_pagamento}}
+
+      A remuneração será calculada de forma {{capitalizacao}} desde a Data de Emissão
+      ou da Data de Pagamento de Remuneração imediatamente anterior.
+
+    variaveis:
+      - nome: "indexador"
+        tipo: "enum"
+        opcoes: ["IPCA", "IGP-M", null]
+        obrigatoria: false
+      - nome: "taxa_juros"
+        tipo: "decimal"
+        obrigatoria: true
+      - nome: "percentual_cdi"
+        tipo: "decimal"
+        obrigatoria: false
+      - nome: "periodicidade"
+        tipo: "enum"
+        opcoes: ["mensal", "trimestral", "semestral", "anual"]
+        obrigatoria: true
+      - nome: "capitalizacao"
+        tipo: "enum"
+        opcoes: ["simples", "composta"]
+        default: "composta"
+
+    criterios_validacao:
+      - campo: "base_calculo"
+        regra: "deve ser 252 dias úteis"
+      - campo: "periodicidade"
+        regra: "deve estar definida"
+
+  - id: "CRI_GAR_001"
+    titulo: "Garantias"
+    categoria: "garantias"
+    importancia: "alta"
+    obrigatoria: true
+
+    keywords:
+      - "garantias"
+      - "cessão fiduciária"
+      - "alienação fiduciária"
+      - "fiança"
+      - "aval"
+
+    regex_patterns:
+      - "(?i)garantias?"
+      - "(?i)cess[ãa]o\\s+fiduci[áa]ria"
+      - "(?i)aliena[çc][ãa]o\\s+fiduci[áa]ria"
+      - "(?i)fian[çc]a"
+      - "(?i)registro.*cart[óo]rio"
+
+    template: |
+      CLÁUSULA {{numero}} – GARANTIAS
+
+      Constituem garantias da presente Emissão:
+
+      1. **Cessão Fiduciária dos Créditos Imobiliários**: cessão fiduciária em favor
+         dos titulares dos CRIs, na forma da Lei nº 9.514/97, de todos os Créditos
+         Imobiliários que lastreiam a Emissão.
+
+      {{#if alienacao_fiduciaria}}
+      2. **Alienação Fiduciária de Imóveis**: {{alienacao_fiduciaria_detalhes}}
+      {{/if}}
+
+      {{#if fianca}}
+      3. **Fiança**: {{fianca_detalhes}}
+      {{/if}}
+
+      Todas as garantias deverão ser devidamente constituídas e registradas nos órgãos
+      competentes, conforme legislação aplicável.
+
+    variaveis:
+      - nome: "alienacao_fiduciaria"
+        tipo: "boolean"
+        default: false
+      - nome: "fianca"
+        tipo: "boolean"
+        default: false
+
+    criterios_validacao:
+      - campo: "cessao_fiduciaria"
+        regra: "deve estar presente (obrigatória)"
+      - campo: "registro"
+        regra: "deve mencionar registro"
+
+  - id: "CRI_COV_001"
+    titulo: "Obrigações do Cedente (Covenants)"
+    categoria: "covenants"
+    importancia: "alta"
+    obrigatoria: true
+
+    keywords:
+      - "obrigações"
+      - "covenants"
+      - "cedente"
+      - "endividamento"
+      - "patrimônio líquido"
+
+    regex_patterns:
+      - "(?i)obriga[çc][õo]es.*cedente"
+      - "(?i)covenants?"
+      - "(?i)[íi]ndice.*endividamento"
+      - "(?i)patrim[ôo]nio\\s+l[íi]quido"
+      - "(?i)demonstra[çc][õo]es\\s+financeiras"
+
+    template: |
+      CLÁUSULA {{numero}} – OBRIGAÇÕES DO CEDENTE
+
+      Durante a vigência dos CRIs, o Cedente se obriga a:
+
+      **Covenants Financeiros:**
+
+      1. Manter índice de Dívida Líquida/EBITDA inferior a {{ratio_endividamento}};
+      2. Manter Patrimônio Líquido mínimo de R$ {{patrimonio_minimo}};
+
+      **Covenants Não-Financeiros:**
+
+      3. Fornecer demonstrações financeiras trimestrais ao Agente Fiduciário;
+      4. Manter seguros vigentes sobre os imóveis objeto dos Créditos Imobiliários;
+      5. Não alienar ativos essenciais sem prévia anuência da maioria dos titulares;
+      6. Não distribuir dividendos caso esteja inadimplente.
+
+    variaveis:
+      - nome: "ratio_endividamento"
+        tipo: "decimal"
+        exemplo: "3.5"
+      - nome: "patrimonio_minimo"
+        tipo: "decimal"
+        formato: "###,###,##0.00"
+
+    criterios_validacao:
+      - campo: "covenants_financeiros"
+        regra: "deve conter ao menos 1 covenant financeiro"
+      - campo: "demonstracoes"
+        regra: "deve exigir entrega periódica"
+
+  - id: "CRI_EVT_001"
+    titulo: "Eventos de Inadimplemento"
+    categoria: "eventos_inadimplemento"
+    importancia: "alta"
+    obrigatoria: true
+
+    keywords:
+      - "inadimplemento"
+      - "vencimento antecipado"
+      - "default"
+      - "falência"
+      - "recuperação judicial"
+
+    regex_patterns:
+      - "(?i)eventos?\\s+de\\s+inadimplemento"
+      - "(?i)vencimento\\s+antecipado"
+      - "(?i)default"
+      - "(?i)fal[êe]ncia"
+      - "(?i)recupera[çc][ãa]o\\s+judicial"
+
+    template: |
+      CLÁUSULA {{numero}} – EVENTOS DE INADIMPLEMENTO
+
+      Constituem eventos de inadimplemento, sem prejuízo de outros previstos na legislação:
+
+      1. Não pagamento de principal, remuneração ou qualquer valor devido por prazo
+         superior a {{prazo_mora}} dias corridos;
+
+      2. Descumprimento de quaisquer obrigações previstas nesta Escritura por mais de
+         {{prazo_cura}} dias após notificação pelo Agente Fiduciário;
+
+      3. Decretação de falência, homologação de recuperação judicial ou extrajudicial
+         do Cedente ou da Emissora;
+
+      4. Falta de constituição ou perda de qualquer das garantias;
+
+      5. Prestação de informações falsas ou omissão de fatos relevantes.
+
+      Declarado o vencimento antecipado, os CRIs tornar-se-ão imediatamente exigíveis.
+
+    variaveis:
+      - nome: "prazo_mora"
+        tipo: "integer"
+        default: 30
+      - nome: "prazo_cura"
+        tipo: "integer"
+        default: 15
+
+    criterios_validacao:
+      - campo: "nao_pagamento"
+        regra: "deve estar previsto"
+      - campo: "falencia"
+        regra: "deve estar prevista"
+
+  - id: "CRI_AGF_001"
+    titulo: "Agente Fiduciário"
+    categoria: "agente_fiduciario"
+    importancia: "alta"
+    obrigatoria: true
+
+    keywords:
+      - "agente fiduciário"
+      - "deveres"
+      - "atribuições"
+      - "fiscalização"
+
+    regex_patterns:
+      - "(?i)agente\\s+fiduci[áa]rio"
+      - "(?i)compete\\s+ao\\s+agente"
+      - "(?i)deveres\\s+do\\s+agente"
+      - "(?i)fiscaliza[çc][ãa]o"
+
+    template: |
+      CLÁUSULA {{numero}} – AGENTE FIDUCIÁRIO
+
+      Foi nomeado {{agente_fiduciario_nome}} como Agente Fiduciário desta Emissão.
+
+      **Principais Atribuições:**
+
+      1. Zelar pela proteção dos direitos e interesses dos titulares dos CRIs;
+      2. Fiscalizar o cumprimento das obrigações do Cedente e da Emissora;
+      3. Verificar a regularidade da constituição e manutenção das garantias;
+      4. Convocar Assembleia Geral de titulares quando necessário;
+      5. Notificar imediatamente os titulares sobre qualquer inadimplemento;
+      6. Exercer direitos creditórios em nome dos titulares.
+
+      **Remuneração**: {{remuneracao_agente}}
+
+    variaveis:
+      - nome: "agente_fiduciario_nome"
+        tipo: "string"
+        obrigatoria: true
+      - nome: "remuneracao_agente"
+        tipo: "string"
+        exemplo: "R$ 15.000,00 anuais"
+
+    criterios_validacao:
+      - campo: "nomeacao"
+        regra: "deve nomear agente"
+      - campo: "atribuicoes"
+        regra: "deve listar atribuições principais"
