@@ -84,3 +84,4 @@ data/entrada/*.docx
 data/entrada/*.pdf
 __pycache__/
 *.pyc
+.env

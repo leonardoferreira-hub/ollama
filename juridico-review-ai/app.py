@@ -312,10 +312,19 @@ st.markdown("---")
 with st.sidebar:
     st.header("Configurações")
 
-    # API Key Gemini (fixada para testes locais)
-    gemini_key = "AIzaSyA7XE68lUNDoc8lzP_m4qm8ZOPpQnpTUFY"
+    # API Key Gemini
+    import os
+    gemini_key = st.text_input(
+        "Gemini API Key",
+        value=os.getenv("GEMINI_API_KEY", ""),
+        type="password",
+        help="Cole sua API Key do Gemini aqui"
+    )
 
-    st.success("API Key configurada")
+    if gemini_key:
+        st.success("API Key configurada")
+    else:
+        st.warning("Insira sua API Key para continuar")
 
     st.markdown("---")
 
