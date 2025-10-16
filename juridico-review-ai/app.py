@@ -14,55 +14,125 @@ from collections import deque
 
 # Configuração da página
 st.set_page_config(
-    page_title="⚖️ Jurídico Review AI",
-    page_icon="⚖️",
+    page_title="Revisor de Documentos - Travessia",
+    page_icon="📋",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# CSS customizado
+# CSS customizado - Visual Profissional Travessia
 st.markdown("""
 <style>
+    /* Paleta de cores Travessia */
+    :root {
+        --travessia-primary: #1e3a5f;
+        --travessia-secondary: #2c5282;
+        --travessia-accent: #3182ce;
+        --travessia-success: #38a169;
+        --travessia-warning: #d69e2e;
+        --travessia-danger: #e53e3e;
+    }
+
     .main {
         padding: 2rem;
+        background-color: #f7fafc;
     }
+
+    /* Título principal */
+    .main-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1e3a5f;
+        margin-bottom: 0.5rem;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .subtitle {
+        font-size: 1.1rem;
+        color: #4a5568;
+        font-weight: 400;
+        margin-bottom: 2rem;
+    }
+
+    /* Botões */
     .stButton>button {
         width: 100%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: #1e3a5f;
         color: white;
         border: none;
         padding: 0.75rem 1.5rem;
-        font-size: 1.1rem;
-        border-radius: 10px;
+        font-size: 1rem;
+        border-radius: 8px;
         font-weight: 600;
-        transition: transform 0.2s;
+        transition: all 0.3s ease;
     }
+
     .stButton>button:hover {
-        transform: scale(1.02);
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        background: #2c5282;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
     }
+
+    /* Cards de métricas */
     .metric-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: white;
         padding: 1.5rem;
-        border-radius: 10px;
-        color: white;
+        border-radius: 12px;
+        border-left: 4px solid #1e3a5f;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         text-align: center;
         margin: 0.5rem 0;
     }
+
     .metric-value {
         font-size: 2.5rem;
-        font-weight: bold;
+        font-weight: 700;
+        color: #1e3a5f;
     }
+
     .metric-label {
-        font-size: 1rem;
-        opacity: 0.9;
+        font-size: 0.9rem;
+        color: #718096;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: 0.5rem;
     }
-    h1 {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-size: 3rem;
-        font-weight: 800;
+
+    /* Sidebar */
+    .css-1d391kg {
+        background-color: #1e3a5f;
+    }
+
+    /* Headers */
+    h1, h2, h3 {
+        color: #1e3a5f;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 2px;
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        background-color: white;
+        border-radius: 8px 8px 0 0;
+        padding: 12px 24px;
+        font-weight: 600;
+        color: #4a5568;
+    }
+
+    .stTabs [aria-selected="true"] {
+        background-color: #1e3a5f;
+        color: white;
+    }
+
+    /* Upload area */
+    .stFileUploader {
+        background: white;
+        border: 2px dashed #cbd5e0;
+        border-radius: 8px;
+        padding: 2rem;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -73,7 +143,7 @@ try:
     from src.utils import load_catalog
     from src.vector_db import DocumentVectorDB, get_rag_context_for_suggestion
 except:
-    st.error("⚠️ Erro ao importar módulos do backend. Verifique se está na pasta correta.")
+    st.error("Erro ao importar módulos do backend. Verifique se está na pasta correta.")
     st.stop()
 
 # Inicializa banco vetorial (persiste entre sessões)
@@ -231,28 +301,26 @@ RESPONDA APENAS COM JSON:
 # ========================================
 
 # Header
-col1, col2 = st.columns([3, 1])
-with col1:
-    st.title("⚖️ Jurídico Review AI")
-    st.markdown("**Sistema inteligente de revisão de minutas jurídicas**")
-with col2:
-    st.image("https://img.icons8.com/3d-fluency/94/law.png", width=100)
+st.markdown("""
+<div class="main-title">Revisor de Documentos - Travessia</div>
+<div class="subtitle">Sistema inteligente de revisão automatizada de minutas jurídicas</div>
+""", unsafe_allow_html=True)
 
 st.markdown("---")
 
 # Sidebar
 with st.sidebar:
-    st.header("⚙️ Configurações")
+    st.header("Configurações")
 
     # API Key Gemini (fixada para testes locais)
     gemini_key = "AIzaSyA7XE68lUNDoc8lzP_m4qm8ZOPpQnpTUFY"
 
-    st.success("🔑 API Key configurada")
+    st.success("API Key configurada")
 
     st.markdown("---")
 
     # Seleção de catálogo
-    st.subheader("📚 Catálogo")
+    st.subheader("Catálogo")
     catalogs = load_available_catalogs()
 
     catalog_options = {
@@ -271,14 +339,14 @@ with st.sidebar:
     st.markdown("---")
 
     # Opções avançadas
-    with st.expander("🔧 Opções Avançadas"):
+    with st.expander("Opções Avançadas"):
         skip_tier2 = st.checkbox("Pular Tier-2 (apenas classificar)", value=True)
         top_k = st.slider("Top-K matches", 1, 10, 3)
 
     st.markdown("---")
 
     # 🆕 Estatísticas do Banco de Conhecimento
-    st.subheader("📚 Base de Conhecimento")
+    st.subheader("Base de Conhecimento")
     try:
         db_stats = st.session_state.vector_db.get_statistics()
         col1, col2 = st.columns(2)
@@ -288,11 +356,11 @@ with st.sidebar:
             st.metric("Cláusulas", db_stats['total_clausulas'])
 
         if db_stats['total_clausulas'] > 0:
-            st.success("✅ RAG ativo")
+            st.success("RAG ativo")
         else:
-            st.info("💡 Primeira análise iniciará a base")
+            st.info("Primeira análise iniciará a base")
     except:
-        st.warning("⚠️ Banco não inicializado")
+        st.warning("Banco não inicializado")
 
     st.markdown("---")
 
@@ -305,11 +373,11 @@ with st.sidebar:
     4. Clique em Analisar
     5. Baixe os relatórios
 
-    💡 **Cada documento analisado enriquece a base de conhecimento!**
+    **Cada documento analisado enriquece a base de conhecimento!**
     """)
 
 # Main content
-tab1, tab2, tab3 = st.tabs(["📄 Análise", "📊 Resultados", "❓ Ajuda"])
+tab1, tab2, tab3 = st.tabs(["Análise", "Resultados", "Ajuda"])
 
 with tab1:
     st.header("Upload da Minuta")
@@ -321,7 +389,7 @@ with tab1:
     )
 
     if uploaded_file:
-        st.success(f"✅ Arquivo carregado: {uploaded_file.name}")
+        st.success(f"Arquivo carregado: {uploaded_file.name}")
 
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -334,10 +402,10 @@ with tab1:
     st.markdown("---")
 
     # Botão de análise
-    if st.button("🚀 Iniciar Análise", disabled=not (uploaded_file and gemini_key)):
+    if st.button("Iniciar Análise", disabled=not (uploaded_file and gemini_key)):
 
         if not gemini_key:
-            st.error("⚠️ Por favor, insira sua Gemini API Key na barra lateral")
+            st.error("Por favor, insira sua Gemini API Key na barra lateral")
             st.stop()
 
         # Salva arquivo temporariamente
@@ -353,24 +421,24 @@ with tab1:
 
         try:
             # 1. Parse documento
-            status_text.text("📄 Parseando documento...")
+            status_text.text("Parseando documento...")
             progress_bar.progress(10)
 
             document = parse_document(str(temp_path))
             st.session_state['document'] = document
 
-            status_text.text(f"✅ {len(document.clauses)} cláusulas encontradas")
+            status_text.text(f"{len(document.clauses)} cláusulas encontradas")
             progress_bar.progress(20)
             time.sleep(0.5)
 
             # 2. Carrega catálogo
-            status_text.text("📚 Carregando catálogo...")
+            status_text.text("Carregando catálogo...")
             progress_bar.progress(30)
 
             catalog = load_catalog(str(catalogs[catalog_key]['file']))
 
             # 3. Classificação
-            status_text.text("🤖 Classificando com Gemini AI...")
+            status_text.text("Classificando com Gemini AI...")
             progress_bar.progress(40)
 
             results = []
@@ -380,7 +448,7 @@ with tab1:
                 # Update progress
                 progress = 40 + int((i / total_clauses) * 50)
                 progress_bar.progress(progress)
-                status_text.text(f"🤖 Analisando cláusula {i+1}/{total_clauses}: {clause['title'][:40]}...")
+                status_text.text(f"Analisando cláusula {i+1}/{total_clauses}: {clause['title'][:40]}...")
 
                 # Encontra melhor match no catálogo (simplificado)
                 best_match = None
@@ -432,7 +500,7 @@ with tab1:
             st.session_state['catalog'] = catalog
 
             # 🆕 SALVA DOCUMENTO NO BANCO VETORIAL
-            status_text.text("💾 Salvando documento na base de conhecimento...")
+            status_text.text("Salvando documento na base de conhecimento...")
             try:
                 st.session_state.vector_db.add_document(
                     document_name=uploaded_file.name,
@@ -440,27 +508,27 @@ with tab1:
                     catalog_name=catalog_key
                 )
                 db_stats = st.session_state.vector_db.get_statistics()
-                status_text.text(f"✅ Documento salvo! Total na base: {db_stats['total_clausulas']} cláusulas, {db_stats['documentos_unicos']} documentos")
+                status_text.text(f"Documento salvo! Total na base: {db_stats['total_clausulas']} cláusulas, {db_stats['documentos_unicos']} documentos")
             except Exception as e:
-                status_text.text(f"⚠️ Aviso: Não foi possível salvar no banco: {str(e)[:50]}")
+                status_text.text(f"Aviso: Não foi possível salvar no banco: {str(e)[:50]}")
 
             # Finaliza
             progress_bar.progress(100)
             time.sleep(1)
 
-            st.success("🎉 Análise concluída com sucesso!")
+            st.success("Análise concluída com sucesso!")
             st.balloons()
 
             # Remove arquivo temporário
             temp_path.unlink()
 
         except Exception as e:
-            st.error(f"❌ Erro durante análise: {str(e)}")
+            st.error(f"Erro durante análise: {str(e)}")
             import traceback
             st.code(traceback.format_exc())
 
 with tab2:
-    st.header("📊 Resultados da Análise")
+    st.header("Resultados da Análise")
 
     if 'results' not in st.session_state:
         st.info("👈 Faça upload de uma minuta e clique em 'Iniciar Análise' para ver os resultados")
@@ -479,7 +547,7 @@ with tab2:
             st.markdown(f"""
             <div class="metric-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
                 <div class="metric-value">{presente}</div>
-                <div class="metric-label">✅ PRESENTE</div>
+                <div class="metric-label">PRESENTE</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -487,7 +555,7 @@ with tab2:
             st.markdown(f"""
             <div class="metric-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
                 <div class="metric-value">{parcial}</div>
-                <div class="metric-label">⚠️ PARCIAL</div>
+                <div class="metric-label">PARCIAL</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -495,7 +563,7 @@ with tab2:
             st.markdown(f"""
             <div class="metric-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
                 <div class="metric-value">{ausente}</div>
-                <div class="metric-label">❌ AUSENTE</div>
+                <div class="metric-label">AUSENTE</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -504,7 +572,7 @@ with tab2:
             st.markdown(f"""
             <div class="metric-card">
                 <div class="metric-value">{acuracia:.0f}%</div>
-                <div class="metric-label">📈 Acurácia</div>
+                <div class="metric-label">Acurácia</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -564,7 +632,7 @@ with tab2:
         st.markdown("---")
 
         # Downloads
-        st.subheader("📥 Baixar Relatórios")
+        st.subheader("Baixar Relatórios")
 
         col1, col2 = st.columns(2)
 
@@ -602,7 +670,7 @@ with tab2:
             buffer.seek(0)
 
             st.download_button(
-                label="📊 Baixar Excel",
+                label="Baixar Excel",
                 data=buffer,
                 file_name=f"analise_juridica_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -610,13 +678,13 @@ with tab2:
 
         with col2:
             # TODO: Gerar DOCX
-            st.button("📄 Baixar DOCX", disabled=True, help="Em desenvolvimento")
+            st.button("Baixar DOCX", disabled=True, help="Em desenvolvimento")
 
 with tab3:
-    st.header("❓ Ajuda")
+    st.header("Ajuda")
 
     st.markdown("""
-    ### 🚀 Como usar o sistema
+    ### Como usar o sistema
 
     1. **Obtenha sua API Key do Gemini:**
        - Acesse: https://makersuite.google.com/app/apikey
@@ -643,11 +711,11 @@ with tab3:
 
     ---
 
-    ### 📊 Entendendo os Resultados
+    ### Entendendo os Resultados
 
-    - **✅ PRESENTE:** Cláusula completa e adequada
-    - **⚠️ PARCIAL:** Cláusula existe mas incompleta
-    - **❌ AUSENTE:** Cláusula não encontrada ou inadequada
+    - **PRESENTE:** Cláusula completa e adequada
+    - **PARCIAL:** Cláusula existe mas incompleta
+    - **AUSENTE:** Cláusula não encontrada ou inadequada
 
     ---
 
@@ -683,7 +751,7 @@ with tab3:
 st.markdown("---")
 st.markdown("""
 <div style="text-align: center; color: #666; padding: 2rem;">
-    ⚖️ <strong>Jurídico Review AI</strong> | Powered by Gemini API<br>
+    <strong>Jurídico Review AI</strong> | Powered by Gemini API<br>
     Sistema de revisão automatizada de minutas jurídicas
 </div>
 """, unsafe_allow_html=True)
