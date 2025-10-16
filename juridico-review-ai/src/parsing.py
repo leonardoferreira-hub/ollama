@@ -78,7 +78,17 @@ def parse_docx(doc: Document) -> Document:
             re.IGNORECASE
         )
 
-        if clause_match and (text.isupper() or para.style.name.startswith('Heading')):
+        # Heurística permissiva:
+        # - aceita títulos em MAIÚSCULAS
+        # - ou parágrafos com estilo Heading
+        # - ou linhas que começam com número seguido de texto (Title Case)
+        is_heading_style = False
+        try:
+            is_heading_style = para.style is not None and getattr(para.style, 'name', '').lower().startswith('heading')
+        except:
+            is_heading_style = False
+
+        if clause_match and (text.isupper() or is_heading_style or clause_match.group(1)):
             # Salva cláusula anterior
             if current_clause:
                 doc.add_clause(
@@ -141,7 +151,8 @@ def parse_pdf(doc: Document) -> Document:
             re.IGNORECASE
         )
 
-        if clause_match and text.isupper():
+        # Para PDF usamos heurística similar: aceitar títulos mesmo sem estarem em MAIÚSCULAS
+        if clause_match:
             if current_clause:
                 doc.add_clause(
                     current_clause,
