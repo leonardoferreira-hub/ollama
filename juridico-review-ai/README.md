@@ -99,3 +99,52 @@ O sistema gera:
 ## Contato
 
 [Seu contato]
+
+## Quickstart (PT-BR)
+
+Instruções rápidas para testar uma minuta localmente (Windows PowerShell).
+
+- Onde colocar a minuta:
+    - Coloque arquivos .docx ou .pdf em `data/entrada/`.
+
+- Como ativar o ambiente virtual (Windows PowerShell):
+
+```powershell
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+```
+
+- Instalar dependências:
+
+```powershell
+pip install -r requirements.txt
+```
+
+- Executar uma análise (Tier‑1 apenas, sem Tier‑2):
+
+```powershell
+.\venv\Scripts\python.exe src\main_v3.py --minuta "data\entrada\sua_minuta.docx" --catalogo data\catalogos\catalogo_cri_v3.yaml --skip-tier2 --verbose
+```
+
+- Testar Tier‑2 com o provider Gemini (requer chave de API):
+
+1. Exporte a variável de ambiente `GEMINI_API_KEY` no PowerShell:
+
+```powershell
+$env:GEMINI_API_KEY = "sua_chave_aqui"
+```
+
+2. Execute com provider `gemini` e modelo (ex.: `text-bison-001`):
+
+```powershell
+.\venv\Scripts\python.exe src\main_v3.py --minuta "data\entrada\sua_minuta.docx" --catalogo data\catalogos\catalogo_cri_v3.yaml --tier2-provider gemini --tier2-model text-bison-001 --verbose
+```
+
+- Observações sobre arquivos de saída:
+    - Os relatórios são gravados em `data/saida/` com um sufixo de timestamp para evitar conflitos (ex.: `revisao_completa_20251016_142030.xlsx`).
+    - O caminho exato dos arquivos gerados é impresso no log e salvo no arquivo de auditoria (`data/saida/audit_*.json`).
+
+- Dicas rápidas:
+    - Para testar com baixo custo, use `--skip-tier2` ou gere Tier‑2 apenas para cláusulas marcadas como `PARCIAL`.
+    - Se estiver no Windows e receber warnings de CRLF, isso é apenas uma normalização de fim de linha; não impede o funcionamento.
+
