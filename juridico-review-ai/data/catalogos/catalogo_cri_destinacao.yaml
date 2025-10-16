@@ -1,0 +1,221 @@
+# Catálogo CRI com Destinação Específica
+# Para operações onde há destinação dos recursos (obras, projetos, etc.)
+
+metadata:
+  nome: "Catálogo CRI - Destinação Específica"
+  versao: "1.0.0"
+  tipo: "CRI_DESTINACAO"
+  hash: "cri_dest_2025"
+  descricao: "Catálogo especializado para CRI com destinação específica de recursos"
+  data_atualizacao: "2025-10-16"
+
+clausulas:
+  # ========== DESTINAÇÃO DOS RECURSOS ==========
+  - id: "CRI_DEST_001"
+    titulo: "Destinação dos Recursos"
+    categoria: "destinacao"
+    importancia: "critica"
+    obrigatoria: true
+
+    keywords:
+      - "destinação"
+      - "recursos"
+      - "aplicação"
+      - "utilização"
+      - "obras"
+      - "projeto"
+      - "finalidade específica"
+
+    regex_patterns:
+      - "(?i)^\\d+\\.?\\s*DESTINA[ÇC][ÃA]O\\s+(DOS|DE)\\s+RECURSOS"
+      - "(?i)aplica[çc][ãa]o.*recursos"
+      - "(?i)finalidade.*espec[íi]fica"
+
+    template: |
+      CLÁUSULA {{numero}} – DESTINAÇÃO DOS RECURSOS
+      Os recursos captados com a Emissão serão destinados exclusivamente para:
+      (i) [descrever destinação específica - obras, projeto, etc.]
+      (ii) Eventuais despesas da Emissão
+
+      Parágrafo Único: A Emissora fica vedada de utilizar os recursos para finalidades diversas.
+
+    criterios_validacao:
+      - campo: "finalidade"
+        regra: "deve especificar claramente o destino dos recursos"
+      - campo: "vedacoes"
+        regra: "deve mencionar vedações de uso indevido"
+
+  # ========== CRONOGRAMA DE DESEMBOLSO ==========
+  - id: "CRI_DEST_002"
+    titulo: "Cronograma de Desembolso"
+    categoria: "destinacao"
+    importancia: "alta"
+    obrigatoria: true
+
+    keywords:
+      - "cronograma"
+      - "desembolso"
+      - "liberação"
+      - "tranches"
+      - "parcelas"
+      - "condições precedentes"
+
+    regex_patterns:
+      - "(?i)^\\d+\\.?\\s*CRONOGRAMA.*DESEMBOLSO"
+      - "(?i)libera[çc][ãa]o.*recursos"
+      - "(?i)condi[çc][õo]es.*precedentes"
+
+    template: |
+      CLÁUSULA {{numero}} – CRONOGRAMA DE DESEMBOLSO
+      A liberação dos recursos observará o seguinte cronograma:
+
+      Tranche 1: [valor] em [data/condição]
+      Tranche 2: [valor] em [data/condição]
+
+      Parágrafo Único: Cada liberação está condicionada ao cumprimento das Condições Precedentes.
+
+    criterios_validacao:
+      - campo: "tranches"
+        regra: "deve especificar valor e timing de cada liberação"
+      - campo: "condicoes"
+        regra: "deve vincular liberação a condições precedentes"
+
+  # ========== CONDIÇÕES PRECEDENTES ==========
+  - id: "CRI_DEST_003"
+    titulo: "Condições Precedentes"
+    categoria: "destinacao"
+    importancia: "critica"
+    obrigatoria: true
+
+    keywords:
+      - "condições precedentes"
+      - "requisitos"
+      - "documentação"
+      - "liberação"
+      - "comprovação"
+      - "certidões"
+
+    regex_patterns:
+      - "(?i)^\\d+\\.?\\s*CONDI[ÇC][ÕO]ES\\s+PRECEDENTES"
+      - "(?i)requisitos.*libera[çc][ãa]o"
+      - "(?i)documenta[çc][ãa]o.*necess[áa]ria"
+
+    template: |
+      CLÁUSULA {{numero}} – CONDIÇÕES PRECEDENTES
+      São condições precedentes à liberação de cada tranche:
+
+      (i) Apresentação de certidões negativas
+      (ii) Comprovação de andamento da obra/projeto
+      (iii) Ausência de eventos de inadimplemento
+      (iv) [outras condições específicas]
+
+    criterios_validacao:
+      - campo: "lista_condicoes"
+        regra: "deve listar todas as condições para liberação"
+      - campo: "documentacao"
+        regra: "deve especificar documentos necessários"
+
+  # ========== FISCALIZAÇÃO E ACOMPANHAMENTO ==========
+  - id: "CRI_DEST_004"
+    titulo: "Fiscalização e Acompanhamento da Destinação"
+    categoria: "destinacao"
+    importancia: "alta"
+    obrigatoria: true
+
+    keywords:
+      - "fiscalização"
+      - "acompanhamento"
+      - "prestação de contas"
+      - "relatórios"
+      - "auditoria"
+      - "verificação"
+
+    regex_patterns:
+      - "(?i)^\\d+\\.?\\s*FISCALIZA[ÇC][ÃA]O"
+      - "(?i)acompanhamento.*destina[çc][ãa]o"
+      - "(?i)presta[çc][ãa]o.*contas"
+
+    template: |
+      CLÁUSULA {{numero}} – FISCALIZAÇÃO E ACOMPANHAMENTO
+      O Agente Fiduciário terá direito de fiscalizar a aplicação dos recursos, mediante:
+
+      (i) Relatórios mensais da Emissora
+      (ii) Visitas técnicas ao projeto
+      (iii) Solicitação de documentos comprobatórios
+
+      Parágrafo Único: A Emissora deverá prestar contas detalhadas da aplicação dos recursos.
+
+    criterios_validacao:
+      - campo: "mecanismos"
+        regra: "deve especificar como será a fiscalização"
+      - campo: "periodicidade"
+        regra: "deve definir frequência de relatórios"
+
+  # ========== DEFINIÇÕES ==========
+  - id: "CRI_DEST_005"
+    titulo: "Definições"
+    categoria: "definicoes"
+    importancia: "alta"
+    obrigatoria: true
+
+    keywords:
+      - "definições"
+      - "termos"
+      - "significados"
+      - "CRI"
+      - "Emissora"
+      - "Agente Fiduciário"
+
+    regex_patterns:
+      - "(?i)^\\d+\\.?\\s*DEFINI"
+      - "(?i)CRI.*Certificado.*Receb[íi]veis.*Imobili[áa]rios"
+
+    template: |
+      CLÁUSULA {{numero}} – DEFINIÇÕES
+      Para fins desta Escritura, termos em maiúscula têm os significados abaixo:
+
+      CRI: Certificados de Recebíveis Imobiliários
+      Emissora: [nome da securitizadora]
+      Destinação Específica: [descrição da destinação]
+
+    criterios_validacao:
+      - campo: "CRI"
+        regra: "deve definir Certificado de Recebíveis Imobiliários"
+      - campo: "Destinacao"
+        regra: "deve definir claramente a destinação específica"
+
+  # ========== CARACTERÍSTICAS DA EMISSÃO ==========
+  - id: "CRI_DEST_006"
+    titulo: "Características da Emissão"
+    categoria: "emissao"
+    importancia: "critica"
+    obrigatoria: true
+
+    keywords:
+      - "características"
+      - "valor"
+      - "quantidade"
+      - "prazo"
+      - "remuneração"
+      - "vencimento"
+
+    regex_patterns:
+      - "(?i)^\\d+\\.?\\s*CARACTER[ÍI]STICAS"
+      - "(?i)valor.*emiss[ãa]o"
+      - "(?i)remunera[çc][ãa]o"
+
+    template: |
+      CLÁUSULA {{numero}} – CARACTERÍSTICAS DA EMISSÃO
+
+      Valor Total: R$ [valor]
+      Quantidade: [número] CRI
+      Valor Unitário: R$ [valor]
+      Prazo: [número] meses
+      Remuneração: [taxa]% a.a. + [índice]
+      Vencimento: [data]
+
+    criterios_validacao:
+      - campo: "valor_total"
+        regra: "deve especificar valor total da emissão"
+      - campo: "remuneracao"
+        regra: "deve definir remuneração dos CRI"

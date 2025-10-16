@@ -71,9 +71,14 @@ st.markdown("""
 try:
     from src.parsing import parse_document
     from src.utils import load_catalog
+    from src.vector_db import DocumentVectorDB, get_rag_context_for_suggestion
 except:
     st.error("⚠️ Erro ao importar módulos do backend. Verifique se está na pasta correta.")
     st.stop()
+
+# Inicializa banco vetorial (persiste entre sessões)
+if 'vector_db' not in st.session_state:
+    st.session_state.vector_db = DocumentVectorDB(persist_directory="data/vector_db")
 
 
 # ========================================
@@ -124,8 +129,8 @@ def rate_limit_wait():
     st.session_state.rate_limiter.append(time.time())
 
 
-def classify_and_suggest_with_gemini(clause_title, clause_content, catalog_clause, api_key):
-    """Classifica cláusula e gera sugestão usando Gemini API com rate limiting"""
+def classify_and_suggest_with_gemini(clause_title, clause_content, catalog_clause, api_key, vector_db=None):
+    """Classifica cláusula e gera sugestão usando Gemini API com RAG e rate limiting"""
 
     # Rate limiting: 10 RPM
     rate_limit_wait()
@@ -140,6 +145,20 @@ def classify_and_suggest_with_gemini(clause_title, clause_content, catalog_claus
     keywords = ', '.join(catalog_clause.get('keywords', [])[:5])
     template = catalog_clause.get('template', 'Template não disponível')
 
+    # 🆕 BUSCA CONTEXTO RAG de documentos anteriores
+    rag_context = ""
+    if vector_db:
+        try:
+            rag_context = get_rag_context_for_suggestion(
+                db=vector_db,
+                clause_title=clause_title,
+                clause_content=clause_content,
+                catalog_clause=catalog_clause,
+                n_examples=2
+            )
+        except:
+            rag_context = ""
+
     prompt = f"""Você é um especialista em revisão de documentos jurídicos.
 
 CLÁUSULA ESPERADA: {catalog_clause.get('titulo')}
@@ -148,6 +167,7 @@ Obrigatória: {'SIM' if catalog_clause.get('obrigatoria') else 'NÃO'}
 
 TEMPLATE PADRÃO:
 {template}
+{rag_context}
 
 CLÁUSULA DO DOCUMENTO:
 Título: {clause_title}
@@ -159,14 +179,14 @@ TAREFAS:
    - PARCIAL: existe mas incompleto
    - AUSENTE: não trata do tema
 
-2. Se PARCIAL ou AUSENTE, SUGIRA melhorias baseadas no template padrão.
+2. Se PARCIAL ou AUSENTE, SUGIRA melhorias baseadas no template padrão E nos exemplos de boas práticas acima.
 
 RESPONDA APENAS COM JSON:
 {{
   "classificacao": "PRESENTE|PARCIAL|AUSENTE",
   "confianca": 0.0-1.0,
   "justificativa": "breve explicação",
-  "sugestao": "texto da sugestão baseado no template (só se PARCIAL/AUSENTE)"
+  "sugestao": "texto da sugestão baseado no template e exemplos (só se PARCIAL/AUSENTE)"
 }}"""
 
     try:
@@ -224,12 +244,10 @@ st.markdown("---")
 with st.sidebar:
     st.header("⚙️ Configurações")
 
-    # API Key Gemini
-    gemini_key = st.text_input(
-        "🔑 Gemini API Key",
-        type="password",
-        help="Obtenha em: https://makersuite.google.com/app/apikey"
-    )
+    # API Key Gemini (fixada para testes locais)
+    gemini_key = "AIzaSyA7XE68lUNDoc8lzP_m4qm8ZOPpQnpTUFY"
+
+    st.success("🔑 API Key configurada")
 
     st.markdown("---")
 
@@ -259,6 +277,25 @@ with st.sidebar:
 
     st.markdown("---")
 
+    # 🆕 Estatísticas do Banco de Conhecimento
+    st.subheader("📚 Base de Conhecimento")
+    try:
+        db_stats = st.session_state.vector_db.get_statistics()
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("Documentos", db_stats['documentos_unicos'])
+        with col2:
+            st.metric("Cláusulas", db_stats['total_clausulas'])
+
+        if db_stats['total_clausulas'] > 0:
+            st.success("✅ RAG ativo")
+        else:
+            st.info("💡 Primeira análise iniciará a base")
+    except:
+        st.warning("⚠️ Banco não inicializado")
+
+    st.markdown("---")
+
     # Info
     st.info("""
     **Como usar:**
@@ -267,6 +304,8 @@ with st.sidebar:
     3. Faça upload da minuta
     4. Clique em Analisar
     5. Baixe os relatórios
+
+    💡 **Cada documento analisado enriquece a base de conhecimento!**
     """)
 
 # Main content
@@ -360,13 +399,14 @@ with tab1:
                         best_score = score
                         best_match = cat_clause
 
-                # Classifica e gera sugestão com Gemini
+                # Classifica e gera sugestão com Gemini + RAG
                 if best_match:
                     classification = classify_and_suggest_with_gemini(
                         clause['title'],
                         clause['content'],
                         best_match,
-                        gemini_key
+                        gemini_key,
+                        vector_db=st.session_state.vector_db
                     )
 
                     results.append({
@@ -391,11 +431,23 @@ with tab1:
             st.session_state['results'] = results
             st.session_state['catalog'] = catalog
 
+            # 🆕 SALVA DOCUMENTO NO BANCO VETORIAL
+            status_text.text("💾 Salvando documento na base de conhecimento...")
+            try:
+                st.session_state.vector_db.add_document(
+                    document_name=uploaded_file.name,
+                    clauses=results,
+                    catalog_name=catalog_key
+                )
+                db_stats = st.session_state.vector_db.get_statistics()
+                status_text.text(f"✅ Documento salvo! Total na base: {db_stats['total_clausulas']} cláusulas, {db_stats['documentos_unicos']} documentos")
+            except Exception as e:
+                status_text.text(f"⚠️ Aviso: Não foi possível salvar no banco: {str(e)[:50]}")
+
             # Finaliza
             progress_bar.progress(100)
-            status_text.text("✅ Análise concluída!")
-
             time.sleep(1)
+
             st.success("🎉 Análise concluída com sucesso!")
             st.balloons()
 

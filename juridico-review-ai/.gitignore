@@ -79,3 +79,8 @@ models/
 *.tmp
 *.temp
 ~$*
+data/vector_db/
+data/entrada/*.docx
+data/entrada/*.pdf
+__pycache__/
+*.pyc

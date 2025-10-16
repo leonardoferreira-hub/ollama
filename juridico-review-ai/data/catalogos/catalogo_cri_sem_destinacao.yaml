@@ -1,0 +1,151 @@
+# Catálogo CRI sem Destinação Específica
+# Para operações onde NÃO há destinação específica dos recursos
+
+metadata:
+  nome: "Catálogo CRI - Sem Destinação"
+  versao: "1.0.0"
+  tipo: "CRI_SEM_DESTINACAO"
+  hash: "cri_sem_dest_2025"
+  descricao: "Catálogo especializado para CRI sem destinação específica de recursos"
+  data_atualizacao: "2025-10-16"
+
+clausulas:
+  # ========== DEFINIÇÕES ==========
+  - id: "CRI_SDEST_001"
+    titulo: "Definições"
+    categoria: "definicoes"
+    importancia: "alta"
+    obrigatoria: true
+
+    keywords:
+      - "definições"
+      - "CRI"
+      - "Emissora"
+      - "Cedente"
+      - "Créditos Imobiliários"
+
+    regex_patterns:
+      - "(?i)^\\d+\\.?\\s*DEFINI"
+
+    template: |
+      CLÁUSULA {{numero}} – DEFINIÇÕES
+
+      CRI: Certificados de Recebíveis Imobiliários
+      Emissora: [securitizadora]
+      Cedente: [devedor/originador]
+      Créditos Imobiliários: créditos decorrentes de [descrever]
+
+  # ========== CRÉDITOS IMOBILIÁRIOS ==========
+  - id: "CRI_SDEST_002"
+    titulo: "Créditos Imobiliários Lastro"
+    categoria: "lastro"
+    importancia: "critica"
+    obrigatoria: true
+
+    keywords:
+      - "créditos imobiliários"
+      - "lastro"
+      - "recebíveis"
+      - "cessão"
+      - "originação"
+
+    regex_patterns:
+      - "(?i)^\\d+\\.?\\s*CR[ÉE]DITOS\\s+IMOBILI[ÁA]RIOS"
+      - "(?i)lastro"
+      - "(?i)cess[ãa]o.*cr[ée]ditos"
+
+    template: |
+      CLÁUSULA {{numero}} – CRÉDITOS IMOBILIÁRIOS
+
+      Os CRI têm como lastro os Créditos Imobiliários cedidos por [Cedente], decorrentes de:
+      [descrever natureza dos créditos]
+
+      Valor Total dos Créditos: R$ [valor]
+      Devedor(es): [identificação]
+
+  # ========== CESSÃO DE CRÉDITOS ==========
+  - id: "CRI_SDEST_003"
+    titulo: "Cessão de Créditos"
+    categoria: "cessao"
+    importancia: "critica"
+    obrigatoria: true
+
+    keywords:
+      - "cessão"
+      - "transferência"
+      - "créditos"
+      - "pro soluto"
+      - "pro solvendo"
+      - "coobrigação"
+
+    regex_patterns:
+      - "(?i)^\\d+\\.?\\s*CESS[ÃA]O"
+      - "(?i)pro\\s+sol(u|ven)to"
+      - "(?i)transfer[êe]ncia.*cr[ée]ditos"
+
+    template: |
+      CLÁUSULA {{numero}} – CESSÃO DE CRÉDITOS
+
+      Os Créditos Imobiliários são cedidos pelo Cedente à Emissora em caráter:
+      [x] Pro Soluto (sem coobrigação)
+      [ ] Pro Solvendo (com coobrigação)
+
+      Preço da Cessão: R$ [valor]
+      Data da Cessão: [data]
+
+  # ========== CARACTERÍSTICAS DA EMISSÃO ==========
+  - id: "CRI_SDEST_004"
+    titulo: "Características da Emissão"
+    categoria: "emissao"
+    importancia: "critica"
+    obrigatoria: true
+
+    keywords:
+      - "características"
+      - "valor"
+      - "quantidade"
+      - "remuneração"
+      - "amortização"
+
+    regex_patterns:
+      - "(?i)^\\d+\\.?\\s*CARACTER[ÍI]STICAS"
+
+    template: |
+      CLÁUSULA {{numero}} – CARACTERÍSTICAS DA EMISSÃO
+
+      Valor Total: R$ [valor]
+      Quantidade: [número] CRI
+      Valor Unitário: R$ [valor/cada]
+      Remuneração: [taxa]% a.a. + [índice]
+      Amortização: [descrever cronograma]
+      Vencimento: [data]
+
+  # ========== COOBRIGAÇÃO OU GARANTIAS ==========
+  - id: "CRI_SDEST_005"
+    titulo: "Coobrigação e Garantias"
+    categoria: "garantias"
+    importancia: "alta"
+    obrigatoria: false
+
+    keywords:
+      - "coobrigação"
+      - "fiança"
+      - "aval"
+      - "garantia"
+      - "hipoteca"
+      - "alienação fiduciária"
+
+    regex_patterns:
+      - "(?i)^\\d+\\.?\\s*COOBRIGA"
+      - "(?i)garantias"
+      - "(?i)fian[çc]a"
+
+    template: |
+      CLÁUSULA {{numero}} – COOBRIGAÇÃO E GARANTIAS
+
+      [Se aplicável] Os CRI contam com as seguintes garantias:
+
+      (i) [tipo de garantia - fiança, hipoteca, etc.]
+      (ii) [coobrigados, se houver]
+
+      [Ou] Os CRI não contam com garantias adicionais ou coobrigação.
