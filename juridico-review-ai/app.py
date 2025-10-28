@@ -230,11 +230,23 @@ def classify_and_suggest_with_gemini(clause_title, clause_content, catalog_claus
         except:
             rag_context = ""
 
+    # 🆕 EXPLICAÇÃO CONTEXTUAL (se disponível)
+    explicacao = catalog_clause.get('explicacao', '')
+    explicacao_section = ""
+    if explicacao and len(explicacao.strip()) > 10:
+        explicacao_section = f"""
+📚 EXPLICAÇÃO DETALHADA DO QUE ESTA CLÁUSULA DEVE CONTER:
+{explicacao}
+
+Esta explicação foi fornecida por especialistas e deve ser usada como referência principal para avaliar se o documento atende aos requisitos.
+"""
+
     prompt = f"""Você é um especialista em revisão de documentos jurídicos.
 
 CLÁUSULA ESPERADA: {catalog_clause.get('titulo')}
 Keywords: {keywords}
 Obrigatória: {'SIM' if catalog_clause.get('obrigatoria') else 'NÃO'}
+{explicacao_section}
 
 TEMPLATE PADRÃO:
 {template}
@@ -246,18 +258,18 @@ Texto: {content_preview}...
 
 TAREFAS:
 1. CLASSIFIQUE como:
-   - PRESENTE: contém TODOS elementos essenciais
-   - PARCIAL: existe mas incompleto
-   - AUSENTE: não trata do tema
+   - PRESENTE: contém TODOS elementos essenciais descritos na explicação acima
+   - PARCIAL: existe mas faltam elementos descritos na explicação
+   - AUSENTE: não trata do tema ou não contém os elementos essenciais
 
-2. Se PARCIAL ou AUSENTE, SUGIRA melhorias baseadas no template padrão E nos exemplos de boas práticas acima.
+2. Se PARCIAL ou AUSENTE, SUGIRA melhorias baseadas na explicação detalhada, template padrão E nos exemplos de boas práticas acima.
 
 RESPONDA APENAS COM JSON:
 {{
   "classificacao": "PRESENTE|PARCIAL|AUSENTE",
   "confianca": 0.0-1.0,
-  "justificativa": "breve explicação",
-  "sugestao": "texto da sugestão baseado no template e exemplos (só se PARCIAL/AUSENTE)"
+  "justificativa": "breve explicação comparando com a explicação detalhada fornecida",
+  "sugestao": "texto da sugestão baseado na explicação, template e exemplos (só se PARCIAL/AUSENTE)"
 }}"""
 
     try:
@@ -306,6 +318,9 @@ st.markdown("""
 <div class="main-title">Revisor de Documentos - Travessia</div>
 <div class="subtitle">Sistema inteligente de revisão automatizada de minutas jurídicas</div>
 """, unsafe_allow_html=True)
+
+# Navegação por abas
+tab_analise, tab_catalogo = st.tabs(["📄 Análise de Documentos", "📝 Editar Catálogo"])
 
 st.markdown("---")
 
@@ -386,537 +401,712 @@ with st.sidebar:
     **Cada documento analisado enriquece a base de conhecimento!**
     """)
 
-# Main content
-tab1, tab2, tab3 = st.tabs(["Análise", "Resultados", "Ajuda"])
+# Main content dentro da aba de Análise
+with tab_analise:
+    tab1, tab2, tab3 = st.tabs(["Análise", "Resultados", "Ajuda"])
 
-with tab1:
-    st.header("Upload da Minuta")
+    with tab1:
+        st.header("Upload da Minuta")
 
-    uploaded_file = st.file_uploader(
-        "Selecione o arquivo (.docx ou .pdf)",
-        type=['docx', 'pdf'],
-        help="Faça upload da minuta que deseja analisar"
-    )
+        uploaded_file = st.file_uploader(
+            "Selecione o arquivo (.docx ou .pdf)",
+            type=['docx', 'pdf'],
+            help="Faça upload da minuta que deseja analisar"
+        )
 
-    if uploaded_file:
-        st.success(f"Arquivo carregado: {uploaded_file.name}")
+        if uploaded_file:
+            st.success(f"Arquivo carregado: {uploaded_file.name}")
 
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("Tamanho", f"{uploaded_file.size / 1024:.1f} KB")
-        with col2:
-            st.metric("Tipo", uploaded_file.type.split('/')[-1].upper())
-        with col3:
-            st.metric("Catálogo", catalog_key.replace('catalogo_', '').upper())
-
-    st.markdown("---")
-
-    # Botão de análise
-    if st.button("Iniciar Análise", disabled=not (uploaded_file and gemini_key)):
-
-        if not gemini_key:
-            st.error("Por favor, insira sua Gemini API Key na barra lateral")
-            st.stop()
-
-        # Salva arquivo temporariamente
-        temp_path = Path("data/entrada") / uploaded_file.name
-        temp_path.parent.mkdir(parents=True, exist_ok=True)
-
-        with open(temp_path, 'wb') as f:
-            f.write(uploaded_file.read())
-
-        # Progress
-        progress_bar = st.progress(0)
-        status_text = st.empty()
-
-        try:
-            # 1. Parse documento
-            status_text.text("Parseando documento...")
-            progress_bar.progress(10)
-
-            document = parse_document(str(temp_path))
-            st.session_state['document'] = document
-
-            status_text.text(f"{len(document.clauses)} cláusulas encontradas")
-            progress_bar.progress(20)
-            time.sleep(0.5)
-
-            # 2. Carrega catálogo
-            status_text.text("Carregando catálogo...")
-            progress_bar.progress(30)
-
-            catalog = load_catalog(str(catalogs[catalog_key]['file']))
-
-            # 3. Classificação - ABORDAGEM CORRETA: itera sobre CATÁLOGO
-            status_text.text("Classificando com Gemini AI...")
-            progress_bar.progress(40)
-
-            results = []
-            catalog_clauses = catalog.get('clausulas', [])
-            total_catalog = len(catalog_clauses)
-
-            # Junta todo conteúdo do documento para busca
-            doc_full_text = "\n\n".join([
-                f"{c['title']}\n{c['content']}" 
-                for c in document.clauses
-            ]).lower()
-
-            for i, cat_clause in enumerate(catalog_clauses):
-                # Update progress
-                progress = 40 + int((i / total_catalog) * 50)
-                progress_bar.progress(progress)
-                cat_title = cat_clause.get('titulo', 'Sem título')
-                status_text.text(f"Verificando cláusula {i+1}/{total_catalog}: {cat_title[:50]}...")
-
-                # Encontra melhor match no documento usando múltiplas estratégias
-                best_doc_clause = None
-                best_score = 0
-                
-                from rapidfuzz import fuzz
-                
-                cat_title_lower = cat_title.lower()
-                cat_keywords = [kw.lower() for kw in cat_clause.get('keywords', [])]
-
-                for doc_clause in document.clauses:
-                    doc_title = doc_clause['title'].lower()
-                    doc_text = (doc_clause['title'] + " " + doc_clause['content'][:2000]).lower()
-                    
-                    score = 0
-                    
-                    # 1. Similaridade do título (peso alto)
-                    title_similarity = fuzz.partial_ratio(cat_title_lower, doc_title) / 100.0
-                    score += title_similarity * 50  # Peso 50 para título
-                    
-                    # 2. Similaridade fuzzy de palavras-chave importantes do título do catálogo
-                    cat_important_words = [w for w in cat_title_lower.split() if len(w) > 3]
-                    for word in cat_important_words:
-                        if word in doc_title:
-                            score += 10  # Bônus por palavra exata no título
-                        elif any(fuzz.ratio(word, doc_word) > 80 for doc_word in doc_title.split()):
-                            score += 5  # Bônus por palavra similar no título
-                    
-                    # 3. Keywords no texto (peso médio)
-                    keywords_in_text = sum(1 for kw in cat_keywords if kw in doc_text)
-                    score += keywords_in_text * 3
-                    
-                    # 4. Posição no documento (cláusulas iniciais têm leve bônus para empate)
-                    position_bonus = (1 - (doc_clause['index'] / max(len(document.clauses), 1))) * 2
-                    score += position_bonus
-
-                    if score > best_score:
-                        best_score = score
-                        best_doc_clause = doc_clause
-
-                # Se não achou match razoável, busca em todo documento
-                if not best_doc_clause or best_score < 5:
-                    # Verifica se alguma keyword aparece em qualquer lugar do documento
-                    keywords_found = sum(1 for kw in cat_keywords if kw in doc_full_text)
-                    
-                    if keywords_found > 0 and document.clauses:
-                        # Busca a cláusula que mais menciona as keywords
-                        best_kw_clause = None
-                        best_kw_count = 0
-                        for doc_clause in document.clauses:
-                            doc_text = (doc_clause['title'] + " " + doc_clause['content'][:2000]).lower()
-                            kw_count = sum(1 for kw in cat_keywords if kw in doc_text)
-                            if kw_count > best_kw_count:
-                                best_kw_count = kw_count
-                                best_kw_clause = doc_clause
-                        
-                        if best_kw_clause and best_kw_count > best_score:
-                            best_doc_clause = best_kw_clause
-                            best_score = best_kw_count * 2
-
-                # Classifica e gera sugestão com Gemini + RAG
-                if best_doc_clause and best_score > 0:
-                    classification = classify_and_suggest_with_gemini(
-                        best_doc_clause['title'],
-                        best_doc_clause['content'],
-                        cat_clause,
-                        gemini_key,
-                        vector_db=st.session_state.vector_db,
-                        catalog_name=catalog_key
-                    )
-
-                    results.append({
-                        'catalog_clause': cat_clause,
-                        'doc_clause': best_doc_clause,
-                        'classification': classification,
-                        'match_score': best_score
-                    })
-                else:
-                    # Cláusula do catálogo não encontrada no documento
-                    results.append({
-                        'catalog_clause': cat_clause,
-                        'doc_clause': None,
-                        'classification': {
-                            'classificacao': 'AUSENTE',
-                            'confianca': 1.0,
-                            'justificativa': f'Cláusula não encontrada no documento. Esperado: {cat_title}',
-                            'sugestao': cat_clause.get('template', 'Adicionar esta cláusula ao documento.')
-                        },
-                        'match_score': 0
-                    })
-
-            # Salva resultados
-            st.session_state['results'] = results
-            st.session_state['catalog'] = catalog
-
-            # 🆕 SALVA DOCUMENTO NO BANCO VETORIAL
-            status_text.text("Salvando documento na base de conhecimento...")
-            try:
-                st.session_state.vector_db.add_document(
-                    document_name=uploaded_file.name,
-                    clauses=results,
-                    catalog_name=catalog_key
-                )
-                db_stats = st.session_state.vector_db.get_statistics()
-                status_text.text(f"Documento salvo! Total na base: {db_stats['total_clausulas']} cláusulas, {db_stats['documentos_unicos']} documentos")
-            except Exception as e:
-                status_text.text(f"Aviso: Não foi possível salvar no banco: {str(e)[:50]}")
-
-            # Finaliza
-            progress_bar.progress(100)
-            time.sleep(1)
-
-            st.success("Análise concluída com sucesso!")
-            st.balloons()
-
-            # Remove arquivo temporário
-            temp_path.unlink()
-
-        except Exception as e:
-            st.error(f"Erro durante análise: {str(e)}")
-            import traceback
-            st.code(traceback.format_exc())
-
-with tab2:
-    st.header("Resultados da Análise")
-
-    if 'results' not in st.session_state:
-        st.info("👈 Faça upload de uma minuta e clique em 'Iniciar Análise' para ver os resultados")
-    else:
-        results = st.session_state['results']
-
-        # Métricas
-        presente = sum(1 for r in results if r['classification']['classificacao'] == 'PRESENTE')
-        parcial = sum(1 for r in results if r['classification']['classificacao'] == 'PARCIAL')
-        ausente = sum(1 for r in results if r['classification']['classificacao'] == 'AUSENTE')
-        total = len(results)
-
-        col1, col2, col3, col4 = st.columns(4)
-
-        with col1:
-            st.markdown(f"""
-            <div class="metric-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
-                <div class="metric-value">{presente}</div>
-                <div class="metric-label">PRESENTE</div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col2:
-            st.markdown(f"""
-            <div class="metric-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                <div class="metric-value">{parcial}</div>
-                <div class="metric-label">PARCIAL</div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col3:
-            st.markdown(f"""
-            <div class="metric-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-                <div class="metric-value">{ausente}</div>
-                <div class="metric-label">AUSENTE</div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col4:
-            acuracia = ((presente + parcial) / total * 100) if total > 0 else 0
-            st.markdown(f"""
-            <div class="metric-card">
-                <div class="metric-value">{acuracia:.0f}%</div>
-                <div class="metric-label">Acurácia</div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        st.markdown("---")
-
-        # Tabela de resultados
-        st.subheader("Detalhamento das Cláusulas")
-
-        import pandas as pd
-
-        table_data = []
-        for r in results:
-            cat_title = r['catalog_clause'].get('titulo', 'N/A')
-            doc_title = r.get('doc_clause', {}).get('title', 'Não encontrada') if r.get('doc_clause') else 'Não encontrada'
-            
-            row = {
-                'Cláusula Esperada': cat_title[:60],
-                'Encontrada no Doc': doc_title[:60],
-                'Status': r['classification']['classificacao'],
-                'Confiança': f"{r['classification'].get('confianca', 0):.0%}",
-                'Match Score': f"{r['match_score']:.2f}",
-                'Justificativa': r['classification']['justificativa'][:80]
-            }
-
-            # Adiciona sugestão se PARCIAL ou AUSENTE
-            if r['classification']['classificacao'] in ['PARCIAL', 'AUSENTE']:
-                row['Sugestão'] = r['classification'].get('sugestao', 'N/A')[:100] + '...'
-            else:
-                row['Sugestão'] = '-'
-
-            table_data.append(row)
-
-        df = pd.DataFrame(table_data)
-
-        # Colorir status
-        def color_status(val):
-            if val == 'PRESENTE':
-                return 'background-color: #d4edda; color: #155724'
-            elif val == 'PARCIAL':
-                return 'background-color: #fff3cd; color: #856404'
-            else:
-                return 'background-color: #f8d7da; color: #721c24'
-
-        # Aplicar estilo condicionalmente: só se a coluna 'Status' existir
-        try:
-            if 'Status' in df.columns:
-                styled = df.style.map(color_status, subset=['Status'])
-            else:
-                styled = df
-
-            st.dataframe(
-                styled,
-                use_container_width=True,
-                height=400
-            )
-        except Exception as e:
-            # Fallback: mostra o dataframe sem estilo e escreve o erro nos logs
-            st.error(f"Erro ao aplicar estilo à tabela: {e}")
-            st.dataframe(df, use_container_width=True, height=400)
-
-        st.markdown("---")
-
-        # Sistema de Feedback e Avaliação
-        st.subheader("📊 Avaliação da Análise (Sistema de Aprendizado)")
-        
-        st.markdown("""
-        Ajude o sistema a melhorar! Avalie a qualidade das análises abaixo.
-        Suas avaliações são salvas e usadas para melhorar futuras análises.
-        """)
-        
-        # Exibe avaliação por cláusula
-        with st.expander("🎯 Avaliar Análises Individuais", expanded=False):
-            for idx, r in enumerate(results[:10]):  # Primeiras 10 para não sobrecarregar
-                cat_title = r['catalog_clause'].get('titulo', 'N/A')
-                doc_title = r.get('doc_clause', {}).get('title', 'Não encontrada') if r.get('doc_clause') else 'Não encontrada'
-                classification = r['classification']['classificacao']
-                
-                st.markdown(f"**{idx+1}. {cat_title[:60]}**")
-                
-                col1, col2, col3, col4 = st.columns([2, 2, 1, 1])
-                
-                with col1:
-                    st.text(f"Match: {doc_title[:50]}")
-                with col2:
-                    st.text(f"Status: {classification}")
-                with col3:
-                    st.text(f"Score: {r['match_score']:.1f}")
-                with col4:
-                    # Botões de avaliação
-                    feedback_key = f"feedback_{idx}"
-                    
-                    col_a, col_b = st.columns(2)
-                    with col_a:
-                        if st.button("👍", key=f"good_{idx}", help="Análise correta"):
-                            st.session_state[feedback_key] = {
-                                'rating': 'good',
-                                'clause_id': r['catalog_clause'].get('id'),
-                                'doc_clause': doc_title,
-                                'classification': classification,
-                                'match_score': r['match_score']
-                            }
-                            # Salva feedback
-                            try:
-                                st.session_state.vector_db.save_feedback(
-                                    catalog_clause_id=r['catalog_clause'].get('id'),
-                                    doc_clause_title=doc_title,
-                                    classification=classification,
-                                    match_score=r['match_score'],
-                                    rating='good',
-                                    catalog_name=catalog_key
-                                )
-                                st.success("✅ Feedback positivo salvo!")
-                            except:
-                                pass
-                    
-                    with col_b:
-                        if st.button("👎", key=f"bad_{idx}", help="Análise incorreta"):
-                            st.session_state[feedback_key] = {
-                                'rating': 'bad',
-                                'clause_id': r['catalog_clause'].get('id'),
-                                'doc_clause': doc_title,
-                                'classification': classification,
-                                'match_score': r['match_score']
-                            }
-                            # Salva feedback
-                            try:
-                                st.session_state.vector_db.save_feedback(
-                                    catalog_clause_id=r['catalog_clause'].get('id'),
-                                    doc_clause_title=doc_title,
-                                    classification=classification,
-                                    match_score=r['match_score'],
-                                    rating='bad',
-                                    catalog_name=catalog_key
-                                )
-                                st.warning("⚠️ Feedback negativo salvo. Sistema aprenderá com isso!")
-                            except:
-                                pass
-                
-                # Mostra se já foi avaliado
-                if feedback_key in st.session_state:
-                    rating = st.session_state[feedback_key]['rating']
-                    emoji = "✅" if rating == 'good' else "❌"
-                    st.caption(f"{emoji} Avaliado como: {rating}")
-                
-                st.markdown("---")
-        
-        # Estatísticas de feedback
-        if 'feedback_stats' in st.session_state:
-            stats = st.session_state['feedback_stats']
-            st.markdown("### 📈 Estatísticas de Feedback")
-            
             col1, col2, col3 = st.columns(3)
             with col1:
-                st.metric("Avaliações Positivas", stats.get('good', 0))
+                st.metric("Tamanho", f"{uploaded_file.size / 1024:.1f} KB")
             with col2:
-                st.metric("Avaliações Negativas", stats.get('bad', 0))
+                st.metric("Tipo", uploaded_file.type.split('/')[-1].upper())
             with col3:
-                accuracy = stats.get('good', 0) / (stats.get('good', 0) + stats.get('bad', 1)) * 100
-                st.metric("Taxa de Acerto", f"{accuracy:.1f}%")
+                st.metric("Catálogo", catalog_key.replace('catalogo_', '').upper())
 
         st.markdown("---")
 
-        # Downloads
-        st.subheader("Baixar Relatórios")
+        # Botão de análise
+        if st.button("Iniciar Análise", disabled=not (uploaded_file and gemini_key)):
 
-        col1, col2 = st.columns(2)
+            if not gemini_key:
+                st.error("Por favor, insira sua Gemini API Key na barra lateral")
+                st.stop()
 
-        with col1:
-            # Gerar Excel
-            import pandas as pd
-            from io import BytesIO
+            # Salva arquivo temporariamente
+            temp_path = Path("data/entrada") / uploaded_file.name
+            temp_path.parent.mkdir(parents=True, exist_ok=True)
 
-            excel_data = []
-            for r in results:
-                doc_title = r.get('doc_clause', {}).get('title', 'Não encontrada') if r.get('doc_clause') else 'Não encontrada'
-                cat_clause = r['catalog_clause']
+            with open(temp_path, 'wb') as f:
+                f.write(uploaded_file.read())
+
+            # Progress
+            progress_bar = st.progress(0)
+            status_text = st.empty()
+
+            try:
+                # 1. Parse documento
+                status_text.text("Parseando documento...")
+                progress_bar.progress(10)
+
+                document = parse_document(str(temp_path))
+                st.session_state['document'] = document
+
+                status_text.text(f"{len(document.clauses)} cláusulas encontradas")
+                progress_bar.progress(20)
+                time.sleep(0.5)
+
+                # 2. Carrega catálogo
+                status_text.text("Carregando catálogo...")
+                progress_bar.progress(30)
+
+                catalog = load_catalog(str(catalogs[catalog_key]['file']))
+
+                # 3. Classificação - ABORDAGEM CORRETA: itera sobre CATÁLOGO
+                status_text.text("Classificando com Gemini AI...")
+                progress_bar.progress(40)
+
+                results = []
+                catalog_clauses = catalog.get('clausulas', [])
+                total_catalog = len(catalog_clauses)
+
+                # Junta todo conteúdo do documento para busca
+                doc_full_text = "\n\n".join([
+                    f"{c['title']}\n{c['content']}" 
+                    for c in document.clauses
+                ]).lower()
+
+                for i, cat_clause in enumerate(catalog_clauses):
+                    # Update progress
+                    progress = 40 + int((i / total_catalog) * 50)
+                    progress_bar.progress(progress)
+                    cat_title = cat_clause.get('titulo', 'Sem título')
+                    status_text.text(f"Verificando cláusula {i+1}/{total_catalog}: {cat_title[:50]}...")
+
+                    # Encontra melhor match no documento usando múltiplas estratégias
+                    best_doc_clause = None
+                    best_score = 0
                 
-                excel_data.append({
-                    'Cláusula Esperada': cat_clause.get('titulo', 'N/A'),
-                    'Encontrada no Doc': doc_title,
+                    from rapidfuzz import fuzz
+                
+                    cat_title_lower = cat_title.lower()
+                    cat_keywords = [kw.lower() for kw in cat_clause.get('keywords', [])]
+                
+                    # 🆕 Extrai palavras-chave da explicação (se houver)
+                    explicacao = cat_clause.get('explicacao', '')
+                    cat_explicacao_keywords = []
+                    if explicacao and len(explicacao.strip()) > 20:
+                        # Extrai palavras importantes da explicação (> 5 chars, não stopwords comuns)
+                        stopwords = {'esta', 'cláusula', 'deve', 'conter', 'incluir', 'sendo', 'para', 'pela', 'pelo', 'desta', 'deste', 'como', 'também', 'todos', 'todas'}
+                        words = explicacao.lower().split()
+                        cat_explicacao_keywords = [w for w in words if len(w) > 5 and w not in stopwords][:10]
+
+                    for doc_clause in document.clauses:
+                        doc_title = doc_clause['title'].lower()
+                        doc_text = (doc_clause['title'] + " " + doc_clause['content'][:3000]).lower()  # Aumentado para 3000 chars
+                    
+                        score = 0
+                    
+                        # 1. Similaridade do título (peso alto)
+                        title_similarity = fuzz.partial_ratio(cat_title_lower, doc_title) / 100.0
+                        score += title_similarity * 50  # Peso 50 para título
+                    
+                        # 2. Similaridade fuzzy de palavras-chave importantes do título do catálogo
+                        cat_important_words = [w for w in cat_title_lower.split() if len(w) > 3]
+                        for word in cat_important_words:
+                            if word in doc_title:
+                                score += 10  # Bônus por palavra exata no título
+                            elif any(fuzz.ratio(word, doc_word) > 80 for doc_word in doc_title.split()):
+                                score += 5  # Bônus por palavra similar no título
+                    
+                        # 3. Keywords no texto (peso médio)
+                        keywords_in_text = sum(1 for kw in cat_keywords if kw in doc_text)
+                        score += keywords_in_text * 3
+                    
+                        # 🆕 4. Keywords da explicação no texto (peso médio-alto)
+                        explicacao_keywords_in_text = sum(1 for kw in cat_explicacao_keywords if kw in doc_text)
+                        score += explicacao_keywords_in_text * 4  # Peso maior pois são palavras contextuais importantes
+                    
+                        # 5. Posição no documento (cláusulas iniciais têm leve bônus para empate)
+                        position_bonus = (1 - (doc_clause['index'] / max(len(document.clauses), 1))) * 2
+                        score += position_bonus
+
+                        if score > best_score:
+                            best_score = score
+                            best_doc_clause = doc_clause
+
+                    # Se não achou match razoável, busca em todo documento
+                    if not best_doc_clause or best_score < 5:
+                        # Verifica se alguma keyword aparece em qualquer lugar do documento
+                        keywords_found = sum(1 for kw in cat_keywords if kw in doc_full_text)
+                    
+                        if keywords_found > 0 and document.clauses:
+                            # Busca a cláusula que mais menciona as keywords
+                            best_kw_clause = None
+                            best_kw_count = 0
+                            for doc_clause in document.clauses:
+                                doc_text = (doc_clause['title'] + " " + doc_clause['content'][:2000]).lower()
+                                kw_count = sum(1 for kw in cat_keywords if kw in doc_text)
+                                if kw_count > best_kw_count:
+                                    best_kw_count = kw_count
+                                    best_kw_clause = doc_clause
+                        
+                            if best_kw_clause and best_kw_count > best_score:
+                                best_doc_clause = best_kw_clause
+                                best_score = best_kw_count * 2
+
+                    # Classifica e gera sugestão com Gemini + RAG
+                    if best_doc_clause and best_score > 0:
+                        classification = classify_and_suggest_with_gemini(
+                            best_doc_clause['title'],
+                            best_doc_clause['content'],
+                            cat_clause,
+                            gemini_key,
+                            vector_db=st.session_state.vector_db,
+                            catalog_name=catalog_key
+                        )
+
+                        results.append({
+                            'catalog_clause': cat_clause,
+                            'doc_clause': best_doc_clause,
+                            'classification': classification,
+                            'match_score': best_score
+                        })
+                    else:
+                        # Cláusula do catálogo não encontrada no documento
+                        results.append({
+                            'catalog_clause': cat_clause,
+                            'doc_clause': None,
+                            'classification': {
+                                'classificacao': 'AUSENTE',
+                                'confianca': 1.0,
+                                'justificativa': f'Cláusula não encontrada no documento. Esperado: {cat_title}',
+                                'sugestao': cat_clause.get('template', 'Adicionar esta cláusula ao documento.')
+                            },
+                            'match_score': 0
+                        })
+
+                # Salva resultados
+                st.session_state['results'] = results
+                st.session_state['catalog'] = catalog
+
+                # 🆕 SALVA DOCUMENTO NO BANCO VETORIAL
+                status_text.text("Salvando documento na base de conhecimento...")
+                try:
+                    st.session_state.vector_db.add_document(
+                        document_name=uploaded_file.name,
+                        clauses=results,
+                        catalog_name=catalog_key
+                    )
+                    db_stats = st.session_state.vector_db.get_statistics()
+                    status_text.text(f"Documento salvo! Total na base: {db_stats['total_clausulas']} cláusulas, {db_stats['documentos_unicos']} documentos")
+                except Exception as e:
+                    status_text.text(f"Aviso: Não foi possível salvar no banco: {str(e)[:50]}")
+
+                # Finaliza
+                progress_bar.progress(100)
+                time.sleep(1)
+
+                st.success("Análise concluída com sucesso!")
+                st.balloons()
+
+                # Remove arquivo temporário
+                temp_path.unlink()
+
+            except Exception as e:
+                st.error(f"Erro durante análise: {str(e)}")
+                import traceback
+                st.code(traceback.format_exc())
+
+    with tab2:
+        st.header("Resultados da Análise")
+
+        if 'results' not in st.session_state:
+            st.info("👈 Faça upload de uma minuta e clique em 'Iniciar Análise' para ver os resultados")
+        else:
+            results = st.session_state['results']
+
+            # Métricas
+            presente = sum(1 for r in results if r['classification']['classificacao'] == 'PRESENTE')
+            parcial = sum(1 for r in results if r['classification']['classificacao'] == 'PARCIAL')
+            ausente = sum(1 for r in results if r['classification']['classificacao'] == 'AUSENTE')
+            total = len(results)
+
+            col1, col2, col3, col4 = st.columns(4)
+
+            with col1:
+                st.markdown(f"""
+                <div class="metric-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                    <div class="metric-value">{presente}</div>
+                    <div class="metric-label">PRESENTE</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with col2:
+                st.markdown(f"""
+                <div class="metric-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="metric-value">{parcial}</div>
+                    <div class="metric-label">PARCIAL</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with col3:
+                st.markdown(f"""
+                <div class="metric-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <div class="metric-value">{ausente}</div>
+                    <div class="metric-label">AUSENTE</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with col4:
+                acuracia = ((presente + parcial) / total * 100) if total > 0 else 0
+                st.markdown(f"""
+                <div class="metric-card">
+                    <div class="metric-value">{acuracia:.0f}%</div>
+                    <div class="metric-label">Acurácia</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            st.markdown("---")
+
+            # Tabela de resultados
+            st.subheader("Detalhamento das Cláusulas")
+
+            import pandas as pd
+
+            table_data = []
+            for r in results:
+                cat_title = r['catalog_clause'].get('titulo', 'N/A')
+                doc_title = r.get('doc_clause', {}).get('title', 'Não encontrada') if r.get('doc_clause') else 'Não encontrada'
+            
+                row = {
+                    'Cláusula Esperada': cat_title[:60],
+                    'Encontrada no Doc': doc_title[:60],
                     'Status': r['classification']['classificacao'],
-                    'Confiança': r['classification'].get('confianca', 0),
-                    'Justificativa': r['classification']['justificativa'],
-                    'Sugestão': r['classification'].get('sugestao', 'N/A'),
-                    'Obrigatória': 'SIM' if cat_clause.get('obrigatoria') else 'NÃO',
-                    'Categoria': cat_clause.get('categoria', 'N/A'),
-                    'Match Score': r['match_score']
-                })
+                    'Confiança': f"{r['classification'].get('confianca', 0):.0%}",
+                    'Match Score': f"{r['match_score']:.2f}",
+                    'Justificativa': r['classification']['justificativa'][:80]
+                }
 
-            df_excel = pd.DataFrame(excel_data)
+                # Adiciona sugestão se PARCIAL ou AUSENTE
+                if r['classification']['classificacao'] in ['PARCIAL', 'AUSENTE']:
+                    row['Sugestão'] = r['classification'].get('sugestao', 'N/A')[:100] + '...'
+                else:
+                    row['Sugestão'] = '-'
 
-            # Cria arquivo Excel em memória
-            buffer = BytesIO()
-            with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
-                df_excel.to_excel(writer, index=False, sheet_name='Análise')
+                table_data.append(row)
 
-                # Ajusta largura das colunas
-                worksheet = writer.sheets['Análise']
-                for idx, col in enumerate(df_excel.columns):
-                    max_len = max(df_excel[col].astype(str).apply(len).max(), len(col)) + 2
-                    worksheet.column_dimensions[chr(65 + idx)].width = min(max_len, 50)
+            df = pd.DataFrame(table_data)
 
-            buffer.seek(0)
+            # Colorir status
+            def color_status(val):
+                if val == 'PRESENTE':
+                    return 'background-color: #d4edda; color: #155724'
+                elif val == 'PARCIAL':
+                    return 'background-color: #fff3cd; color: #856404'
+                else:
+                    return 'background-color: #f8d7da; color: #721c24'
 
-            st.download_button(
-                label="Baixar Excel",
-                data=buffer,
-                file_name=f"analise_juridica_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
+            # Aplicar estilo condicionalmente: só se a coluna 'Status' existir
+            try:
+                if 'Status' in df.columns:
+                    styled = df.style.map(color_status, subset=['Status'])
+                else:
+                    styled = df
 
-        with col2:
-            # TODO: Gerar DOCX
-            st.button("Baixar DOCX", disabled=True, help="Em desenvolvimento")
+                st.dataframe(
+                    styled,
+                    use_container_width=True,
+                    height=400
+                )
+            except Exception as e:
+                # Fallback: mostra o dataframe sem estilo e escreve o erro nos logs
+                st.error(f"Erro ao aplicar estilo à tabela: {e}")
+                st.dataframe(df, use_container_width=True, height=400)
 
-with tab3:
-    st.header("Ajuda")
+            st.markdown("---")
 
+            # Sistema de Feedback e Avaliação
+            st.subheader("📊 Avaliação da Análise (Sistema de Aprendizado)")
+        
+            st.markdown("""
+            Ajude o sistema a melhorar! Avalie a qualidade das análises abaixo.
+            Suas avaliações são salvas e usadas para melhorar futuras análises.
+            """)
+        
+            # Exibe avaliação por cláusula
+            with st.expander("🎯 Avaliar Análises Individuais", expanded=False):
+                for idx, r in enumerate(results[:10]):  # Primeiras 10 para não sobrecarregar
+                    cat_title = r['catalog_clause'].get('titulo', 'N/A')
+                    doc_title = r.get('doc_clause', {}).get('title', 'Não encontrada') if r.get('doc_clause') else 'Não encontrada'
+                    classification = r['classification']['classificacao']
+                
+                    st.markdown(f"**{idx+1}. {cat_title[:60]}**")
+                
+                    col1, col2, col3, col4 = st.columns([2, 2, 1, 1])
+                
+                    with col1:
+                        st.text(f"Match: {doc_title[:50]}")
+                    with col2:
+                        st.text(f"Status: {classification}")
+                    with col3:
+                        st.text(f"Score: {r['match_score']:.1f}")
+                    with col4:
+                        # Botões de avaliação
+                        feedback_key = f"feedback_{idx}"
+                    
+                        col_a, col_b = st.columns(2)
+                        with col_a:
+                            if st.button("👍", key=f"good_{idx}", help="Análise correta"):
+                                st.session_state[feedback_key] = {
+                                    'rating': 'good',
+                                    'clause_id': r['catalog_clause'].get('id'),
+                                    'doc_clause': doc_title,
+                                    'classification': classification,
+                                    'match_score': r['match_score']
+                                }
+                                # Salva feedback
+                                try:
+                                    st.session_state.vector_db.save_feedback(
+                                        catalog_clause_id=r['catalog_clause'].get('id'),
+                                        doc_clause_title=doc_title,
+                                        classification=classification,
+                                        match_score=r['match_score'],
+                                        rating='good',
+                                        catalog_name=catalog_key
+                                    )
+                                    st.success("✅ Feedback positivo salvo!")
+                                except:
+                                    pass
+                    
+                        with col_b:
+                            if st.button("👎", key=f"bad_{idx}", help="Análise incorreta"):
+                                st.session_state[feedback_key] = {
+                                    'rating': 'bad',
+                                    'clause_id': r['catalog_clause'].get('id'),
+                                    'doc_clause': doc_title,
+                                    'classification': classification,
+                                    'match_score': r['match_score']
+                                }
+                                # Salva feedback
+                                try:
+                                    st.session_state.vector_db.save_feedback(
+                                        catalog_clause_id=r['catalog_clause'].get('id'),
+                                        doc_clause_title=doc_title,
+                                        classification=classification,
+                                        match_score=r['match_score'],
+                                        rating='bad',
+                                        catalog_name=catalog_key
+                                    )
+                                    st.warning("⚠️ Feedback negativo salvo. Sistema aprenderá com isso!")
+                                except:
+                                    pass
+                
+                    # Mostra se já foi avaliado
+                    if feedback_key in st.session_state:
+                        rating = st.session_state[feedback_key]['rating']
+                        emoji = "✅" if rating == 'good' else "❌"
+                        st.caption(f"{emoji} Avaliado como: {rating}")
+                
+                    st.markdown("---")
+        
+            # Estatísticas de feedback
+            if 'feedback_stats' in st.session_state:
+                stats = st.session_state['feedback_stats']
+                st.markdown("### 📈 Estatísticas de Feedback")
+            
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    st.metric("Avaliações Positivas", stats.get('good', 0))
+                with col2:
+                    st.metric("Avaliações Negativas", stats.get('bad', 0))
+                with col3:
+                    accuracy = stats.get('good', 0) / (stats.get('good', 0) + stats.get('bad', 1)) * 100
+                    st.metric("Taxa de Acerto", f"{accuracy:.1f}%")
+
+            st.markdown("---")
+
+            # Downloads
+            st.subheader("Baixar Relatórios")
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+                # Gerar Excel
+                import pandas as pd
+                from io import BytesIO
+
+                excel_data = []
+                for r in results:
+                    doc_title = r.get('doc_clause', {}).get('title', 'Não encontrada') if r.get('doc_clause') else 'Não encontrada'
+                    cat_clause = r['catalog_clause']
+                
+                    excel_data.append({
+                        'Cláusula Esperada': cat_clause.get('titulo', 'N/A'),
+                        'Encontrada no Doc': doc_title,
+                        'Status': r['classification']['classificacao'],
+                        'Confiança': r['classification'].get('confianca', 0),
+                        'Justificativa': r['classification']['justificativa'],
+                        'Sugestão': r['classification'].get('sugestao', 'N/A'),
+                        'Obrigatória': 'SIM' if cat_clause.get('obrigatoria') else 'NÃO',
+                        'Categoria': cat_clause.get('categoria', 'N/A'),
+                        'Match Score': r['match_score']
+                    })
+
+                df_excel = pd.DataFrame(excel_data)
+
+                # Cria arquivo Excel em memória
+                buffer = BytesIO()
+                with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
+                    df_excel.to_excel(writer, index=False, sheet_name='Análise')
+
+                    # Ajusta largura das colunas
+                    worksheet = writer.sheets['Análise']
+                    for idx, col in enumerate(df_excel.columns):
+                        max_len = max(df_excel[col].astype(str).apply(len).max(), len(col)) + 2
+                        worksheet.column_dimensions[chr(65 + idx)].width = min(max_len, 50)
+
+                buffer.seek(0)
+
+                st.download_button(
+                    label="Baixar Excel",
+                    data=buffer,
+                    file_name=f"analise_juridica_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
+
+            with col2:
+                # TODO: Gerar DOCX
+                st.button("Baixar DOCX", disabled=True, help="Em desenvolvimento")
+
+    with tab3:
+        st.header("Ajuda")
+
+        st.markdown("""
+        ### Como usar o sistema
+
+        1. **Obtenha sua API Key do Gemini:**
+           - Acesse: https://makersuite.google.com/app/apikey
+           - Crie uma API Key gratuita
+           - Cole na barra lateral
+
+        2. **Selecione o catálogo apropriado:**
+           - CRI v3: Para Certificados de Recebíveis Imobiliários
+           - CRA: Para Certificados de Recebíveis do Agronegócio
+           - Debênture: Para Debêntures
+
+        3. **Faça upload da minuta:**
+           - Formatos aceitos: .docx ou .pdf
+           - Tamanho máximo: 200MB
+
+        4. **Analise:**
+           - Clique em "Iniciar Análise"
+           - Aguarde o processamento (2-5 minutos)
+           - Veja os resultados
+
+        5. **Baixe os relatórios:**
+           - Excel: Tabela detalhada
+           - DOCX: Relatório narrativo
+
+        ---
+
+        ### Entendendo os Resultados
+
+        - **PRESENTE:** Cláusula completa e adequada
+        - **PARCIAL:** Cláusula existe mas incompleta
+        - **AUSENTE:** Cláusula não encontrada ou inadequada
+
+        ---
+
+        ### 💰 Custos
+
+        - **Tier Gratuito Gemini:** 1.500 requests/dia
+        - **Custo por análise:** ~R$ 0,07 (tier pago)
+        - **Streamlit Cloud:** Grátis
+
+        ---
+
+        ### 🔒 Privacidade
+
+        - Documentos são processados temporariamente
+        - Análise de texto enviada para Gemini API
+        - Nenhum dado é armazenado permanentemente
+        - Use servidor interno para máxima privacidade
+
+        ---
+
+        ### 🐛 Problemas?
+
+        - Verifique sua API Key do Gemini
+        - Confirme formato do arquivo (.docx ou .pdf)
+        - Veja logs de erro na aba Análise
+
+        ---
+
+        **Versão:** 1.0.0 | **Backend:** Gemini 1.5 Flash
+        """)
+
+# ========================================
+# ABA: EDITOR DE CATÁLOGO
+# ========================================
+
+with tab_catalogo:
+    st.header("📝 Editor de Catálogo - Adicionar Explicações")
     st.markdown("""
-    ### Como usar o sistema
-
-    1. **Obtenha sua API Key do Gemini:**
-       - Acesse: https://makersuite.google.com/app/apikey
-       - Crie uma API Key gratuita
-       - Cole na barra lateral
-
-    2. **Selecione o catálogo apropriado:**
-       - CRI v3: Para Certificados de Recebíveis Imobiliários
-       - CRA: Para Certificados de Recebíveis do Agronegócio
-       - Debênture: Para Debêntures
-
-    3. **Faça upload da minuta:**
-       - Formatos aceitos: .docx ou .pdf
-       - Tamanho máximo: 200MB
-
-    4. **Analise:**
-       - Clique em "Iniciar Análise"
-       - Aguarde o processamento (2-5 minutos)
-       - Veja os resultados
-
-    5. **Baixe os relatórios:**
-       - Excel: Tabela detalhada
-       - DOCX: Relatório narrativo
-
-    ---
-
-    ### Entendendo os Resultados
-
-    - **PRESENTE:** Cláusula completa e adequada
-    - **PARCIAL:** Cláusula existe mas incompleta
-    - **AUSENTE:** Cláusula não encontrada ou inadequada
-
-    ---
-
-    ### 💰 Custos
-
-    - **Tier Gratuito Gemini:** 1.500 requests/dia
-    - **Custo por análise:** ~R$ 0,07 (tier pago)
-    - **Streamlit Cloud:** Grátis
-
-    ---
-
-    ### 🔒 Privacidade
-
-    - Documentos são processados temporariamente
-    - Análise de texto enviada para Gemini API
-    - Nenhum dado é armazenado permanentemente
-    - Use servidor interno para máxima privacidade
-
-    ---
-
-    ### 🐛 Problemas?
-
-    - Verifique sua API Key do Gemini
-    - Confirme formato do arquivo (.docx ou .pdf)
-    - Veja logs de erro na aba Análise
-
-    ---
-
-    **Versão:** 1.0.0 | **Backend:** Gemini 1.5 Flash
+    **Por que adicionar explicações?**
+    
+    Explicações detalhadas sobre cada cláusula ajudam o sistema a:
+    - 🎯 **Melhorar o matching**: Entender o contexto completo da cláusula esperada
+    - 🧠 **Classificar melhor**: Diferenciar cláusulas similares com nuances específicas
+    - 📚 **Gerar sugestões mais precisas**: Usar exemplos concretos do que é esperado
+    
+    **Como usar:**
+    1. Selecione um catálogo na barra lateral
+    2. Para cada cláusula, adicione uma explicação detalhada
+    3. Salve as alterações
     """)
+    
+    st.markdown("---")
+    
+    # Carregar catálogo selecionado
+    try:
+        catalog = load_catalog(catalog_key)
+        catalog_file = f"data/catalogos/{catalog_key}.yaml"
+        
+        st.subheader(f"Editando: {catalog['metadata']['nome']}")
+        st.caption(f"Versão: {catalog['metadata']['versao']} | Total de cláusulas: {len(catalog.get('clausulas', []))}")
+        
+        # Contador de explicações
+        clausulas_com_explicacao = sum(1 for c in catalog.get('clausulas', []) if c.get('explicacao', '').strip())
+        total_clausulas = len(catalog.get('clausulas', []))
+        progress = clausulas_com_explicacao / total_clausulas if total_clausulas > 0 else 0
+        
+        st.progress(progress, text=f"Progresso: {clausulas_com_explicacao}/{total_clausulas} cláusulas com explicação")
+        
+        st.markdown("---")
+        
+        # Filtros
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            filtro_obrigatoria = st.selectbox("Filtrar por:", ["Todas", "Obrigatórias", "Opcionais"])
+        with col2:
+            filtro_categoria = st.selectbox("Categoria:", ["Todas"] + list(set(c.get('categoria', 'outros') for c in catalog.get('clausulas', []))))
+        with col3:
+            filtro_explicacao = st.selectbox("Explicação:", ["Todas", "Com explicação", "Sem explicação"])
+        
+        # Busca
+        busca = st.text_input("🔍 Buscar cláusula:", placeholder="Digite o título ou ID da cláusula...")
+        
+        st.markdown("---")
+        
+        # Filtrar cláusulas
+        clausulas_filtradas = catalog.get('clausulas', [])
+        
+        if filtro_obrigatoria == "Obrigatórias":
+            clausulas_filtradas = [c for c in clausulas_filtradas if c.get('obrigatoria')]
+        elif filtro_obrigatoria == "Opcionais":
+            clausulas_filtradas = [c for c in clausulas_filtradas if not c.get('obrigatoria')]
+        
+        if filtro_categoria != "Todas":
+            clausulas_filtradas = [c for c in clausulas_filtradas if c.get('categoria') == filtro_categoria]
+        
+        if filtro_explicacao == "Com explicação":
+            clausulas_filtradas = [c for c in clausulas_filtradas if c.get('explicacao', '').strip()]
+        elif filtro_explicacao == "Sem explicação":
+            clausulas_filtradas = [c for c in clausulas_filtradas if not c.get('explicacao', '').strip()]
+        
+        if busca:
+            busca_lower = busca.lower()
+            clausulas_filtradas = [c for c in clausulas_filtradas if 
+                                 busca_lower in c.get('titulo', '').lower() or 
+                                 busca_lower in c.get('id', '').lower()]
+        
+        st.info(f"Mostrando {len(clausulas_filtradas)} de {total_clausulas} cláusulas")
+        
+        # Editor de cláusulas
+        modificacoes = {}
+        
+        for idx, clausula in enumerate(clausulas_filtradas):
+            with st.expander(f"{'✅' if clausula.get('explicacao', '').strip() else '⚠️'} {clausula.get('id')} - {clausula.get('titulo')[:70]}"):
+                col1, col2 = st.columns([1, 3])
+                
+                with col1:
+                    st.markdown("**Metadados:**")
+                    st.caption(f"ID: `{clausula.get('id')}`")
+                    st.caption(f"Categoria: `{clausula.get('categoria')}`")
+                    st.caption(f"Importância: `{clausula.get('importancia')}`")
+                    st.caption(f"Obrigatória: {'✅ Sim' if clausula.get('obrigatoria') else '❌ Não'}")
+                    
+                    st.markdown("**Keywords:**")
+                    keywords = clausula.get('keywords', [])
+                    if keywords:
+                        for kw in keywords[:5]:
+                            st.caption(f"• {kw}")
+                
+                with col2:
+                    st.markdown("**Título Completo:**")
+                    st.text(clausula.get('titulo'))
+                    
+                    st.markdown("**Explicação (O que esta cláusula deve conter?):**")
+                    explicacao_atual = clausula.get('explicacao', '')
+                    
+                    explicacao_nova = st.text_area(
+                        "Descreva em detalhes:",
+                        value=explicacao_atual,
+                        height=150,
+                        key=f"explicacao_{clausula.get('id')}_{idx}",
+                        placeholder="""Exemplo:
+Esta cláusula deve conter a identificação completa de todas as partes envolvidas no contrato, incluindo:
+- Nome/Razão Social completa
+- CNPJ/CPF
+- Endereço completo
+- Representantes legais e seus documentos
+- Qualificação de cada parte (Emissora, Devedora, Avalistas, etc.)
+
+É essencial que todas as partes estejam claramente identificadas para validade jurídica do documento."""
+                    )
+                    
+                    if explicacao_nova != explicacao_atual:
+                        modificacoes[clausula.get('id')] = explicacao_nova
+                        st.success("✏️ Modificação detectada (salve no final)")
+        
+        # Botão de salvar
+        if modificacoes:
+            st.markdown("---")
+            st.warning(f"⚠️ Você tem {len(modificacoes)} modificação(ões) não salva(s)")
+            
+            col1, col2, col3 = st.columns([2, 1, 2])
+            with col2:
+                if st.button("💾 Salvar Alterações", type="primary", use_container_width=True):
+                    # Atualizar catálogo
+                    import yaml
+                    from datetime import datetime
+                    
+                    for clausula in catalog['clausulas']:
+                        if clausula.get('id') in modificacoes:
+                            clausula['explicacao'] = modificacoes[clausula.get('id')]
+                    
+                    # Atualizar metadata
+                    catalog['metadata']['data_atualizacao'] = datetime.now().strftime('%Y-%m-%d')
+                    
+                    # Salvar arquivo
+                    try:
+                        with open(catalog_file, 'w', encoding='utf-8') as f:
+                            yaml.dump(catalog, f, allow_unicode=True, sort_keys=False, default_flow_style=False)
+                        
+                        st.success(f"✅ Catálogo salvo com sucesso! {len(modificacoes)} cláusula(s) atualizada(s).")
+                        st.balloons()
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"❌ Erro ao salvar: {str(e)}")
+        
+        else:
+            st.info("💡 Modifique as explicações acima e clique em 'Salvar Alterações' quando terminar.")
+    
+    except Exception as e:
+        st.error(f"Erro ao carregar catálogo: {str(e)}")
+        st.exception(e)
 
 # Footer
 st.markdown("---")
