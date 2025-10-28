@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Sugestões - Documentos GOLD CRI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .controls {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .controls label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .controls select {
+            padding: 10px 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .controls select:hover {
+            border-color: #667eea;
+        }
+
+        .controls button {
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .controls button:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+        }
+
+        .stats {
+            padding: 15px 30px;
+            background: #e7f3ff;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-icon {
+            font-size: 1.5em;
+        }
+
+        .stat-info strong {
+            display: block;
+            font-size: 1.2em;
+            color: #667eea;
+        }
+
+        .stat-info span {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .clausula-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .clausula-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+
+        .clausula-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .clausula-title {
+            flex: 1;
+        }
+
+        .clausula-title h3 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .clausula-title .tipo-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #667eea;
+            color: white;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .clausula-numero {
+            background: #f8f9fa;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            color: #495057;
+            font-size: 1.1em;
+        }
+
+        .sugestao-section {
+            margin-top: 15px;
+        }
+
+        .sugestao-section label {
+            display: block;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .sugestao-section textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+            transition: all 0.3s;
+        }
+
+        .sugestao-section textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .pontos-atencao {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 6px;
+        }
+
+        .pontos-atencao h4 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .pontos-atencao ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .pontos-atencao li {
+            padding: 5px 0;
+            color: #856404;
+        }
+
+        .pontos-atencao li:before {
+            content: "⚠️ ";
+            margin-right: 8px;
+        }
+
+        .preview-content {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 0.9em;
+            color: #6c757d;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .preview-content strong {
+            display: block;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state .icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 1em;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .filter-info {
+            padding: 15px 30px;
+            background: #d1ecf1;
+            color: #0c5460;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .clausula-header {
+                flex-direction: column;
+            }
+
+            .clausula-numero {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Gerenciador de Sugestões de Cláusulas</h1>
+            <p>Documentos GOLD - Termos de Securitização CRI</p>
+        </div>
+
+        <div class="controls">
+            <div>
+                <label for="documentSelect">📄 Documento:</label>
+                <select id="documentSelect">
+                    <option value="">Selecione um documento...</option>
+                    <option value="GOLD_CRI_DESTINACAO_MODELO_2025">CRI com Destinação 2025</option>
+                    <option value="GOLD_CRI_SEM_DESTINACAO_PADRAO">CRI sem Destinação Padrão</option>
+                </select>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Buscar por título ou número da cláusula...">
+            </div>
+
+            <button id="saveBtn" style="background: #28a745;">💾 Salvar Alterações</button>
+            <button id="exportBtn" style="background: #17a2b8;">📥 Exportar JSON</button>
+            <button id="resetBtn" style="background: #dc3545;">🔄 Resetar</button>
+        </div>
+
+        <div class="stats" id="stats" style="display: none;">
+            <div class="stat">
+                <span class="stat-icon">📊</span>
+                <div class="stat-info">
+                    <strong id="totalClausulas">0</strong>
+                    <span>Total de Cláusulas</span>
+                </div>
+            </div>
+            <div class="stat">
+                <span class="stat-icon">✏️</span>
+                <div class="stat-info">
+                    <strong id="clausulasEditadas">0</strong>
+                    <span>Cláusulas Editadas</span>
+                </div>
+            </div>
+            <div class="stat">
+                <span class="stat-icon">📝</span>
+                <div class="stat-info">
+                    <strong id="documentoAtual">-</strong>
+                    <span>Documento Atual</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-info" id="filterInfo" style="display: none;"></div>
+
+        <div class="content" id="content">
+            <div class="empty-state">
+                <div class="icon">📂</div>
+                <h2>Selecione um documento para começar</h2>
+                <p>Escolha um dos documentos GOLD acima para visualizar e editar as sugestões de explicação das cláusulas.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentData = null;
+        let editedClauses = new Set();
+        let originalData = null;
+
+        const documentSelect = document.getElementById('documentSelect');
+        const searchInput = document.getElementById('searchInput');
+        const content = document.getElementById('content');
+        const stats = document.getElementById('stats');
+        const filterInfo = document.getElementById('filterInfo');
+        const saveBtn = document.getElementById('saveBtn');
+        const exportBtn = document.getElementById('exportBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        // Carregar documento
+        documentSelect.addEventListener('change', async (e) => {
+            const docName = e.target.value;
+            if (!docName) {
+                showEmptyState();
+                return;
+            }
+
+            try {
+                const response = await fetch(`${docName}_catalogo_completo.json`);
+                const data = await response.json();
+                currentData = data;
+                originalData = JSON.parse(JSON.stringify(data)); // Deep copy
+                editedClauses.clear();
+                renderClauses(data.clausulas_com_sugestoes);
+                updateStats();
+                stats.style.display = 'flex';
+            } catch (error) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">❌</div>
+                        <h2>Erro ao carregar documento</h2>
+                        <p>Não foi possível carregar o arquivo: ${error.message}</p>
+                    </div>
+                `;
+            }
+        });
+
+        // Busca
+        searchInput.addEventListener('input', (e) => {
+            if (!currentData) return;
+            
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = currentData.clausulas_com_sugestoes.filter(c => 
+                c.titulo.toLowerCase().includes(searchTerm) ||
+                c.numero.toString().includes(searchTerm) ||
+                c.sugestao_explicacao.toLowerCase().includes(searchTerm)
+            );
+
+            if (searchTerm) {
+                filterInfo.style.display = 'block';
+                filterInfo.textContent = `🔍 Mostrando ${filtered.length} de ${currentData.clausulas_com_sugestoes.length} cláusulas`;
+            } else {
+                filterInfo.style.display = 'none';
+            }
+
+            renderClauses(filtered);
+        });
+
+        // Renderizar cláusulas
+        function renderClauses(clausulas) {
+            if (clausulas.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">🔍</div>
+                        <h2>Nenhuma cláusula encontrada</h2>
+                        <p>Tente ajustar os filtros de busca.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            content.innerHTML = clausulas.map((clausula, index) => `
+                <div class="clausula-card" data-index="${index}">
+                    <div class="clausula-header">
+                        <div class="clausula-title">
+                            <h3>${clausula.titulo}</h3>
+                            <span class="tipo-badge">${clausula.tipo}</span>
+                        </div>
+                        <div class="clausula-numero">Nº ${clausula.numero}</div>
+                    </div>
+
+                    <div class="sugestao-section">
+                        <label>💡 Sugestão de Explicação:</label>
+                        <textarea 
+                            data-numero="${clausula.numero}"
+                            class="sugestao-input"
+                        >${clausula.sugestao_explicacao}</textarea>
+                    </div>
+
+                    ${clausula.pontos_atencao && clausula.pontos_atencao.length > 0 ? `
+                        <div class="pontos-atencao">
+                            <h4>⚠️ Pontos de Atenção:</h4>
+                            <ul>
+                                ${clausula.pontos_atencao.map(p => `<li>${p}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+
+                    ${clausula.preview_conteudo ? `
+                        <div class="preview-content">
+                            <strong>📄 Preview do Conteúdo:</strong>
+                            ${clausula.preview_conteudo}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+
+            // Adicionar listeners aos textareas
+            document.querySelectorAll('.sugestao-input').forEach(textarea => {
+                textarea.addEventListener('input', (e) => {
+                    const numero = e.target.dataset.numero;
+                    editedClauses.add(numero);
+                    updateStats();
+                    e.target.style.borderColor = '#28a745';
+                });
+            });
+        }
+
+        // Atualizar estatísticas
+        function updateStats() {
+            if (!currentData) return;
+
+            document.getElementById('totalClausulas').textContent = currentData.total_clausulas;
+            document.getElementById('clausulasEditadas').textContent = editedClauses.size;
+            document.getElementById('documentoAtual').textContent = currentData.documento;
+        }
+
+        // Salvar alterações
+        saveBtn.addEventListener('click', () => {
+            if (!currentData) {
+                alert('⚠️ Selecione um documento primeiro!');
+                return;
+            }
+
+            // Coletar valores dos textareas
+            document.querySelectorAll('.sugestao-input').forEach(textarea => {
+                const numero = textarea.dataset.numero;
+                const clausula = currentData.clausulas_com_sugestoes.find(c => c.numero === numero);
+                if (clausula) {
+                    clausula.sugestao_explicacao = textarea.value;
+                }
+            });
+
+            // Salvar no localStorage
+            const docName = documentSelect.value;
+            localStorage.setItem(`gold_${docName}`, JSON.stringify(currentData));
+
+            alert(`✅ Alterações salvas com sucesso!\n\n${editedClauses.size} cláusulas foram modificadas.`);
+            editedClauses.clear();
+            updateStats();
+        });
+
+        // Exportar JSON
+        exportBtn.addEventListener('click', () => {
+            if (!currentData) {
+                alert('⚠️ Selecione um documento primeiro!');
+                return;
+            }
+
+            // Coletar valores atuais
+            document.querySelectorAll('.sugestao-input').forEach(textarea => {
+                const numero = textarea.dataset.numero;
+                const clausula = currentData.clausulas_com_sugestoes.find(c => c.numero === numero);
+                if (clausula) {
+                    clausula.sugestao_explicacao = textarea.value;
+                }
+            });
+
+            const dataStr = JSON.stringify(currentData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${documentSelect.value}_editado.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            alert('📥 Arquivo JSON exportado com sucesso!');
+        });
+
+        // Resetar
+        resetBtn.addEventListener('click', () => {
+            if (!currentData) {
+                alert('⚠️ Selecione um documento primeiro!');
+                return;
+            }
+
+            if (confirm('🔄 Tem certeza que deseja resetar todas as alterações?')) {
+                currentData = JSON.parse(JSON.stringify(originalData));
+                editedClauses.clear();
+                renderClauses(currentData.clausulas_com_sugestoes);
+                updateStats();
+                alert('✅ Documento resetado para o estado original!');
+            }
+        });
+
+        // Estado vazio
+        function showEmptyState() {
+            content.innerHTML = `
+                <div class="empty-state">
+                    <div class="icon">📂</div>
+                    <h2>Selecione um documento para começar</h2>
+                    <p>Escolha um dos documentos GOLD acima para visualizar e editar as sugestões de explicação das cláusulas.</p>
+                </div>
+            `;
+            stats.style.display = 'none';
+            filterInfo.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
