@@ -11,7 +11,7 @@ from datetime import datetime
 
 # Configuração da página
 st.set_page_config(
-    page_title="Gerenciar Cláusulas GOLD - Travessia",
+    page_title="📚 Gerenciar Cláusulas GOLD - Travessia",
     page_icon="📚",
     layout="wide",
     initial_sidebar_state="expanded"
