@@ -139,7 +139,7 @@ st.markdown("""
 
 # Importa módulos do backend
 try:
-    from src.parsing import parse_document
+    from src.parsing_v2 import parse_document  # Parsing V2 baseado em Headings do Word
     from src.utils import load_catalog
     from src.vector_db import DocumentVectorDB, get_rag_context_for_suggestion
 except:
