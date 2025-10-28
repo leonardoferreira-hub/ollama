@@ -948,24 +948,100 @@ with tab_analise:
         """)
 
 # ========================================
+# FUNÇÃO: GERAR SUGESTÃO DE EXPLICAÇÃO
+# ========================================
+
+def gerar_sugestao_explicacao(titulo: str, categoria: str, keywords: list, template: str, api_key: str) -> str:
+    """
+    Gera sugestão automática de explicação para uma cláusula usando Gemini AI
+    
+    Args:
+        titulo: Título da cláusula
+        categoria: Categoria da cláusula (lastro, remuneração, etc.)
+        keywords: Lista de palavras-chave
+        template: Template da cláusula (se houver)
+        api_key: Gemini API Key
+        
+    Returns:
+        Sugestão de explicação detalhada
+    """
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel('gemini-2.0-flash-exp')
+    
+    keywords_str = ', '.join(keywords[:10]) if keywords else 'N/A'
+    template_preview = template[:500] if template else 'N/A'
+    
+    prompt = f"""Você é um especialista em documentos jurídicos de Certificados de Recebíveis Imobiliários (CRI).
+
+TAREFA: Gerar uma explicação DETALHADA do que a seguinte cláusula deve conter.
+
+CLÁUSULA:
+Título: {titulo}
+Categoria: {categoria}
+Keywords: {keywords_str}
+
+TEMPLATE (se disponível):
+{template_preview}
+
+INSTRUÇÕES:
+1. Descreva em detalhes O QUE esta cláusula deve conter
+2. Liste elementos ESSENCIAIS que devem aparecer
+3. Mencione informações OBRIGATÓRIAS por lei ou regulação CVM
+4. Dê exemplos concretos de texto esperado
+5. Mencione o que NÃO confundir (se relevante)
+
+FORMATO DA RESPOSTA:
+Escreva em português, de forma clara e objetiva, usando:
+- Bullets para listar elementos
+- Exemplos práticos
+- Referências legais quando aplicável
+- Estrutura clara
+
+NÃO repita apenas o título. Seja ESPECÍFICO sobre conteúdo esperado.
+
+EXPLICAÇÃO DETALHADA:"""
+
+    try:
+        response = model.generate_content(prompt)
+        return response.text.strip()
+    except Exception as e:
+        return f"Erro ao gerar sugestão: {str(e)}"
+
+
+# ========================================
 # ABA: EDITOR DE CATÁLOGO
 # ========================================
 
 with tab_catalogo:
     st.header("📝 Editor de Catálogo - Adicionar Explicações")
-    st.markdown("""
-    **Por que adicionar explicações?**
     
-    Explicações detalhadas sobre cada cláusula ajudam o sistema a:
-    - 🎯 **Melhorar o matching**: Entender o contexto completo da cláusula esperada
-    - 🧠 **Classificar melhor**: Diferenciar cláusulas similares com nuances específicas
-    - 📚 **Gerar sugestões mais precisas**: Usar exemplos concretos do que é esperado
+    # 🆕 Ajuda expandível
+    with st.expander("ℹ️ Como usar o Editor (clique para expandir)", expanded=False):
+        st.markdown("""
+        **Por que adicionar explicações?**
+        
+        Explicações detalhadas sobre cada cláusula ajudam o sistema a:
+        - 🎯 **Melhorar o matching**: Entender o contexto completo da cláusula esperada
+        - 🧠 **Classificar melhor**: Diferenciar cláusulas similares com nuances específicas
+        - 📚 **Gerar sugestões mais precisas**: Usar exemplos concretos do que é esperado
+        
+        **Como usar:**
+        1. **Selecione um catálogo** na barra lateral
+        2. **Escolha a importância** de cada cláusula (crítica, alta, média, baixa)
+        3. **Defina se é obrigatória** (Sim/Não)
+        4. **Clique em "🤖 Gerar Sugestão"** para que a IA crie uma explicação automática
+        5. **Revise e edite** a explicação conforme necessário
+        6. **Salve as alterações** ao final
+        
+        **Recursos disponíveis:**
+        - 🔍 **Filtros**: Por obrigatoriedade, categoria, presença de explicação
+        - 🔎 **Busca**: Digite título ou ID da cláusula
+        - 🤖 **IA Assistente**: Gera sugestões automáticas de explicações
+        - 📊 **Progresso**: Acompanhe quantas cláusulas já foram configuradas
+        - 📝 **Edição em lote**: Configure múltiplas cláusulas antes de salvar
+        """)
     
-    **Como usar:**
-    1. Selecione um catálogo na barra lateral
-    2. Para cada cláusula, adicione uma explicação detalhada
-    3. Salve as alterações
-    """)
+    st.markdown("---")
     
     st.markdown("---")
     
@@ -1035,9 +1111,43 @@ with tab_catalogo:
                     st.markdown("**Metadados:**")
                     st.caption(f"ID: `{clausula.get('id')}`")
                     st.caption(f"Categoria: `{clausula.get('categoria')}`")
-                    st.caption(f"Importância: `{clausula.get('importancia')}`")
-                    st.caption(f"Obrigatória: {'✅ Sim' if clausula.get('obrigatoria') else '❌ Não'}")
                     
+                    # 🆕 Dropdown para Importância
+                    importancia_opcoes = ['critica', 'alta', 'media', 'baixa']
+                    importancia_atual = clausula.get('importancia', 'media')
+                    importancia_nova = st.selectbox(
+                        "Importância:",
+                        options=importancia_opcoes,
+                        index=importancia_opcoes.index(importancia_atual) if importancia_atual in importancia_opcoes else 2,
+                        key=f"importancia_{clausula.get('id')}_{idx}"
+                    )
+                    
+                    # 🆕 Dropdown para Obrigatoriedade
+                    obrigatoria_atual = clausula.get('obrigatoria', False)
+                    obrigatoria_nova = st.selectbox(
+                        "Obrigatória:",
+                        options=[True, False],
+                        format_func=lambda x: "✅ Sim" if x else "❌ Não",
+                        index=0 if obrigatoria_atual else 1,
+                        key=f"obrigatoria_{clausula.get('id')}_{idx}"
+                    )
+                    
+                    # Detecta mudanças
+                    if importancia_nova != importancia_atual:
+                        if clausula.get('id') not in modificacoes:
+                            modificacoes[clausula.get('id')] = {}
+                        if not isinstance(modificacoes[clausula.get('id')], dict):
+                            modificacoes[clausula.get('id')] = {'explicacao': modificacoes[clausula.get('id')]}
+                        modificacoes[clausula.get('id')]['importancia'] = importancia_nova
+                    
+                    if obrigatoria_nova != obrigatoria_atual:
+                        if clausula.get('id') not in modificacoes:
+                            modificacoes[clausula.get('id')] = {}
+                        if not isinstance(modificacoes[clausula.get('id')], dict):
+                            modificacoes[clausula.get('id')] = {'explicacao': modificacoes[clausula.get('id')]}
+                        modificacoes[clausula.get('id')]['obrigatoria'] = obrigatoria_nova
+                    
+                    st.markdown("---")
                     st.markdown("**Keywords:**")
                     keywords = clausula.get('keywords', [])
                     if keywords:
@@ -1049,14 +1159,45 @@ with tab_catalogo:
                     st.text(clausula.get('titulo'))
                     
                     st.markdown("**Explicação (O que esta cláusula deve conter?):**")
+                    
+                    # 🆕 Botão para gerar sugestão automática
+                    col_btn1, col_btn2 = st.columns([1, 3])
+                    with col_btn1:
+                        gerar_sugestao = st.button(
+                            "🤖 Gerar Sugestão",
+                            key=f"gerar_{clausula.get('id')}_{idx}",
+                            help="Usar Gemini AI para gerar uma sugestão de explicação"
+                        )
+                    
                     explicacao_atual = clausula.get('explicacao', '')
+                    
+                    # 🆕 Se solicitou sugestão, gera com Gemini
+                    if gerar_sugestao and gemini_key:
+                        with st.spinner("Gerando sugestão com Gemini AI..."):
+                            try:
+                                # Gera sugestão de explicação
+                                sugestao = gerar_sugestao_explicacao(
+                                    titulo=clausula.get('titulo'),
+                                    categoria=clausula.get('categoria'),
+                                    keywords=clausula.get('keywords', []),
+                                    template=clausula.get('template', ''),
+                                    api_key=gemini_key
+                                )
+                                explicacao_atual = sugestao
+                                st.success("✅ Sugestão gerada! Revise e edite conforme necessário.")
+                            except Exception as e:
+                                st.error(f"❌ Erro ao gerar sugestão: {str(e)}")
+                    elif gerar_sugestao and not gemini_key:
+                        st.warning("⚠️ Configure sua API Key do Gemini na barra lateral para gerar sugestões automáticas")
                     
                     explicacao_nova = st.text_area(
                         "Descreva em detalhes:",
                         value=explicacao_atual,
-                        height=150,
+                        height=200,
                         key=f"explicacao_{clausula.get('id')}_{idx}",
-                        placeholder="""Exemplo:
+                        placeholder="""💡 Clique em "🤖 Gerar Sugestão" para usar IA, ou escreva manualmente.
+
+Exemplo:
 Esta cláusula deve conter a identificação completa de todas as partes envolvidas no contrato, incluindo:
 - Nome/Razão Social completa
 - CNPJ/CPF
@@ -1068,7 +1209,11 @@ Esta cláusula deve conter a identificação completa de todas as partes envolvi
                     )
                     
                     if explicacao_nova != explicacao_atual:
-                        modificacoes[clausula.get('id')] = explicacao_nova
+                        if clausula.get('id') not in modificacoes:
+                            modificacoes[clausula.get('id')] = {}
+                        if not isinstance(modificacoes[clausula.get('id')], dict):
+                            modificacoes[clausula.get('id')] = {'explicacao': modificacoes[clausula.get('id')]}
+                        modificacoes[clausula.get('id')]['explicacao'] = explicacao_nova
                         st.success("✏️ Modificação detectada (salve no final)")
         
         # Botão de salvar
@@ -1085,7 +1230,19 @@ Esta cláusula deve conter a identificação completa de todas as partes envolvi
                     
                     for clausula in catalog['clausulas']:
                         if clausula.get('id') in modificacoes:
-                            clausula['explicacao'] = modificacoes[clausula.get('id')]
+                            mod = modificacoes[clausula.get('id')]
+                            
+                            # Se modificacoes é um dict, atualiza cada campo
+                            if isinstance(mod, dict):
+                                if 'explicacao' in mod:
+                                    clausula['explicacao'] = mod['explicacao']
+                                if 'importancia' in mod:
+                                    clausula['importancia'] = mod['importancia']
+                                if 'obrigatoria' in mod:
+                                    clausula['obrigatoria'] = mod['obrigatoria']
+                            # Se for string (apenas explicacao), mantém compatibilidade
+                            else:
+                                clausula['explicacao'] = mod
                     
                     # Atualizar metadata
                     catalog['metadata']['data_atualizacao'] = datetime.now().strftime('%Y-%m-%d')
