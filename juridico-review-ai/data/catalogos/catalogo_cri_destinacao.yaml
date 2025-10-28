@@ -1,221 +1,1033 @@
-# Catálogo CRI com Destinação Específica
-# Para operações onde há destinação dos recursos (obras, projetos, etc.)
-
 metadata:
-  nome: "Catálogo CRI - Destinação Específica"
-  versao: "1.0.0"
-  tipo: "CRI_DESTINACAO"
-  hash: "cri_dest_2025"
-  descricao: "Catálogo especializado para CRI com destinação específica de recursos"
-  data_atualizacao: "2025-10-16"
-
+  nome: Catálogo CRI - Com Destinação Específica
+  versao: 2.0.0
+  tipo: CRI_COM_DESTINACAO
+  hash: cri_com_destinacao_gold_2025
+  descricao: Catálogo completo para CRI com destinação específica de recursos (gerado
+    de documento GOLD)
+  data_atualizacao: '2025-10-28'
+  origem: Gerado automaticamente de documentos GOLD
 clausulas:
-  # ========== DESTINAÇÃO DOS RECURSOS ==========
-  - id: "CRI_DEST_001"
-    titulo: "Destinação dos Recursos"
-    categoria: "destinacao"
-    importancia: "critica"
-    obrigatoria: true
+- id: CRI_DEST_001
+  titulo: DEFINIÇÕES
+  categoria: definicoes
+  importancia: critica
+  obrigatoria: true
+  keywords:
+  - definições
+  regex_patterns:
+  - (?i)DEFINIÇÕES
+  template: 'CLÁUSULA {{numero}} – DEFINIÇÕES
 
-    keywords:
-      - "destinação"
-      - "recursos"
-      - "aplicação"
-      - "utilização"
-      - "obras"
-      - "projeto"
-      - "finalidade específica"
 
-    regex_patterns:
-      - "(?i)^\\d+\\.?\\s*DESTINA[ÇC][ÃA]O\\s+(DOS|DE)\\s+RECURSOS"
-      - "(?i)aplica[çc][ãa]o.*recursos"
-      - "(?i)finalidade.*espec[íi]fica"
+    '
+- id: CRI_DEST_002
+  titulo: APROVAÇÃO DA EMISSÃO
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - aprovação
+  - emissão
+  regex_patterns:
+  - (?i)APROVAÇÃO\ DA\ EMISSÃO
+  template: 'CLÁUSULA {{numero}} – APROVAÇÃO DA EMISSÃO
 
-    template: |
-      CLÁUSULA {{numero}} – DESTINAÇÃO DOS RECURSOS
-      Os recursos captados com a Emissão serão destinados exclusivamente para:
-      (i) [descrever destinação específica - obras, projeto, etc.]
-      (ii) Eventuais despesas da Emissão
 
-      Parágrafo Único: A Emissora fica vedada de utilizar os recursos para finalidades diversas.
+    '
+- id: CRI_DEST_003
+  titulo: OBJETO E CRÉDITOS IMOBILIÁRIOS
+  categoria: lastro
+  importancia: critica
+  obrigatoria: true
+  keywords:
+  - objeto
+  - créditos
+  - imobiliários
+  regex_patterns:
+  - (?i)OBJETO\ E\ CRÉDITOS\ IM
+  template: 'CLÁUSULA {{numero}} – OBJETO E CRÉDITOS IMOBILIÁRIOS
 
-    criterios_validacao:
-      - campo: "finalidade"
-        regra: "deve especificar claramente o destino dos recursos"
-      - campo: "vedacoes"
-        regra: "deve mencionar vedações de uso indevido"
 
-  # ========== CRONOGRAMA DE DESEMBOLSO ==========
-  - id: "CRI_DEST_002"
-    titulo: "Cronograma de Desembolso"
-    categoria: "destinacao"
-    importancia: "alta"
-    obrigatoria: true
+    '
+- id: CRI_DEST_004
+  titulo: IDENTIFICAÇÃO DOS CRI E FORMA DE DISTRIBUIÇÃO
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - identificação
+  - forma
+  - distribuição
+  regex_patterns:
+  - (?i)IDENTIFICAÇÃO\ DOS\ CR
+  template: 'CLÁUSULA {{numero}} – IDENTIFICAÇÃO DOS CRI E FORMA DE DISTRIBUIÇÃO
 
-    keywords:
-      - "cronograma"
-      - "desembolso"
-      - "liberação"
-      - "tranches"
-      - "parcelas"
-      - "condições precedentes"
 
-    regex_patterns:
-      - "(?i)^\\d+\\.?\\s*CRONOGRAMA.*DESEMBOLSO"
-      - "(?i)libera[çc][ãa]o.*recursos"
-      - "(?i)condi[çc][õo]es.*precedentes"
+    '
+- id: CRI_DEST_005
+  titulo: SUBSCRIÇÃO E INTEGRALIZAÇÃO DOS CRI
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - subscrição
+  - integralização
+  regex_patterns:
+  - (?i)SUBSCRIÇÃO\ E\ INTEGRA
+  template: 'CLÁUSULA {{numero}} – SUBSCRIÇÃO E INTEGRALIZAÇÃO DOS CRI
 
-    template: |
-      CLÁUSULA {{numero}} – CRONOGRAMA DE DESEMBOLSO
-      A liberação dos recursos observará o seguinte cronograma:
 
-      Tranche 1: [valor] em [data/condição]
-      Tranche 2: [valor] em [data/condição]
+    '
+- id: CRI_DEST_006
+  titulo: REMUNERAÇÃO E ATUALIZAÇÃO MONETÁRIA
+  categoria: remuneracao
+  importancia: critica
+  obrigatoria: true
+  keywords:
+  - remuneração
+  - atualização
+  - monetária
+  regex_patterns:
+  - (?i)REMUNERAÇÃO\ E\ ATUALI
+  template: 'CLÁUSULA {{numero}} – REMUNERAÇÃO E ATUALIZAÇÃO MONETÁRIA
 
-      Parágrafo Único: Cada liberação está condicionada ao cumprimento das Condições Precedentes.
 
-    criterios_validacao:
-      - campo: "tranches"
-        regra: "deve especificar valor e timing de cada liberação"
-      - campo: "condicoes"
-        regra: "deve vincular liberação a condições precedentes"
+    '
+- id: CRI_DEST_007
+  titulo: VENCIMENTO ANTECIPADO AUTOMÁTICO E NÃO AUTOMÁTICO DOS CRÉDITOS IMOBILIÁRIOS
+    E O RESGATE ANTECIPADO DOS CRI
+  categoria: lastro
+  importancia: critica
+  obrigatoria: true
+  keywords:
+  - vencimento
+  - antecipado
+  - automático
+  - créditos
+  - imobiliários
+  - resgate
+  regex_patterns:
+  - (?i)VENCIMENTO\ ANTECIPAD
+  template: 'CLÁUSULA {{numero}} – VENCIMENTO ANTECIPADO AUTOMÁTICO E NÃO AUTOMÁTICO
+    DOS CRÉDITOS IMOBILIÁRIOS E O RESGATE ANTECIPADO DOS CRI
 
-  # ========== CONDIÇÕES PRECEDENTES ==========
-  - id: "CRI_DEST_003"
-    titulo: "Condições Precedentes"
-    categoria: "destinacao"
-    importancia: "critica"
-    obrigatoria: true
 
-    keywords:
-      - "condições precedentes"
-      - "requisitos"
-      - "documentação"
-      - "liberação"
-      - "comprovação"
-      - "certidões"
+    '
+- id: CRI_DEST_008
+  titulo: ASSEMBLEIA ESPECIAL DE TITULARES DE CRI
+  categoria: assembleia
+  importancia: alta
+  obrigatoria: false
+  keywords:
+  - assembleia
+  - especial
+  - titulares
+  regex_patterns:
+  - '(?i)ASSEMBLEIA\ ESPECIAL\ '
+  template: 'CLÁUSULA {{numero}} – ASSEMBLEIA ESPECIAL DE TITULARES DE CRI
 
-    regex_patterns:
-      - "(?i)^\\d+\\.?\\s*CONDI[ÇC][ÕO]ES\\s+PRECEDENTES"
-      - "(?i)requisitos.*libera[çc][ãa]o"
-      - "(?i)documenta[çc][ãa]o.*necess[áa]ria"
 
-    template: |
-      CLÁUSULA {{numero}} – CONDIÇÕES PRECEDENTES
-      São condições precedentes à liberação de cada tranche:
+    '
+- id: CRI_DEST_009
+  titulo: OBRIGAÇÕES E DECLARAÇÕES DA EMISSORA
+  categoria: emissora
+  importancia: alta
+  obrigatoria: true
+  keywords:
+  - obrigações
+  - declarações
+  - emissora
+  regex_patterns:
+  - (?i)OBRIGAÇÕES\ E\ DECLARA
+  template: 'CLÁUSULA {{numero}} – OBRIGAÇÕES E DECLARAÇÕES DA EMISSORA
 
-      (i) Apresentação de certidões negativas
-      (ii) Comprovação de andamento da obra/projeto
-      (iii) Ausência de eventos de inadimplemento
-      (iv) [outras condições específicas]
 
-    criterios_validacao:
-      - campo: "lista_condicoes"
-        regra: "deve listar todas as condições para liberação"
-      - campo: "documentacao"
-        regra: "deve especificar documentos necessários"
+    '
+- id: CRI_DEST_010
+  titulo: RESGATE ANTECIPADO FACULTATIVO TOTAL DAS NOTAS COMERCIAIS, OFERTA DE RESGATE
+    ANTECIPADO TOTAL DAS NOTAS COMERCIAIS, RESGATE ANTECIPADO TOTAL DAS NOTAS COMERCIAIS
+    POR ALTERAÇÃO DE TRIBUTOS, RESGATE ANTECIPADO TOTAL OBRIGATÓRIO DOS CRI E OFERTA
+    DE RESGATE ANTECIPADO TOTAL OBRIGATÓRIO DOS CRI.
+  categoria: vencimento
+  importancia: alta
+  obrigatoria: false
+  keywords:
+  - resgate
+  - antecipado
+  - facultativo
+  - total
+  - notas
+  - comerciais
+  - oferta
+  - alteração
+  regex_patterns:
+  - (?i)RESGATE\ ANTECIPADO\ F
+  template: 'CLÁUSULA {{numero}} – RESGATE ANTECIPADO FACULTATIVO TOTAL DAS NOTAS
+    COMERCIAIS, OFERTA DE RESGATE ANTECIPADO TOTAL DAS NOTAS COMERCIAIS, RESGATE ANTECIPADO
+    TOTAL DAS NOTAS COMERCIAIS POR ALTERAÇÃO DE TRIBUTOS, RESGATE ANTECIPADO TOTAL
+    OBRIGATÓRIO DOS CRI E OFERTA DE RESGATE ANTECIPADO TOTAL OBRIGATÓRIO DOS CRI.
 
-  # ========== FISCALIZAÇÃO E ACOMPANHAMENTO ==========
-  - id: "CRI_DEST_004"
-    titulo: "Fiscalização e Acompanhamento da Destinação"
-    categoria: "destinacao"
-    importancia: "alta"
-    obrigatoria: true
 
-    keywords:
-      - "fiscalização"
-      - "acompanhamento"
-      - "prestação de contas"
-      - "relatórios"
-      - "auditoria"
-      - "verificação"
+    '
+- id: CRI_DEST_011
+  titulo: REGIME FIDUCIÁRIO E ADMINISTRAÇÃO DO PATRIMÔNIO SEPARADO
+  categoria: patrimonio_separado
+  importancia: critica
+  obrigatoria: true
+  keywords:
+  - regime
+  - fiduciário
+  - administração
+  - patrimônio
+  - separado
+  regex_patterns:
+  - '(?i)REGIME\ FIDUCIÁRIO\ E\ '
+  template: 'CLÁUSULA {{numero}} – REGIME FIDUCIÁRIO E ADMINISTRAÇÃO DO PATRIMÔNIO
+    SEPARADO
 
-    regex_patterns:
-      - "(?i)^\\d+\\.?\\s*FISCALIZA[ÇC][ÃA]O"
-      - "(?i)acompanhamento.*destina[çc][ãa]o"
-      - "(?i)presta[çc][ãa]o.*contas"
 
-    template: |
-      CLÁUSULA {{numero}} – FISCALIZAÇÃO E ACOMPANHAMENTO
-      O Agente Fiduciário terá direito de fiscalizar a aplicação dos recursos, mediante:
+    '
+- id: CRI_DEST_012
+  titulo: AGENTE FIDUCIÁRIO
+  categoria: agente_fiduciario
+  importancia: alta
+  obrigatoria: false
+  keywords:
+  - agente
+  - fiduciário
+  regex_patterns:
+  - (?i)AGENTE\ FIDUCIÁRIO
+  template: 'CLÁUSULA {{numero}} – AGENTE FIDUCIÁRIO
 
-      (i) Relatórios mensais da Emissora
-      (ii) Visitas técnicas ao projeto
-      (iii) Solicitação de documentos comprobatórios
 
-      Parágrafo Único: A Emissora deverá prestar contas detalhadas da aplicação dos recursos.
+    '
+- id: CRI_DEST_013
+  titulo: LIQUIDAÇÃO DO PATRIMÔNIO SEPARADO
+  categoria: patrimonio_separado
+  importancia: critica
+  obrigatoria: true
+  keywords:
+  - liquidação
+  - patrimônio
+  - separado
+  regex_patterns:
+  - (?i)LIQUIDAÇÃO\ DO\ PATRIM
+  template: 'CLÁUSULA {{numero}} – LIQUIDAÇÃO DO PATRIMÔNIO SEPARADO
 
-    criterios_validacao:
-      - campo: "mecanismos"
-        regra: "deve especificar como será a fiscalização"
-      - campo: "periodicidade"
-        regra: "deve definir frequência de relatórios"
 
-  # ========== DEFINIÇÕES ==========
-  - id: "CRI_DEST_005"
-    titulo: "Definições"
-    categoria: "definicoes"
-    importancia: "alta"
-    obrigatoria: true
+    '
+- id: CRI_DEST_014
+  titulo: DESPESAS DA EMISSÃO
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - despesas
+  - emissão
+  regex_patterns:
+  - (?i)DESPESAS\ DA\ EMISSÃO
+  template: 'CLÁUSULA {{numero}} – DESPESAS DA EMISSÃO
 
-    keywords:
-      - "definições"
-      - "termos"
-      - "significados"
-      - "CRI"
-      - "Emissora"
-      - "Agente Fiduciário"
 
-    regex_patterns:
-      - "(?i)^\\d+\\.?\\s*DEFINI"
-      - "(?i)CRI.*Certificado.*Receb[íi]veis.*Imobili[áa]rios"
+    '
+- id: CRI_DEST_015
+  titulo: PUBLICIDADE
+  categoria: publicidade
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - publicidade
+  regex_patterns:
+  - (?i)PUBLICIDADE
+  template: 'CLÁUSULA {{numero}} – PUBLICIDADE
 
-    template: |
-      CLÁUSULA {{numero}} – DEFINIÇÕES
-      Para fins desta Escritura, termos em maiúscula têm os significados abaixo:
 
-      CRI: Certificados de Recebíveis Imobiliários
-      Emissora: [nome da securitizadora]
-      Destinação Específica: [descrição da destinação]
+    '
+- id: CRI_DEST_016
+  titulo: REGISTROS E DECLARAÇÕES
+  categoria: declaracoes
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - registros
+  - declarações
+  regex_patterns:
+  - (?i)REGISTROS\ E\ DECLARAÇ
+  template: 'CLÁUSULA {{numero}} – REGISTROS E DECLARAÇÕES
 
-    criterios_validacao:
-      - campo: "CRI"
-        regra: "deve definir Certificado de Recebíveis Imobiliários"
-      - campo: "Destinacao"
-        regra: "deve definir claramente a destinação específica"
 
-  # ========== CARACTERÍSTICAS DA EMISSÃO ==========
-  - id: "CRI_DEST_006"
-    titulo: "Características da Emissão"
-    categoria: "emissao"
-    importancia: "critica"
-    obrigatoria: true
+    '
+- id: CRI_DEST_017
+  titulo: DISPOSIÇÕES GERAIS
+  categoria: disposicoes_gerais
+  importancia: baixa
+  obrigatoria: false
+  keywords:
+  - disposições
+  - gerais
+  regex_patterns:
+  - (?i)DISPOSIÇÕES\ GERAIS
+  template: 'CLÁUSULA {{numero}} – DISPOSIÇÕES GERAIS
 
-    keywords:
-      - "características"
-      - "valor"
-      - "quantidade"
-      - "prazo"
-      - "remuneração"
-      - "vencimento"
 
-    regex_patterns:
-      - "(?i)^\\d+\\.?\\s*CARACTER[ÍI]STICAS"
-      - "(?i)valor.*emiss[ãa]o"
-      - "(?i)remunera[çc][ãa]o"
+    '
+- id: CRI_DEST_018
+  titulo: NOTIFICAÇÕES
+  categoria: notificacoes
+  importancia: baixa
+  obrigatoria: false
+  keywords:
+  - notificações
+  regex_patterns:
+  - (?i)NOTIFICAÇÕES
+  template: 'CLÁUSULA {{numero}} – NOTIFICAÇÕES
 
-    template: |
-      CLÁUSULA {{numero}} – CARACTERÍSTICAS DA EMISSÃO
 
-      Valor Total: R$ [valor]
-      Quantidade: [número] CRI
-      Valor Unitário: R$ [valor]
-      Prazo: [número] meses
-      Remuneração: [taxa]% a.a. + [índice]
-      Vencimento: [data]
+    '
+- id: CRI_DEST_019
+  titulo: RESOLUÇÃO DE CONFLITOS
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - resolução
+  - conflitos
+  regex_patterns:
+  - (?i)RESOLUÇÃO\ DE\ CONFLIT
+  template: 'CLÁUSULA {{numero}} – RESOLUÇÃO DE CONFLITOS
 
-    criterios_validacao:
-      - campo: "valor_total"
-        regra: "deve especificar valor total da emissão"
-      - campo: "remuneracao"
-        regra: "deve definir remuneração dos CRI"
+
+    '
+- id: CRI_DEST_020
+  titulo: ASSINATURA DIGITAL
+  categoria: assinatura
+  importancia: baixa
+  obrigatoria: false
+  keywords:
+  - assinatura
+  - digital
+  regex_patterns:
+  - (?i)ASSINATURA\ DIGITAL
+  template: 'CLÁUSULA {{numero}} – ASSINATURA DIGITAL
+
+
+    '
+- id: CRI_DEST_021
+  titulo: ANEXO I — MODELO DECLARAÇÃO DE CUSTÓDIA
+  categoria: declaracoes
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - modelo
+  - declaração
+  - custódia
+  regex_patterns:
+  - (?i)ANEXO\ I\ —\ MODELO\ DEC
+  template: 'CLÁUSULA {{numero}} – ANEXO I — MODELO DECLARAÇÃO DE CUSTÓDIA
+
+
+    '
+- id: CRI_DEST_022
+  titulo: ANEXO II — DESCRIÇÃO DOS IMÓVEIS ELEGÍVEIS
+  categoria: anexos
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - descrição
+  - imóveis
+  - elegíveis
+  regex_patterns:
+  - (?i)ANEXO\ II\ —\ DESCRIÇÃO
+  template: 'CLÁUSULA {{numero}} – ANEXO II — DESCRIÇÃO DOS IMÓVEIS ELEGÍVEIS
+
+
+    '
+- id: CRI_DEST_023
+  titulo: ANEXO III – MODELO DECLARAÇÃO DA COMPANHIA SECURITIZADORA
+  categoria: declaracoes
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - modelo
+  - declaração
+  - companhia
+  - securitizadora
+  regex_patterns:
+  - (?i)ANEXO\ III\ –\ MODELO\ D
+  template: 'CLÁUSULA {{numero}} – ANEXO III – MODELO DECLARAÇÃO DA COMPANHIA SECURITIZADORA
+
+
+    '
+- id: CRI_DEST_024
+  titulo: ANEXO IV — TRATAMENTO TRIBUTÁRIO
+  categoria: anexos
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - tratamento
+  - tributário
+  regex_patterns:
+  - (?i)ANEXO\ IV\ —\ TRATAMENT
+  template: 'CLÁUSULA {{numero}} – ANEXO IV — TRATAMENTO TRIBUTÁRIO
+
+
+    '
+- id: CRI_DEST_025
+  titulo: ANEXO V — PROPORÇÃO DOS RECURSOS CAPTADOS POR MEIO DA EMISSÃO A SER DESTINADA
+    PARA CADA UM DOS IMÓVEIS ELEGÍVEIS E CRONOGRAMA INDICATIVO DE DESTINAÇÃO DE RECURSOSO
+    DA EMISSÃO
+  categoria: destinacao
+  importancia: critica
+  obrigatoria: true
+  keywords:
+  - anexo
+  - proporção
+  - recursos
+  - captados
+  - meio
+  - emissão
+  - destinada
+  - para
+  regex_patterns:
+  - '(?i)ANEXO\ V\ —\ PROPORÇÃO\ '
+  template: 'CLÁUSULA {{numero}} – ANEXO V — PROPORÇÃO DOS RECURSOS CAPTADOS POR MEIO
+    DA EMISSÃO A SER DESTINADA PARA CADA UM DOS IMÓVEIS ELEGÍVEIS E CRONOGRAMA INDICATIVO
+    DE DESTINAÇÃO DE RECURSOSO DA EMISSÃO
+
+
+    '
+- id: CRI_DEST_026
+  titulo: ANEXO VI — CRONOGRAMA DE PAGAMENTOS
+  categoria: anexos
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - cronograma
+  - pagamentos
+  regex_patterns:
+  - (?i)ANEXO\ VI\ —\ CRONOGRAM
+  template: 'CLÁUSULA {{numero}} – ANEXO VI — CRONOGRAMA DE PAGAMENTOS
+
+
+    '
+- id: CRI_DEST_027
+  titulo: ANEXO VII – MODELO DA DECLARAÇÃO DE INEXISTÊNCIA DE CONFLITO DE INTERESSES
+  categoria: declaracoes
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - modelo
+  - declaração
+  - inexistência
+  - conflito
+  - interesses
+  regex_patterns:
+  - (?i)ANEXO\ VII\ –\ MODELO\ D
+  template: 'CLÁUSULA {{numero}} – ANEXO VII – MODELO DA DECLARAÇÃO DE INEXISTÊNCIA
+    DE CONFLITO DE INTERESSES
+
+
+    '
+- id: CRI_DEST_028
+  titulo: ANEXO VIII - OUTRAS EMISSÕES DA EMISSORA QUE O AGENTE FIDUCIÁRIO ATUA NESTA
+    DATA
+  categoria: emissora
+  importancia: alta
+  obrigatoria: true
+  keywords:
+  - anexo
+  - viii
+  - outras
+  - emissões
+  - emissora
+  - agente
+  - fiduciário
+  - atua
+  regex_patterns:
+  - '(?i)ANEXO\ VIII\ \-\ OUTRAS\ '
+  template: 'CLÁUSULA {{numero}} – ANEXO VIII - OUTRAS EMISSÕES DA EMISSORA QUE O
+    AGENTE FIDUCIÁRIO ATUA NESTA DATA
+
+
+    '
+- id: CRI_DEST_029
+  titulo: ANEXO IX – MODELO DE DESTINAÇÃO DOS RECURSOS REEMBOLSO DE CUSTOS E DESPESAS
+  categoria: destinacao
+  importancia: critica
+  obrigatoria: true
+  keywords:
+  - anexo
+  - modelo
+  - destinação
+  - recursos
+  - reembolso
+  - custos
+  - despesas
+  regex_patterns:
+  - (?i)ANEXO\ IX\ –\ MODELO\ DE
+  template: 'CLÁUSULA {{numero}} – ANEXO IX – MODELO DE DESTINAÇÃO DOS RECURSOS REEMBOLSO
+    DE CUSTOS E DESPESAS
+
+
+    '
+- id: CRI_DEST_030
+  titulo: ANEXO X — MODELO DE MANIFESTAÇÃO – ADESÃO À OFERTA DE RESGATE ANTECIPADO
+    DOS CRI
+  categoria: vencimento
+  importancia: alta
+  obrigatoria: false
+  keywords:
+  - anexo
+  - modelo
+  - manifestação
+  - adesão
+  - oferta
+  - resgate
+  - antecipado
+  regex_patterns:
+  - '(?i)ANEXO\ X\ —\ MODELO\ DE\ '
+  template: 'CLÁUSULA {{numero}} – ANEXO X — MODELO DE MANIFESTAÇÃO – ADESÃO À OFERTA
+    DE RESGATE ANTECIPADO DOS CRI
+
+
+    '
+- id: CRI_DEST_031
+  titulo: ANEXO XI - FATORES DE RISCO
+  categoria: anexos
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - fatores
+  - risco
+  regex_patterns:
+  - (?i)ANEXO\ XI\ \-\ FATORES\ D
+  template: 'CLÁUSULA {{numero}} – ANEXO XI - FATORES DE RISCO
+
+
+    '
+- id: CRI_DEST_032
+  titulo: ANEXO XII – DESPESAS
+  categoria: anexos
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - despesas
+  - emissora
+  - cedente
+  - devedor
+  - garantia
+  - lastro
+  - crédito
+  regex_patterns:
+  - (?i)ANEXO\ XII\ –\ DESPESAS
+  template: 'CLÁUSULA {{numero}} – ANEXO XII – DESPESAS
+
+
+    TERMO DE SECURITIZAÇÃO DE CRÉDITOS IMOBILIÁRIOS DA [•]ª ([•]) EMISSÃO, EM [•]
+    SÉRIES, DA TRAVESSIA SECURITIZADORA S.A., LASTREADOS EM CRÉDITOS IMOBILIÁRIOS
+    DEVIDOS PELA [•].
+
+    Pelo presente instrumento particular, as partes:
+
+    TRAVESSIA SECURITIZADORA S.A., sociedade por ações com registro de emissor de
+    valores mobiliários concedido pela Comissão de Valores Mobiliários (“CVM”), na
+    categoria “S1”, com sede na Cidade de São Paulo, Estado de São Paulo, na Rua Tabapuã,
+    41, 13º andar, Sala 01, CEP 04533-010, inscrita perante o Cadastro Nacional de
+    Pessoas Jurídicas do Ministério da Fazenda (“CNPJ/MF”) sob o nº 26.609.050/0001-64
+    e na Junta Comercial do Estado de São Paulo (“JUCESP”) sob o Número de Identificação
+    do Registro de Empresas – NIRE 35300498119, neste ato representada na forma do
+    seu estatuto social (“Securitizadora” ou “Emissora”); e
+
+    [•], instituição financeira devidamente autorizada a atuar como agente fiduciário
+    de emissões de valores mobiliários nos termos da Resolução CVM 17 (con...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_DEST_033
+  titulo: ANEXO I — MODELO DECLARAÇÃO DE CUSTÓDIA
+  categoria: declaracoes
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - modelo
+  - declaração
+  - custódia
+  - emissora
+  - garantia
+  - lastro
+  - crédito
+  regex_patterns:
+  - (?i)ANEXO\ I\ —\ MODELO\ DEC
+  template: 'CLÁUSULA {{numero}} – ANEXO I — MODELO DECLARAÇÃO DE CUSTÓDIA
+
+
+    A [•] sociedade empresária limitada, com sede na Cidade de [•], Estado de [•],
+    na Rua [•], nº [•], [•]º andar, [complemento], CEP [•], inscrita no Cadastro Nacional
+    de Pessoas Jurídicas do Ministério da Fazenda (“CNPJ/MF”) sob o nº [•], neste
+    ato representada na forma do seu Contrato Social (“Custodiante”), na qualidade
+    de instituição custodiante do “Instrumento Particular de Escritura de Emissão
+    de Cédula de Crédito Imobiliário, Sem Garantia Real, Sob a Forma Escritural” (“Escritura
+    de Emissão de CCI”), por meio do qual foram emitidas as Cédulas de Crédito Imobiliário
+    (“CCI”) que servem de lastro para a emissão dos certificados de recebíveis imobiliários,
+    em [•] séries, da [•]ª ([•]) emissão (“CRI” e “Emissão”, respectivamente) da TRAVESSIA
+    SECURITIZADORA S.A., sociedade por ações com registro de emissor de valores mobiliários
+    concedido pela Comissão de Valores Mobiliários (“CVM”), na categoria “S1”, com
+    sede na Cidade de São Paulo, Estado de São Paulo, na Rua Tabapuã, 41, 13º andar,
+    ...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_DEST_034
+  titulo: ANEXO II — EMPREENDIMENTO ALVO
+  categoria: anexos
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - empreendimento
+  - alvo
+  regex_patterns:
+  - (?i)ANEXO\ II\ —\ EMPREENDI
+  template: 'CLÁUSULA {{numero}} – ANEXO II — EMPREENDIMENTO ALVO
+
+
+    [•]'
+- id: CRI_DEST_035
+  titulo: ANEXO III – MODELO DECLARAÇÃO DA COMPANHIA SECURITIZADORA
+  categoria: declaracoes
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - modelo
+  - declaração
+  - companhia
+  - securitizadora
+  - emissora
+  - crédito
+  - fiduciário
+  regex_patterns:
+  - (?i)ANEXO\ III\ –\ MODELO\ D
+  template: 'CLÁUSULA {{numero}} – ANEXO III – MODELO DECLARAÇÃO DA COMPANHIA SECURITIZADORA
+
+
+    A TRAVESSIA SECURITIZADORA S.A., sociedade por ações com registro de emissor de
+    valores mobiliários concedido pela Comissão de Valores Mobiliários (“CVM”), na
+    categoria “S1”, com sede na Cidade de São Paulo, Estado de São Paulo, na Rua Tabapuã,
+    41, 13º andar, Sala 01, CEP 04533-010, inscrita perante o Cadastro Nacional de
+    Pessoas Jurídicas do Ministério da Fazenda (“CNPJ/MF”) sob o nº 26.609.050/0001-64
+    e na JUCESP sob o Número de Identificação do Registro de Empresas – NIRE 35300498119,
+    neste ato representada na forma de seu estatuto social, na qualidade de subscritora
+    das Notas Comerciais (“Emissora”), para fins de atendimento ao previsto pelo inciso
+    VIII do artigo 2º do Suplemento A à Resolução da Comissão de Valores Mobiliários
+    nº 60, de 23 de dezembro de 2021, conforme em vigor (“Resolução CVM 60”), na qualidade
+    de Emissora dos certificados de recebíveis imobiliários da 52ª (quinquagésima
+    segunda) Emissão, em Duas Séries, declara, que:
+
+    nos termos da Lei nº 14.430, de 3 de agosto d...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_DEST_036
+  titulo: ANEXO IV — TRATAMENTO TRIBUTÁRIO
+  categoria: anexos
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - tratamento
+  - tributário
+  - crédito
+  - separado
+  - remuneração
+  - declaração
+  - cessão
+  regex_patterns:
+  - (?i)ANEXO\ IV\ —\ TRATAMENT
+  template: 'CLÁUSULA {{numero}} – ANEXO IV — TRATAMENTO TRIBUTÁRIO
+
+
+    Os Titulares de CRI não devem considerar unicamente as informações aqui contidas
+    para fins de avaliar o tratamento tributário de seu investimento em CRI, devendo
+    consultar seus próprios assessores quanto à tributação específica à qual estarão
+    sujeitos, especialmente quanto a outros tributos que não o imposto sobre a renda
+    eventualmente aplicáveis a esse investimento ou a ganhos porventura auferidos
+    em transações com CRI.
+
+    As informações contidas nesse Termo de Securitização levam em consideração as
+    previsões da legislação e regulamentação aplicáveis às hipóteses vigentes nesta
+    data, bem como a melhor interpretação a seu respeito neste momento, ressalvados
+    entendimentos diversos e possíveis alterações na legislação e regulamentação.
+
+    Imposto sobre a Renda (IR)
+
+    Como regra geral, o tratamento fiscal dispensado aos rendimentos e ganhos relativos
+    a CRI é o mesmo aplicado aos títulos de renda fixa.
+
+    A princípio, o tratamento fiscal dispensado aos rendimentos e ganhos produzidos
+    pelos certificad...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_DEST_037
+  titulo: ANEXO V — CRONOGRAMA INDICATIVO DE DESTINAÇÃO DE RECURSOSO DA EMISSÃO
+  categoria: destinacao
+  importancia: critica
+  obrigatoria: true
+  keywords:
+  - anexo
+  - cronograma
+  - indicativo
+  - destinação
+  - recursoso
+  - emissão
+  regex_patterns:
+  - (?i)ANEXO\ V\ —\ CRONOGRAMA
+  template: 'CLÁUSULA {{numero}} – ANEXO V — CRONOGRAMA INDICATIVO DE DESTINAÇÃO DE
+    RECURSOSO DA EMISSÃO
+
+
+    [•]'
+- id: CRI_DEST_038
+  titulo: ANEXO VI — CRONOGRAMA DE PAGAMENTOS
+  categoria: anexos
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - cronograma
+  - pagamentos
+  regex_patterns:
+  - (?i)ANEXO\ VI\ —\ CRONOGRAM
+  template: 'CLÁUSULA {{numero}} – ANEXO VI — CRONOGRAMA DE PAGAMENTOS
+
+
+    [•]'
+- id: CRI_DEST_039
+  titulo: ANEXO VII – MODELO DA DECLARAÇÃO DE INEXISTÊNCIA DE CONFLITO DE INTERESSES
+  categoria: declaracoes
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - modelo
+  - declaração
+  - inexistência
+  - conflito
+  - interesses
+  - fiduciário
+  regex_patterns:
+  - (?i)ANEXO\ VII\ –\ MODELO\ D
+  template: 'CLÁUSULA {{numero}} – ANEXO VII – MODELO DA DECLARAÇÃO DE INEXISTÊNCIA
+    DE CONFLITO DE INTERESSES
+
+
+    O Agente Fiduciário a seguir identificado:
+
+    da oferta pública do seguinte valor mobiliário:
+
+    Declara, nos termos da Resolução CVM 17, de 9 de fevereiro de 2021, conforme alterada,
+    a não existência de situação de conflito de interesses que o impeça de exercer
+    a função de agente fiduciário para a emissão acima indicada, e se compromete a
+    comunicar, formal e imediatamente, à B3 (Segmento CETIP UTVM), a ocorrência de
+    qualquer fato superveniente que venha a alterar referida situação.
+
+    São Paulo, [•] de [•]de [•]
+
+    ____________________________________'
+- id: CRI_DEST_040
+  titulo: ANEXO VIII - OUTRAS EMISSÕES DA EMISSORA QUE O AGENTE FIDUCIÁRIO ATUA NESTA
+    DATA
+  categoria: emissora
+  importancia: alta
+  obrigatoria: true
+  keywords:
+  - anexo
+  - viii
+  - outras
+  - emissões
+  - emissora
+  - agente
+  - fiduciário
+  - atua
+  regex_patterns:
+  - '(?i)ANEXO\ VIII\ \-\ OUTRAS\ '
+  template: 'CLÁUSULA {{numero}} – ANEXO VIII - OUTRAS EMISSÕES DA EMISSORA QUE O
+    AGENTE FIDUCIÁRIO ATUA NESTA DATA
+
+
+    [•]'
+- id: CRI_DEST_041
+  titulo: ANEXO IX – MODELO DE DESTINAÇÃO DOS RECURSOS REEMBOLSO DE CUSTOS E DESPESAS
+  categoria: destinacao
+  importancia: critica
+  obrigatoria: true
+  keywords:
+  - anexo
+  - modelo
+  - destinação
+  - recursos
+  - reembolso
+  - custos
+  - despesas
+  - crédito
+  regex_patterns:
+  - (?i)ANEXO\ IX\ –\ MODELO\ DE
+  template: 'CLÁUSULA {{numero}} – ANEXO IX – MODELO DE DESTINAÇÃO DOS RECURSOS REEMBOLSO
+    DE CUSTOS E DESPESAS
+
+
+    DECLARAÇÃO
+
+    A TRAVESSIA SECURITIZADORA S.A., sociedade por ações com registro de emissor de
+    valores mobiliários concedido pela Comissão de Valores Mobiliários (“CVM”), na
+    categoria “S1”, com sede na Cidade de São Paulo, Estado de São Paulo, na Rua Tabapuã,
+    41, 13º andar, Sala 01, CEP 04533-010, inscrita perante o Cadastro Nacional de
+    Pessoas Jurídicas do Ministério da Fazenda (“CNPJ/MF”) sob o nº 26.609.050/0001-64
+    e na JUCESP sob o Número de Identificação do Registro de Empresas – NIRE 35300498119,
+    neste ato representada na forma do seu estatuto social, na qualidade de companhia
+    securitizadora (“Securitizadora”), DECLARA, para todos os fins e efeitos, que
+    as despesas a serem objeto de reembolso não estão vinculadas a qualquer outra
+    emissão de CRI lastreado em créditos imobiliários na destinação. As palavras e
+    expressões iniciadas em letra maiúscula que não sejam definidas nesta declaração
+    terão o significado previsto no “Termo de Securitização de Créditos Imobiliários
+    em Duas Séries da...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_DEST_042
+  titulo: ANEXO X — MODELO DE MANIFESTAÇÃO – ADESÃO À OFERTA DE RESGATE ANTECIPADO
+    DOS CRI
+  categoria: vencimento
+  importancia: alta
+  obrigatoria: false
+  keywords:
+  - anexo
+  - modelo
+  - manifestação
+  - adesão
+  - oferta
+  - resgate
+  - antecipado
+  - devedor
+  regex_patterns:
+  - '(?i)ANEXO\ X\ —\ MODELO\ DE\ '
+  template: 'CLÁUSULA {{numero}} – ANEXO X — MODELO DE MANIFESTAÇÃO – ADESÃO À OFERTA
+    DE RESGATE ANTECIPADO DOS CRI
+
+
+    [Local], [data].
+
+    Rua Tabapuã, 41, 13º andar, Sala 01,
+
+    São Paulo – SP
+
+    At.: Vinicius Bernardes Basile Silveira Stopa
+
+    E-mail: ri@grupotravessia.com e operacoes@grupotravessia.com
+
+    Tel.: (11) 4115-8700
+
+    Ref.: Manifestação acerca da Oferta de Resgate Antecipado Obrigatório dos CRI
+    da 52ª (Quinquagésima Segunda) Emissão da Travessia Securitizadora S.A.
+
+    Prezados,
+
+    Eu, [QUALIFICAÇÃO COMPLETA DO TITULAR DO CRI], [contato: telefone e e-mail], na
+    qualidade de titular de certificados de recebíveis imobiliários (“CRI”) da [•]ª
+    ([•]) Emissão, da TRAVESSIA SECURITIZADORA S.A., sociedade por ações com registro
+    de emissor de valores mobiliários concedido pela Comissão de Valores Mobiliários
+    (“CVM”), na categoria “S1”, com sede na Cidade de São Paulo, Estado de São Paulo,
+    na Rua Tabapuã, 41, 13º andar, Sala 01, CEP 04533-010, inscrita perante o Cadastro
+    Nacional de Pessoas Jurídicas do Ministério da Fazenda (“CNPJ/MF”) sob o nº 26.609.050/0001-64
+    e na JUCESP sob o Número de Identificação do Registro de Emp...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_DEST_043
+  titulo: ANEXO XI - FATORES DE RISCO
+  categoria: anexos
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - fatores
+  - risco
+  regex_patterns:
+  - (?i)ANEXO\ XI\ \-\ FATORES\ D
+  template: 'CLÁUSULA {{numero}} – ANEXO XI - FATORES DE RISCO
+
+
+    [•]'
+- id: CRI_DEST_044
+  titulo: ANEXO XII – DESPESAS
+  categoria: anexos
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - despesas
+  regex_patterns:
+  - (?i)ANEXO\ XII\ –\ DESPESAS
+  template: 'CLÁUSULA {{numero}} – ANEXO XII – DESPESAS
+
+
+    [•]'
+- id: CRI_DEST_045
+  titulo: Anexo XIII – BOLETIM DE SUBSCRIÇÃO
+  categoria: anexos
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - xiii
+  - boletim
+  - subscrição
+  regex_patterns:
+  - (?i)Anexo\ XIII\ –\ BOLETIM
+  template: 'CLÁUSULA {{numero}} – ANEXO XIII – BOLETIM DE SUBSCRIÇÃO
+
+
+    '
+- id: CRI_DEST_046
+  titulo: 'TABELA 1: “Afiliadas”: | É qualquer sociedade que seja controlada pela
+    Devedora ou pelos A'
+  categoria: partes
+  importancia: alta
+  obrigatoria: false
+  keywords:
+  - tabela
+  - afiliadas
+  - qualquer
+  - sociedade
+  - seja
+  - controlada
+  - pela
+  - devedora
+  regex_patterns:
+  - (?i)TABELA\ 1:\ “Afiliadas
+  template: 'CLÁUSULA {{numero}} – TABELA 1: “AFILIADAS”: | É QUALQUER SOCIEDADE QUE
+    SEJA CONTROLADA PELA DEVEDORA OU PELOS A
+
+
+    “Afiliadas”: | É qualquer sociedade que seja controlada pela Devedora ou pelos
+    Avalistas, ou seja controlada, direta ou indiretamente, pelo controlador da Devedora,
+    seus sócios, ou pelos Avalistas.
+
+    “Agente Fiduciário”: | A [•]., devidamente qualificada no preâmbulo deste Termo
+    de Securitização.
+
+    “Alienação Fiduciária de Imóveis”: | Tem o significado que lhe é atribuído na
+    Cláusula 2.5 deste Termo de Securitização.
+
+    “Alienação Fiduciária de Quotas” ou “Alienação Fiduciária de Participações Societárias”:
+    | Tem o significado que lhe é atribuído na Cláusula 2.2 deste Termo de Securitização.
+
+    “Amortização Extraordinária Compulsória das Notas Comerciais”: | Tem o significado
+    que lhe é atribuído na Cláusula 4.1.6. do Instrumento de Emissão.
+
+    “Amortização Extraordinária Facultativa das Notas Comerciais” e “Resgate Antecipado
+    Facultativo das Notas Comerciais”: | Tem o significado que lhe é atribuído na
+    Cláusula 4.1.7. do Instrumento de Emissão.
+
+    “Amortização Extraordinária Compulsória”: | Tem o sign...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_DEST_047
+  titulo: 'TABELA 2: Razão Social: [•] Endereço: [•] Cidade / Estado: [•] CNPJ/MF
+    nº: [•] Representad'
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - tabela
+  - razão
+  - social
+  - endereço
+  - cidade
+  - estado
+  - cnpj
+  - representad
+  regex_patterns:
+  - (?i)TABELA\ 2:\ Razão\ Soci
+  template: 'CLÁUSULA {{numero}} – TABELA 2: RAZÃO SOCIAL: [•] ENDEREÇO: [•] CIDADE
+    / ESTADO: [•] CNPJ/MF Nº: [•] REPRESENTAD
+
+
+    Razão Social: [•] Endereço: [•] Cidade / Estado: [•] CNPJ/MF nº: [•] Representado
+    neste ato por seu diretor estatutário: [•] Número do Documento de Identidade:
+    [•] CPF nº: [•]'
+- id: CRI_DEST_048
+  titulo: 'TABELA 3: Valor Mobiliário Objeto da Oferta: Certificados de Crédito Imobiliário
+    (CRI) Núm'
+  categoria: lastro
+  importancia: critica
+  obrigatoria: true
+  keywords:
+  - tabela
+  - valor
+  - mobiliário
+  - objeto
+  - oferta
+  - certificados
+  - crédito
+  - imobiliário
+  regex_patterns:
+  - (?i)TABELA\ 3:\ Valor\ Mobi
+  template: 'CLÁUSULA {{numero}} – TABELA 3: VALOR MOBILIÁRIO OBJETO DA OFERTA: CERTIFICADOS
+    DE CRÉDITO IMOBILIÁRIO (CRI) NÚM
+
+
+    Valor Mobiliário Objeto da Oferta: Certificados de Crédito Imobiliário (CRI) Número
+    da Emissão: [•]ª ([•]) Números das Séries: [•] Emissor: Travessia Securitizadora
+    S.A. Quantidade: [•] ([•]) Espécie: N/A Classe: Simples, Não Conversíveis em Ações
+    Forma: Nominativa e Escritural'
+- id: CRI_DEST_049
+  titulo: 'TABELA 4: DATA: [•] | DATA: [•] | DATA: [•] | BOLETIM DE SUBSCRIÇÃO DE
+    CERTIFICADOS DE REC'
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - tabela
+  - data
+  - boletim
+  - subscrição
+  - certificados
+  - emissora
+  - devedor
+  - garantia
+  regex_patterns:
+  - '(?i)TABELA\ 4:\ DATA:\ \[•\]\ '
+  template: 'CLÁUSULA {{numero}} – TABELA 4: DATA: [•] | DATA: [•] | DATA: [•] | BOLETIM
+    DE SUBSCRIÇÃO DE CERTIFICADOS DE REC
+
+
+    DATA: [•] | DATA: [•] | DATA: [•] | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS DE RECEBÍVEIS
+    [•] | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS DE RECEBÍVEIS [•] | BOLETIM DE SUBSCRIÇÃO
+    DE CERTIFICADOS DE RECEBÍVEIS [•] | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS DE RECEBÍVEIS
+    [•] | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS DE RECEBÍVEIS [•] | BOLETIM DE SUBSCRIÇÃO
+    DE CERTIFICADOS DE RECEBÍVEIS [•] | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS DE RECEBÍVEIS
+    [•] | Nº[•] | Nº[•]
+
+    Para os fins deste boletim de subscrição de certificados de recebíveis imobiliários
+    (“Boletim de Subscrição”), adotam-se as definições constantes no “Termo de Securitização
+    dos Créditos Imobiliários da [•]ª ([•]) Emissão, em [•] Séries da Travessia Securitizadora
+    S.A, Lastreados em Créditos Imobiliários Devidos pela [•].“, celebrado em [•]
+    de [•] de 202[•], entre a Emissora e a [•]., sociedade empresária limitada, com
+    sede na cidade de [•], Estado de [•], na [•], nº [•],[•]º andar, Bairro [•], CEP
+    [•], inscrita no CNPJ sob o nº [•], neste...
+
+
+    [Conteúdo completo no documento GOLD]'

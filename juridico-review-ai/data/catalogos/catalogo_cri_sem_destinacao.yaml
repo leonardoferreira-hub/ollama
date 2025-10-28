@@ -1,151 +1,1452 @@
-# Catálogo CRI sem Destinação Específica
-# Para operações onde NÃO há destinação específica dos recursos
-
 metadata:
-  nome: "Catálogo CRI - Sem Destinação"
-  versao: "1.0.0"
-  tipo: "CRI_SEM_DESTINACAO"
-  hash: "cri_sem_dest_2025"
-  descricao: "Catálogo especializado para CRI sem destinação específica de recursos"
-  data_atualizacao: "2025-10-16"
-
+  nome: Catálogo CRI - Sem Destinação Específica
+  versao: 2.0.0
+  tipo: CRI_SEM_DESTINACAO
+  hash: cri_sem_destinacao_gold_2025
+  descricao: Catálogo completo para CRI sem destinação específica de recursos (gerado
+    de documento GOLD)
+  data_atualizacao: '2025-10-28'
+  origem: Gerado automaticamente de documentos GOLD
 clausulas:
-  # ========== DEFINIÇÕES ==========
-  - id: "CRI_SDEST_001"
-    titulo: "Definições"
-    categoria: "definicoes"
-    importancia: "alta"
-    obrigatoria: true
+- id: CRI_SDEST_001
+  titulo: Seção Partes
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - seção
+  - partes
+  - emissora
+  - fiduciário
+  regex_patterns:
+  - (?i)Seção\ Partes
+  template: 'CLÁUSULA {{numero}} – SEÇÃO PARTES
 
-    keywords:
-      - "definições"
-      - "CRI"
-      - "Emissora"
-      - "Cedente"
-      - "Créditos Imobiliários"
 
-    regex_patterns:
-      - "(?i)^\\d+\\.?\\s*DEFINI"
+    Pelo presente instrumento particular, as partes abaixo qualificadas:
 
-    template: |
-      CLÁUSULA {{numero}} – DEFINIÇÕES
+    Travessia Securitizadora S.A., sociedade por ações, registrada perante a CVM sob
+    o n.º 24.082, na categoria “S1”, com sede na Rua Tabapuã, nº 41, 13º Andar, sala
+    01, Itaim Bibi, CEP 04533-010, São Paulo, SP, inscrita no CNPJ sob o n.º 26.609.050/0001-64,
+    neste ato representada de acordo com seus atos societários constitutivos, na qualidade
+    de Emissora e Securitizadora (“Travessia”); e
 
-      CRI: Certificados de Recebíveis Imobiliários
-      Emissora: [securitizadora]
-      Cedente: [devedor/originador]
-      Créditos Imobiliários: créditos decorrentes de [descrever]
+    [•]., instituição financeira com sede na Rua [•], nº [•], [complemento], [bairro],
+    CEP [•], São Paulo, SP, inscrita no CNPJ sob o n.º [•], neste ato representada
+    na forma de seus atos societários constitutivos, na qualidade de Agente Fiduciário
+    nomeado nos termos da Resolução CVM 17 (“[•]”).'
+- id: CRI_SDEST_002
+  titulo: Seção Termos Definidos e Regras de Interpretação
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - seção
+  - termos
+  - definidos
+  - regras
+  - interpretação
+  - lastro
+  regex_patterns:
+  - (?i)Seção\ Termos\ Definid
+  template: 'CLÁUSULA {{numero}} – SEÇÃO TERMOS DEFINIDOS E REGRAS DE INTERPRETAÇÃO
 
-  # ========== CRÉDITOS IMOBILIÁRIOS ==========
-  - id: "CRI_SDEST_002"
-    titulo: "Créditos Imobiliários Lastro"
-    categoria: "lastro"
-    importancia: "critica"
-    obrigatoria: true
 
-    keywords:
-      - "créditos imobiliários"
-      - "lastro"
-      - "recebíveis"
-      - "cessão"
-      - "originação"
+    Definições. Para os fins deste instrumento, adotam-se as seguintes definições,
+    sem prejuízo daquelas que forem estabelecidas no corpo do presente instrumento,
+    observado o disposto adiante:
 
-    regex_patterns:
-      - "(?i)^\\d+\\.?\\s*CR[ÉE]DITOS\\s+IMOBILI[ÁA]RIOS"
-      - "(?i)lastro"
-      - "(?i)cess[ãa]o.*cr[ée]ditos"
+    Regras de Interpretação. O presente instrumento deve ser lido e interpretado de
+    acordo com as seguintes determinações:
 
-    template: |
-      CLÁUSULA {{numero}} – CRÉDITOS IMOBILIÁRIOS
+    Sempre que exigido pelo contexto, as definições contidas neste instrumento serão
+    aplicadas e interpretadas tanto no singular quanto no plural e o gênero masculino
+    incluirá o feminino e vice-versa;
 
-      Os CRI têm como lastro os Créditos Imobiliários cedidos por [Cedente], decorrentes de:
-      [descrever natureza dos créditos]
+    Sempre que exigido pelo contexto, as definições contidas neste instrumento valerão
+    para gênero masculino e para o gênero feminino;
 
-      Valor Total dos Créditos: R$ [valor]
-      Devedor(es): [identificação]
+    Qualquer referência a “R$” ou “Reais” deverá significar a moeda corrente da República
+    Federativa do Brasil;
 
-  # ========== CESSÃO DE CRÉDITOS ==========
-  - id: "CRI_SDEST_003"
-    titulo: "Cessão de Créditos"
-    categoria: "cessao"
-    importancia: "critica"
-    obrigatoria: true
+    O preâmbulo e os Anexos que integram este instrumento deverão vigorar e produzir
+    os mesmos efeitos, direitos e obrigações, como se estivessem expressamente previstos
+    no corpo deste instrumento, sendo certo que qualquer referência a este instrumento
+    deve in...
 
-    keywords:
-      - "cessão"
-      - "transferência"
-      - "créditos"
-      - "pro soluto"
-      - "pro solvendo"
-      - "coobrigação"
 
-    regex_patterns:
-      - "(?i)^\\d+\\.?\\s*CESS[ÃA]O"
-      - "(?i)pro\\s+sol(u|ven)to"
-      - "(?i)transfer[êe]ncia.*cr[ée]ditos"
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_003
+  titulo: Seção Considerações Preliminares
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - seção
+  - considerações
+  - preliminares
+  - cedente
+  - garantia
+  - lastro
+  - crédito
+  - obrigação
+  regex_patterns:
+  - '(?i)Seção\ Considerações\ '
+  template: 'CLÁUSULA {{numero}} – SEÇÃO CONSIDERAÇÕES PRELIMINARES
 
-    template: |
-      CLÁUSULA {{numero}} – CESSÃO DE CRÉDITOS
 
-      Os Créditos Imobiliários são cedidos pelo Cedente à Emissora em caráter:
-      [x] Pro Soluto (sem coobrigação)
-      [ ] Pro Solvendo (com coobrigação)
+    Os Adquirentes, adquiriram lotes dos Imóveis das Cedentes nos termos dos Contratos
+    de Compra e Venda dos Imóveis, cedidos mediante Contrato de Cessão pelas Cedentes
+    à Securitizadora, sem coobrigação, que conferem direito de crédito em face dos
+    Adquirentes, tendo a Securitizadora emitido as CCI que formalizam os Créditos
+    Imobiliários.
 
-      Preço da Cessão: R$ [valor]
-      Data da Cessão: [data]
+    [As Garantias serão constituídas para assegurar o cumprimento das Obrigações Garantidas];
+    e
 
-  # ========== CARACTERÍSTICAS DA EMISSÃO ==========
-  - id: "CRI_SDEST_004"
-    titulo: "Características da Emissão"
-    categoria: "emissao"
-    importancia: "critica"
-    obrigatoria: true
+    Os Créditos Imobiliários decorrentes das CCI serão vinculados diretamente aos
+    CRI emitidos pela Securitizadora, nos termos deste instrumento; e
 
-    keywords:
-      - "características"
-      - "valor"
-      - "quantidade"
-      - "remuneração"
-      - "amortização"
+    A Securitizadora estrutura a presente operação tendo como lastro os Créditos Imobiliários
+    decorrentes das CCI, vinculados aos CRI, na forma da regulamentação aplicável.
 
-    regex_patterns:
-      - "(?i)^\\d+\\.?\\s*CARACTER[ÍI]STICAS"
+    Assim, as Partes decidem, na melhor forma de direito, firmar o presente instrumento,
+    que será regido de acordo com as seguintes condições:'
+- id: CRI_SDEST_004
+  titulo: Seção Cláusulas
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - seção
+  - cláusulas
+  regex_patterns:
+  - (?i)Seção\ Cláusulas
+  template: 'CLÁUSULA {{numero}} – SEÇÃO CLÁUSULAS
 
-    template: |
-      CLÁUSULA {{numero}} – CARACTERÍSTICAS DA EMISSÃO
 
-      Valor Total: R$ [valor]
-      Quantidade: [número] CRI
-      Valor Unitário: R$ [valor/cada]
-      Remuneração: [taxa]% a.a. + [índice]
-      Amortização: [descrever cronograma]
-      Vencimento: [data]
+    '
+- id: CRI_SDEST_005
+  titulo: Capítulo Aprovação e Emissão
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - aprovação
+  - emissão
+  - emissora
+  - garantia
+  - lastro
+  - crédito
+  - patrimônio
+  regex_patterns:
+  - (?i)Capítulo\ Aprovação\ e
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO APROVAÇÃO E EMISSÃO
 
-  # ========== COOBRIGAÇÃO OU GARANTIAS ==========
-  - id: "CRI_SDEST_005"
-    titulo: "Coobrigação e Garantias"
-    categoria: "garantias"
-    importancia: "alta"
-    obrigatoria: false
 
-    keywords:
-      - "coobrigação"
-      - "fiança"
-      - "aval"
-      - "garantia"
-      - "hipoteca"
-      - "alienação fiduciária"
+    Aprovação Societária. A Emissão e a Oferta foram devidamente aprovadas de acordo
+    com as deliberações tomadas pelos diretores da Emissora, reunidos em Reunião de
+    Diretoria da Emissora, realizada em 29 de abril de 2025, registrada na JUCESP
+    sob nº 163.399/25-6 e publicada no Jornal o “O Dia”, na qual foi aprovada, por
+    unanimidade de votos: (i) o limite global pré-aprovado de novas emissões de Certificados
+    de Recebíveis ou outros títulos e valores mobiliários, cujo pagamento seja primariamente
+    condicionado ao recebimento de recursos dos direitos creditórios e dos demais
+    bens, direitos e garantias que o lastreiam, com regime fiduciário e patrimônio
+    separado, nos termos do art. 29 da Resolução CVM 160, até a realização de outra
+    deliberação sobre o assunto, desde que não ultrapasse o limite global pré-aprovado
+    de R$ 10.000.000.000,00 (dez bilhões de reais) (ii) a autorização para distribuição
+    dos referidos Certificados de Recebíveis ou outros títulos e valores mobiliários
+    por meio de oferta ...
 
-    regex_patterns:
-      - "(?i)^\\d+\\.?\\s*COOBRIGA"
-      - "(?i)garantias"
-      - "(?i)fian[çc]a"
 
-    template: |
-      CLÁUSULA {{numero}} – COOBRIGAÇÃO E GARANTIAS
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_006
+  titulo: Capítulo Objeto e Créditos Imobiliários
+  categoria: lastro
+  importancia: critica
+  obrigatoria: true
+  keywords:
+  - capítulo
+  - objeto
+  - créditos
+  - imobiliários
+  - emissora
+  - cedente
+  - devedor
+  - garantia
+  regex_patterns:
+  - (?i)Capítulo\ Objeto\ e\ Cr
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO OBJETO E CRÉDITOS IMOBILIÁRIOS
 
-      [Se aplicável] Os CRI contam com as seguintes garantias:
 
-      (i) [tipo de garantia - fiança, hipoteca, etc.]
-      (ii) [coobrigados, se houver]
+    Vinculação dos Créditos Imobiliários. A Securitizadora realiza neste ato, em caráter
+    irrevogável e irretratável, a vinculação da totalidade dos Créditos Imobiliários
+    aos CRI.
 
-      [Ou] Os CRI não contam com garantias adicionais ou coobrigação.
+    Origem dos Créditos Imobiliários. Os Contratos de Compra e Venda dos Imóveis,
+    firmados entre cada Adquirente e uma das Cedentes, conforme o caso, cedidos à
+    Securitizadora nos termos do Contrato de Cessão.
+
+    Titularidade. A titularidade dos Créditos Imobiliários será adquirida pela Securitizadora
+    através da aquisição nos termos do Contrato de Cessão, sendo que todos e quaisquer
+    recursos decorrentes dos Créditos Imobiliários serão pagos diretamente na Conta
+    Centralizadora, de acordo com o disposto no Contrato de Cessão.
+
+    Lastro dos CRI. A Securitizadora declara que, pelo presente instrumento, foram
+    vinculados aos CRI as CCIs, consubstanciada nos Créditos Imobiliários, com valor
+    nominal total equivalente ao valor dos Créditos Imobiliários, na Data de Emissão,
+    observado o disposto nos Documentos da Operação.
+
+    Pagamentos d...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_007
+  titulo: Capítulo Características dos CRI
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - características
+  - lastro
+  - crédito
+  regex_patterns:
+  - (?i)Capítulo\ Característ
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO CARACTERÍSTICAS DOS CRI
+
+
+    Características dos CRI. Os CRI, objeto da presente Emissão, cujo lastro se constitui
+    pelos Créditos Imobiliários, possui as seguintes características:
+
+    Declarações. Para fins de atender o que prevê a Resolução CVM 60, seguem como
+    anexo ao presente Termo de Securitização as declarações exigidas nos termos das
+    normas emitidas pela CVM.'
+- id: CRI_SDEST_008
+  titulo: Capítulo Distribuição e Ofertas
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - distribuição
+  - ofertas
+  - emissora
+  - cedente
+  - crédito
+  - juros
+  - remuneração
+  regex_patterns:
+  - (?i)Capítulo\ Distribuiçã
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO DISTRIBUIÇÃO E OFERTAS
+
+
+    Depósito para Distribuição, Negociação, custódia eletrônica e liquidação financeira.
+    Os CRI serão depositados para:
+
+    Distribuição no mercado primário por meio do MDA – Módulo de Distribuição de Ativos,
+    administrado e operacionalizado pela B3, sendo a liquidação financeira por meio
+    da B3; e
+
+    Negociação no mercado secundário por meio do CETIP21 – Títulos e Valores Mobiliários,
+    administrado e operacionalizado pela B3, sendo a liquidação financeira da negociação
+    e dos eventos de pagamento e a custódia eletrônica dos CRI realizada por meio
+    da B3.
+
+    Forma de Distribuição. A totalidade dos CRI será objeto de distribuição pública
+    sob o regime de melhores esforços de colocação, nos termos do Contrato de Distribuição,
+    da Resolução CVM 160, da Resolução CVM 60 e das demais disposições legais e regulamentares
+    aplicáveis.
+
+    O [Coordenador Líder]/[Distribuidor] iniciará a Oferta após a divulgação do Anúncio
+    de Início da Oferta.
+
+    O [Coordenador Líder]/[Distribuidor], elaborará o plano de distribuição dos CR...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_009
+  titulo: Capítulo Subscrição e Integralização
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - subscrição
+  - integralização
+  - remuneração
+  regex_patterns:
+  - '(?i)Capítulo\ Subscrição\ '
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO SUBSCRIÇÃO E INTEGRALIZAÇÃO
+
+
+    Subscrição. Os CRI serão subscritos em uma ou mais de uma Data de Subscrição,
+    por meio da celebração do respectivo Boletim de Subscrição (CRI).
+
+    Integralização. Os CRI serão integralizados em uma ou mais Data(s) de Integralização,
+    em moeda corrente nacional, à vista ou por meio de chamas de capital, conforme
+    disposições do Boletim de Subscrição (CRI), devendo a(s) respectiva(s) Data(s)
+    de Integralização constar(em) do respectivo Boletim de Subscrição (CRI).
+
+    A Integralização dos CRI deve observar os procedimentos estabelecidos pela B3
+    e neste instrumento.
+
+    Preço de Integralização. Os CRI serão integralizados pelo Preço de Integralização.
+
+    Ágio ou Deságio. Será admitida a colocação dos CRI com ágio ou deságio e, caso
+    ocorra, o ágio ou deságio será aplicado de forma igualitária dentre os investidores.
+    A aplicação do ágio ou deságio será realizada em função de condições objetivas
+    de mercado, de comum acordo entre as Partes, incluindo, mas não se limitando a:
+    (i) alteração na taxa SELIC; (ii) ...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_010
+  titulo: Capítulo Remuneração, Amortização e Resgate
+  categoria: vencimento
+  importancia: alta
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - remuneração
+  - amortização
+  - resgate
+  - emissora
+  - garantia
+  - lastro
+  - crédito
+  regex_patterns:
+  - (?i)Capítulo\ Remuneração
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO REMUNERAÇÃO, AMORTIZAÇÃO E RESGATE
+
+
+    Remuneração. A Remuneração será composta pelos Juros Remuneratórios incidentes
+    sobre o Valor Nominal Unitário desde a primeira Data de Integralização e será
+    devida nas respectivas Datas de Pagamento estipuladas para tanto no Cronograma
+    de Pagamentos, observada eventual carência prevista no referido cronograma (se
+    aplicável).
+
+    Cálculo da Remuneração. A Remuneração será calculada de acordo com a seguinte
+    fórmula:
+
+    J = VNe x (Fator Juros - 1)
+
+    Onde:
+
+    J = Valor unitário da Remuneração acumulada no período, calculado com 8 (oito)
+    casas decimais, sem arredondamento.
+
+    VNe = valor nominal unitário, ou saldo do valor nominal unitário, conforme o caso,
+    na Data de Integralização (CRI), ou da última Data de Pagamento, ou da última
+    amortização ou incorporação de juros, se houver, calculado com 8 (oito) casas
+    decimais, sem arredondamento.
+
+    Fator Juros = Fator de juros composto pelo Fator DI e Fator Spread, calculado
+    com 9 (nove) casas decimais, com arredondamento, apurado da seguinte forma:
+
+    Fator Juros = ...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_011
+  titulo: Capítulo Cascata de Pagamentos
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - cascata
+  - pagamentos
+  - cedente
+  - garantia
+  - crédito
+  - amortização
+  - remuneração
+  regex_patterns:
+  - '(?i)Capítulo\ Cascata\ de\ '
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO CASCATA DE PAGAMENTOS
+
+
+    Cascata. A ordem de prioridade de pagamentos abaixo descrita, na qual os recursos
+    depositados na Conta Centralizadora dentro de um determinado mês, como consequência
+    do pagamento dos Créditos Imobiliários, inclusive suas antecipações [(e de qualquer
+    valor oriundo ou relacionado a uma Garantia)] devem ser aplicados, de forma que
+    cada item somente será pago caso haja recursos disponíveis após o cumprimento
+    do item anterior:
+
+    Pagamento das Despesas da Operação, se aplicável;
+
+    Recomposição do Fundo de Despesas, se aplicável;
+
+    Recomposição do Fundo de Reserva, se aplicável;
+
+    Pagamento de parcela(s) de Remuneração (e respectivos encargos) vencida(s) e não
+    paga(s), se aplicável;
+
+    Pagamento de parcela(s) de Amortização Ordinária (e respectivos encargos) vencida(s)
+    e não pagas, se aplicável;
+
+    Pagamento da parcela mensal de Remuneração, se aplicável;
+
+    Pagamento de parcela de Amortização Ordinária, se aplicável; e
+
+    Eventuais excedentes existentes após a aplicação prevista nos itens (i) a (vii)
+    acima serã...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_012
+  titulo: Capítulo [Garantias]
+  categoria: garantias
+  importancia: alta
+  obrigatoria: true
+  keywords:
+  - capítulo
+  - garantias
+  - cedente
+  - devedor
+  - garantia
+  - lastro
+  - crédito
+  - vencimento
+  regex_patterns:
+  - (?i)Capítulo\ \[Garantias\]
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO [GARANTIAS]
+
+
+    Constituição. Em garantia do cumprimento das Obrigações Garantidas, serão constituídas
+    as Garantias descritas abaixo, as quais devem permanecer válidas e exequíveis
+    até a integral liquidação das Obrigações Garantidas.
+
+    Disposições Comuns a Todas as Garantias. As disposições previstas abaixo se aplicam
+    a todas as Garantias.
+
+    As Garantias serão constituídas diretamente em favor da Securitizadora, em caráter
+    irrevogável e irretratável.
+
+    As Garantias são consideradas, para todos os fins de direito, um acessório dos
+    Créditos Imobiliários.
+
+    As Garantias entrarão em vigor na data de assinatura do respectivo Contrato de
+    Garantia, incluindo eventuais Garantias fiduciárias (observadas, no entanto, eventuais
+    condições suspensivas previstas nos respectivos instrumentos, se aplicável), sendo,
+    a partir dessa data, válidas em todos os seus termos e vinculando seus sucessores,
+    conforme o caso, até o pagamento integral das Obrigações Garantidas.
+
+    As Garantias devem estar perfeitamente constituídas no prazo ...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_013
+  titulo: Capítulo Vencimento Antecipado
+  categoria: vencimento
+  importancia: alta
+  obrigatoria: true
+  keywords:
+  - capítulo
+  - vencimento
+  - antecipado
+  - crédito
+  - resgate
+  - amortização
+  regex_patterns:
+  - '(?i)Capítulo\ Vencimento\ '
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO VENCIMENTO ANTECIPADO
+
+
+    Eventos de Vencimento Antecipado. Os Certificados não serão objeto de vencimento
+    antecipado, existindo apenas a possibilidade de vencimento antecipado dos Créditos
+    Imobiliários o qual ensejará a Amortização Extraordinária e/ou Resgate Antecipado,
+    conforme aplicável.'
+- id: CRI_SDEST_014
+  titulo: Capítulo Despesas
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - despesas
+  - garantia
+  - crédito
+  - patrimônio
+  - separado
+  - fiduciário
+  - assembleia
+  regex_patterns:
+  - (?i)Capítulo\ Despesas
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO DESPESAS
+
+
+    Responsabilidade pelas Despesas da Operação. As Despesas da Operação serão pagas
+    por meio dos recursos do Patrimônio Separado e existem única e exclusivamente
+    por ocasião da realização da Operação, portanto, são de responsabilidade do Patrimônio
+    Separado mantido às expensas dos Créditos Imobiliários, observado o disposto neste
+    Capítulo.
+
+    Pagamento das Despesas da Operação. A forma de pagamento das Despesas da Operação
+    seguirá o disposto nesta Cláusula.
+
+    As Despesas Iniciais serão pagas diretamente pela Securitizadora, exclusivamente
+    com valores descontados de recursos da primeira integralização dos CRI, nos termos
+    deste instrumento.
+
+    As despesas, custos, tributos, taxas e/ou contribuições, direta ou indiretamente,
+    relativos à formalização, registros e averbações, previstos neste instrumento
+    perante qualquer Cartório de Registro de Imóveis, Cartório de Registro de Títulos
+    e Documentos e/ou Junta Comercial, serão pagas diretamente pelos Garantidores.
+
+    A fonte de pagamentos das demais Despesa...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_015
+  titulo: Capítulo Patrimônio Separado
+  categoria: patrimonio_separado
+  importancia: critica
+  obrigatoria: true
+  keywords:
+  - capítulo
+  - patrimônio
+  - separado
+  - emissora
+  - devedor
+  - garantia
+  - lastro
+  - crédito
+  regex_patterns:
+  - '(?i)Capítulo\ Patrimônio\ '
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO PATRIMÔNIO SEPARADO
+
+
+    Patrimônio Separado. O Patrimônio Separado é único e indivisível.
+
+    Separação Patrimonial. O Patrimônio Separado é destacado do patrimônio da Securitizadora
+    e passa a constituir patrimônio separado distinto, que não se confunde com o da
+    Securitizadora, destinando-se especificamente ao pagamento dos CRI e das demais
+    obrigações relativas ao Patrimônio Separado e se manterá apartado do patrimônio
+    da Securitizadora até que se complete o resgate de todos os CRI, nos termos da
+    Lei 14.430.
+
+    Isenção do Patrimônio Separado. O Patrimônio Separado:
+
+    Não se confunde com o patrimônio da Securitizadora;
+
+    Ficará apartado do patrimônio da Securitizadora até que se complete o resgate
+    da totalidade dos CRI;
+
+    Destina-se exclusivamente à liquidação dos CRI, bem como ao pagamento dos respectivos
+    custos e obrigações previstas nos Documentos da Operação;
+
+    Está isento de qualquer ação ou execução promovida por credores da Securitizadora;
+
+    Não é passível de constituição de garantias ou de excussão por quaisquer credor...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_016
+  titulo: Capítulo Securitizadora
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - securitizadora
+  - cedente
+  - devedor
+  - garantia
+  - crédito
+  - patrimônio
+  - separado
+  regex_patterns:
+  - (?i)Capítulo\ Securitizad
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO SECURITIZADORA
+
+
+    Obrigações. Sem prejuízo das demais obrigações assumidas neste instrumento, a
+    Securitizadora obriga-se, adicionalmente, a:
+
+    Administrar o Patrimônio Separado, mantendo para o mesmo registro contábil próprio
+    e independente de suas demonstrações financeiras;
+
+    Elaborar e publicar as demonstrações financeiras do Patrimônio Separado;
+
+    Enviar ao Agente Fiduciário as demonstrações financeiras do Patrimônio Separado
+    em até 120 (cento e vinte) dias após o término do exercício social, conforme indicado
+    na Cláusula “Administração do Patrimônio Separado”;
+
+    Informar todos os fatos relevantes acerca da Operação e da própria Securitizadora
+    diretamente ao Agente Fiduciário, por meio de comunicação por escrito em até 2
+    (dois) Dias Úteis a contar de sua ciência, bem como aos participantes do mercado,
+    conforme aplicável, observadas as regras da CVM;
+
+    Submeter, na forma da lei, suas contas e demonstrações contábeis, bem como as
+    demonstrações financeiras relacionadas ao Patrimônio Separado, a exame por empresa
+    ...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_017
+  titulo: Capítulo Agente Fiduciário
+  categoria: agente_fiduciario
+  importancia: alta
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - agente
+  - fiduciário
+  - garantia
+  - crédito
+  - patrimônio
+  - separado
+  - assembleia
+  regex_patterns:
+  - (?i)Capítulo\ Agente\ Fidu
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO AGENTE FIDUCIÁRIO
+
+
+    Nomeação. A Securitizadora, neste ato, nomeia o Agente Fiduciário, que formalmente
+    aceita a sua nomeação, para desempenhar os deveres e atribuições que lhe competem.
+
+    Prazo. O Agente Fiduciário exercerá suas funções a partir da data de assinatura
+    deste instrumento ou de aditamento relativo à sua nomeação, devendo permanecer
+    no cargo até (i) a data do resgate da totalidade dos CRI; ou (ii) sua efetiva
+    substituição pela Assembleia.
+
+    Obrigações. Incumbe ao Agente Fiduciário ora nomeado, sem prejuízo de outras obrigações
+    estabelecidas neste instrumento:
+
+    Exercer suas atividades com boa fé, transparência e lealdade para com os Titulares
+    dos CRI;
+
+    Proteger os direitos e interesses dos Titulares dos CRI, empregando no exercício
+    da função o cuidado e a diligência que todo homem ativo e probo costuma empregar
+    na administração de seus próprios bens;
+
+    Renunciar à função, na hipótese de superveniência de conflito de interesses ou
+    de qualquer outra modalidade de inaptidão e realizar a imediata convocaçã...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_018
+  titulo: Capítulo Assembleia
+  categoria: assembleia
+  importancia: alta
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - assembleia
+  - emissora
+  - lastro
+  - crédito
+  - patrimônio
+  - separado
+  - fiduciário
+  regex_patterns:
+  - (?i)Capítulo\ Assembleia
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO ASSEMBLEIA
+
+
+    Assembleia. Os Titulares dos CRI poderão, a qualquer tempo, reunir-se em Assembleia,
+    de forma presencial ou à distância, a fim de deliberarem sobre matéria de interesse
+    da comunhão dos Titulares dos CRI.
+
+    Aplicar-se-á à Assembleia, no que couber, a respeito de assembleias gerais o disposto
+    na Lei 14.430 e da Resolução CVM 60.
+
+    Competência da Assembleia. Compete privativamente à Assembleia, observados os
+    respectivos quóruns de instalação e deliberação, deliberar sobre, sem limitação:
+
+    A substituição do Agente Fiduciário;
+
+    O vencimento antecipado dos CRI;
+
+    A concessão de waivers;
+
+    A liquidação do Patrimônio Separado;
+
+    A modificação dos termos e condições estabelecidos neste instrumento; e
+
+    A modificação das características atribuídas aos CRI.
+
+    Convocação. A Assembleia poderá ser convocada:
+
+    Pela Securitizadora;
+
+    Pelo Agente Fiduciário; e
+
+    Por Titulares dos CRI que representem, no mínimo, 5% (cinco por cento) dos CRI
+    em Circulação.
+
+    A Assembleia deverá ser convocada mediante edital publicado na forma ...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_019
+  titulo: Capítulo Término
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - término
+  - cedente
+  - patrimônio
+  - separado
+  - fiduciário
+  - resgate
+  - declaração
+  regex_patterns:
+  - (?i)Capítulo\ Término
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO TÉRMINO
+
+
+    Extinção. Este instrumento será automaticamente extinto mediante a quitação integral
+    das Obrigações Garantidas.
+
+    Quitação. Em até 3 (três) Dias Úteis contados do evento de resgate total dos CRI
+    pela Securitizadora na B3, o Agente Fiduciário fornecerá o termo de quitação dos
+    CRI à Securitizadora, nos termos do parágrafo 1º do artigo 32 da Lei 14.430, que
+    servirá para baixa do registro do Regime Fiduciário junto à entidade de que trata
+    o caput do artigo 18 da Lei 14.430. Ocorrendo o disposto acima, e estando as demais
+    Obrigações Garantidas quitadas pela Securitizadora, esta se compromete a fornecer
+    declaração expressa de liquidação e quitação das Obrigações Garantidas previstas
+    neste instrumento para todos os fins de direito, em até 5 (cinco) Dias Úteis contados
+    do recebimento do termo de quitação dos CRI emitido pelo Agente Fiduciário nos
+    termos acima.
+
+    Saldo do Patrimônio Separado. Todos os valores eventualmente existentes no Patrimônio
+    Separado, após a quitação integral das Obrigações G...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_020
+  titulo: Capítulo Fatores de Risco
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - fatores
+  - risco
+  - emissora
+  - cedente
+  - devedor
+  - garantia
+  - lastro
+  regex_patterns:
+  - '(?i)Capítulo\ Fatores\ de\ '
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO FATORES DE RISCO
+
+
+    Fatores de Risco. O investimento nos CRI envolve uma série de riscos que deverão
+    ser observados independentemente pelo investidor e os itens abaixo exemplificam,
+    de forma não exaustiva, alguns dos riscos envolvidos na subscrição e aquisição
+    dos CRI:
+
+    O investimento nos CRI envolve uma série de riscos que deverão ser observados
+    independentemente pelo Titular dos CRI. Esses riscos envolvem fatores de liquidez,
+    crédito, mercado, rentabilidade, regulamentação específica, entre outros, que
+    se relacionam à Securitizadora, às Cedentes, aos Adquirentes, aos Garantidores,
+    e/ou às Garantias, e suas atividades e diversos riscos a que estão sujeitos, ao
+    setor imobiliário, aos Créditos Imobiliários e aos próprios CRI objeto da Emissão
+    regulada pelo presente Termo de Securitização.
+
+    Antes de tomar qualquer decisão de investimento nos CRI, os potenciais Investidores
+    deverão considerar cuidadosamente, à luz de suas próprias situações financeiras
+    e objetivos de investimento, os fatores de risco descritos...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_021
+  titulo: Capítulo Tributação
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - tributação
+  - cedente
+  - crédito
+  - patrimônio
+  - separado
+  - resgate
+  - juros
+  regex_patterns:
+  - (?i)Capítulo\ Tributação
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO TRIBUTAÇÃO
+
+
+    Tratamento Tributário. Os Titulares dos CRI não devem considerar unicamente as
+    informações abaixo para fins de avaliar o tratamento tributário de seu investimento
+    em CRI, devendo consultar seus próprios assessores quanto à tributação específica
+    à qual estarão sujeitos, inclusive quanto a outros tributos eventualmente aplicáveis
+    a esse investimento ou a ganhos porventura auferidos em operações com CRI. As
+    informações abaixo descritas levam em consideração as previsões de legislação
+    e regulamentação aplicáveis à hipótese vigentes nesta data, bem como a melhor
+    interpretação ao seu respeito neste mesmo momento, ressalvados entendimentos diversos.
+
+    Regras gerais e específicas de Imposto de Renda Retido na Fonte (“IRRF”) e do
+    Imposto de Renda (“IR”) e sobre os rendimentos auferidos em CRI por residentes
+    no Brasil. Como regra geral, o tratamento fiscal dispensado aos rendimentos e
+    ganhos relativos a certificados de recebíveis imobiliários é o mesmo aplicado
+    aos títulos de renda fixa, sujeitand...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_022
+  titulo: Capítulo Publicidade
+  categoria: publicidade
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - publicidade
+  - devedor
+  - fiduciário
+  - assembleia
+  - resgate
+  - amortização
+  regex_patterns:
+  - (?i)Capítulo\ Publicidade
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO PUBLICIDADE
+
+
+    Local de Publicação. Nos termos da Resolução CVM 60, fatos e atos relevantes de
+    interesse dos Titulares dos CRI, tais como edital de convocação de Assembleias,
+    comunicados de resgate, amortização, notificações aos devedores e outros, deverão
+    ser serão disponibilizados, nos prazos legais e/ou regulamentares, por meio do
+    sistema de envio de Informações Periódicas Eventuais da CVM e veiculados na página
+    da Securitizadora na rede mundial de computadores – Internet (https://grupotravessia.com/emissoes/)
+    imediatamente após a realização ou ocorrência do ato a ser divulgado, observado
+    no que couber, na forma do parágrafo 5º do artigo 44, do artigo 45 e da alínea
+    “b” do artigo 46, todos da Resolução CVM 60, bem como na forma da Lei 14.430.
+    Na mesma data acima, as publicações de editais das Assembleias serão encaminhadas
+    na mesma data ao Agente Fiduciário.
+
+    As publicações acima serão realizadas uma única vez e, no caso de Assembleia não
+    havendo quórum em primeira convocação, deverá ser realizada ...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_023
+  titulo: Capítulo Registro
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - registro
+  regex_patterns:
+  - (?i)Capítulo\ Registro
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO REGISTRO
+
+
+    Custódia e Registro. O Termo de Securitização e seus eventuais aditamentos serão
+    registrados na B3 e entregue para custódia junto à Instituição Custodiante nos
+    termos do inciso I do artigo 33 e artigo 34 da Resolução CVM 60.'
+- id: CRI_SDEST_024
+  titulo: Capítulo Comunicações
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - comunicações
+  - emissora
+  - fiduciário
+  regex_patterns:
+  - (?i)Capítulo\ Comunicaçõe
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO COMUNICAÇÕES
+
+
+    Comunicações. Todos os avisos, notificações ou comunicações que, de acordo com
+    o presente instrumento, devam ser feitos por escrito, serão realizados mediante
+    o envio de mensagem eletrônica enviada por meio da rede mundial de computadores
+    (ou carta registrada com “aviso de recebimento”), remetida aos endereços abaixo,
+    ou a qualquer outro endereço posteriormente comunicado por escrito.
+
+    Travessia Securitizadora S.A. Rua Tabapuã, 41 - 13o andar - Itaim Bibi CEP 04533-010,
+    São Paulo, SP At.: Vinicius Bernardes Basile Silveira Stopa Telefone: (11) 4115-8700
+    E-mail: ri@grupotravessia.com e gestao@grupotravessia.com
+
+    [AF] [endereço] CEP [•]– São Paulo, SP At.: [•] Tel.: ([•]) [•] E-mail: [•]
+
+    Recebimento. Os documentos e as comunicações enviados por: (i) e-mail serão considerados
+    recebidos na data de envio do documento ou comunicação; e (ii) meio físico serão
+    considerados recebidos quando entregues, sob protocolo ou mediante “Aviso de Recebimento”
+    expedido pela Empresa Brasileira de Correios e ...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_025
+  titulo: Capítulo Disposições Gerais
+  categoria: disposicoes_gerais
+  importancia: baixa
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - disposições
+  - gerais
+  - garantia
+  - crédito
+  - vencimento
+  - remuneração
+  - declaração
+  regex_patterns:
+  - (?i)Capítulo\ Disposições
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO DISPOSIÇÕES GERAIS
+
+
+    Substituição dos Acordos Anteriores. Este instrumento substitui todos os outros
+    documentos, cartas, memorandos ou propostas entre as Partes para os mesmos fins,
+    bem como os entendimentos orais mantidos entre elas, anteriores à presente data.
+
+    Sucessão. O presente instrumento vincula as respectivas Partes, seus (promissários)
+    cessionários autorizados e/ou sucessores a qualquer título, respondendo a Parte
+    que descumprir qualquer de suas Cláusulas, termos ou condições pelos prejuízos,
+    perdas e danos a que der causa, na forma da legislação aplicável.
+
+    Negócio Jurídico Complexo. As Partes declaram que o presente instrumento integra
+    um conjunto de negociações de interesses recíprocos, envolvendo a celebração,
+    além deste instrumento, dos demais Documentos da Operação (os quais não podem
+    ser interpretados e/ou analisados isoladamente), sendo certo que os direitos,
+    recursos, poderes e prerrogativas estipulados neste instrumento são cumulativos
+    e não exclusivos de quaisquer outros direitos, podere...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_026
+  titulo: Capítulo Legislação Aplicável e Foro
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - capítulo
+  - legislação
+  - aplicável
+  - foro
+  regex_patterns:
+  - '(?i)Capítulo\ Legislação\ '
+  template: 'CLÁUSULA {{numero}} – CAPÍTULO LEGISLAÇÃO APLICÁVEL E FORO
+
+
+    Legislação Aplicável. Este instrumento será regido e interpretado de acordo com
+    as leis da República Federativa do Brasil, obrigando as partes e seus sucessores,
+    a qualquer título.
+
+    Foro. Fica eleito o Foro da Comarca de São Paulo, Estado de São Paulo, para dirimir
+    quaisquer dúvidas ou controvérsias oriundas deste instrumento, com renúncia a
+    qualquer outro, por mais privilegiado que seja.
+
+    E, por estarem assim justas e contratadas, o(s) signatário(s) firma(m) o presente
+    instrumento em formato eletrônico, com a utilização de processo de certificação
+    disponibilizado pela Infraestrutura de Chaves Públicas Brasileira – ICP Brasil
+    e a intermediação de entidade certificadora devidamente credenciada e autorizada
+    a funcionar no país, de acordo com o artigo 107 do Código Civil e a Medida Provisória
+    n.º 2.200-2, de 24 de agosto de 2001.
+
+    São Paulo, [•] de [•] de 20[•].
+
+    Página de Assinaturas'
+- id: CRI_SDEST_027
+  titulo: Anexo Cronograma de Pagamentos
+  categoria: anexos
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - cronograma
+  - pagamentos
+  regex_patterns:
+  - '(?i)Anexo\ Cronograma\ de\ '
+  template: 'CLÁUSULA {{numero}} – ANEXO CRONOGRAMA DE PAGAMENTOS
+
+
+    [•]'
+- id: CRI_SDEST_028
+  titulo: Anexo Características dos Créditos Imobiliários
+  categoria: lastro
+  importancia: critica
+  obrigatoria: true
+  keywords:
+  - anexo
+  - características
+  - créditos
+  - imobiliários
+  regex_patterns:
+  - (?i)Anexo\ Característica
+  template: 'CLÁUSULA {{numero}} – ANEXO CARACTERÍSTICAS DOS CRÉDITOS IMOBILIÁRIOS
+
+
+    [anexo CCI – [•]'
+- id: CRI_SDEST_029
+  titulo: Anexo Despesas da Operação
+  categoria: anexos
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - despesas
+  - operação
+  regex_patterns:
+  - (?i)Anexo\ Despesas\ da\ Op
+  template: 'CLÁUSULA {{numero}} – ANEXO DESPESAS DA OPERAÇÃO
+
+
+    [•]'
+- id: CRI_SDEST_030
+  titulo: Anexo Fórmulas
+  categoria: anexos
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - fórmulas
+  - patrimônio
+  - separado
+  - assembleia
+  - amortização
+  - juros
+  - remuneração
+  regex_patterns:
+  - (?i)Anexo\ Fórmulas
+  template: 'CLÁUSULA {{numero}} – ANEXO FÓRMULAS
+
+
+    Remuneração. A Remuneração dos CRI será calculada de acordo com a seguinte fórmula:
+
+    J = VNe x (Fator Juros - 1)
+
+    Onde:
+
+    J = Valor unitário da Remuneração acumulada no período, calculado com 8 (oito)
+    casas decimais, sem arredondamento.
+
+    VNe = valor nominal unitário, ou saldo do valor nominal unitário, conforme o caso,
+    na Data de Integralização (CRI), ou da última Data de Pagamento, ou da última
+    amortização ou incorporação de juros, se houver, calculado com 8 (oito) casas
+    decimais, sem arredondamento.
+
+    Fator Juros = Fator de juros composto pelo Fator DI e Fator Spread, calculado
+    com 9 (nove) casas decimais, com arredondamento, apurado da seguinte forma:
+
+    Fator Juros = (Fator DI x Fator Spread)
+
+    Onde:
+
+    Fator DI = produtório das Taxas DI over a partir da primeira Data de Integralização
+    (CRI) (inclusive) ou da Data de Pagamento (inclusive) imediatamente anterior,
+    ou da última amortização (inclusive) ou incorporação de juros (inclusive), se
+    houver, conforme o caso, até a Data de Pagamento subsequen...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_031
+  titulo: Anexo Declaração da Securitizadora
+  categoria: declaracoes
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - declaração
+  - securitizadora
+  - emissora
+  - garantia
+  - crédito
+  - fiduciário
+  - recursos
+  regex_patterns:
+  - '(?i)Anexo\ Declaração\ da\ '
+  template: 'CLÁUSULA {{numero}} – ANEXO DECLARAÇÃO DA SECURITIZADORA
+
+
+    Travessia Securitizadora S.A., sociedade por ações, registrada perante a CVM sob
+    o n.º 24082, na categoria “S1”, com sede na Rua Tabapuã, nº 41, 13º Andar, sala
+    01, Itaim Bibi, CEP 04533-010, São Paulo, SP, inscrita no Cadastro Nacional da
+    Pessoa Jurídica (“CNPJ”) sob o nº 26.609.050/0001-64, neste ato representada na
+    forma de seus atos societários constitutivos (“Securitizadora” ou “Emissora”),
+    na qualidade de companhia emissora dos Certificados de Recebíveis Imobiliários
+    da [•] ª Emissão (“CRI” e “Emissão”, respectivamente), que serão objeto de oferta
+    pública de distribuição pelo [Coordenador Líder] nos termos da Resolução CVM n.º
+    160, de 13 de julho de 2022 (“Resolução CVM 160”), e do artigo 43 da Resolução
+    da Comissão de Valores Mobiliários - CVM n.º 60, de 23 de dezembro de 2021 (“Resolução
+    CVM 60”), em que [•], sociedade limitada, com sede na cidade de São Paulo, Estado
+    de São Paulo, na [•], nº [•], [complemento], [bairro], CEP [•], inscrita no CNPJ/MF
+    sob o nº [•], atua como age...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_032
+  titulo: Anexo Declaração da Instituição Custodiante
+  categoria: declaracoes
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - declaração
+  - instituição
+  - custodiante
+  - garantia
+  - crédito
+  - cessão
+  regex_patterns:
+  - '(?i)Anexo\ Declaração\ da\ '
+  template: 'CLÁUSULA {{numero}} – ANEXO DECLARAÇÃO DA INSTITUIÇÃO CUSTODIANTE
+
+
+    [•], sociedade limitada, com sede na cidade de São Paulo, Estado de São Paulo,
+    na [•], nº [•], [•]º andar, [•], CEP [•], inscrita no CNPJ/MF sob o nº [•], neste
+    ato representada na forma de seus atos societários constitutivos (“Instituição
+    Custodiante”), na qualidade de instituição custodiante do Termo de Securitização
+    de Direitos Creditórios Imobiliários para emissão de Certificados de Recebíveis
+    Imobiliários, em Série Única, da [•]ª ([•]) Emissão da Travessia Securitizadora
+    S.A., lastreados em Créditos Imobiliários cedidos pela [•], celebrado nesta data
+    (“Termo de Securitização”) declara à Travessia Securitizadora S.A, sociedade por
+    ações, registrada perante a CVM sob o n.º 24082, na categoria “S1”, com sede na
+    Rua Tabapuã, nº 41, 13º Andar, sala 01, Itaim Bibi, CEP 04533-010, inscrita no
+    CNPJ sob o n.º 26.609.050/0001-64 (“Securitizadora”), no âmbito da oferta pública
+    de distribuição de certificados de recebíveis imobiliários de emissão da Securitizadora,
+    para fins dos artigos 25 e ...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_033
+  titulo: Anexo [Declaração do Coordenador Líder]
+  categoria: declaracoes
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - declaração
+  - coordenador
+  - líder
+  - crédito
+  regex_patterns:
+  - (?i)Anexo\ \[Declaração\ do
+  template: 'CLÁUSULA {{numero}} – ANEXO [DECLARAÇÃO DO COORDENADOR LÍDER]
+
+
+    [•]., instituição integrante do sistema de distribuição de valores mobiliários
+    , com sede na [•], inscrita no Cadastro Nacional da Pessoa Jurídica (“CNPJ”) sob
+    o n.º [•], neste ato representada na forma de seus atos societários constitutivos
+    (“Coordenador Líder”), para fins de atendimento ao previsto na Resolução da CVM
+    n.º 60, de 23 de dezembro de 2021, conforme alterada, na qualidade de instituição
+    intermediária líder da distribuição pública de certificados de recebíveis imobiliários,
+    em série única, da [•]ª ([•]) emissão (“Emissão” e “CRI”, respectivamente), da
+    Travessia Securitizadora S.A., sociedade por ações, registrada perante a CVM sob
+    o n.º 24082, na categoria “S1”, com sede na Rua Tabapuã, nº 41, 13º Andar, sala
+    01, Itaim Bibi, CEP 04533-010, São Paulo, SP, inscrita no CNPJ sob o n.º 26.609.050/0001-64(“Securitizadora”),
+    declara, para todos os fins e efeitos, ter agido com diligência para, em conjunto
+    com a Securitizadora, assegurar a veracidade, consistência, correção e sufi...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_034
+  titulo: Anexo Declaração de Inexistência de Conflito de Interesses
+  categoria: declaracoes
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - declaração
+  - inexistência
+  - conflito
+  - interesses
+  - fiduciário
+  regex_patterns:
+  - '(?i)Anexo\ Declaração\ de\ '
+  template: 'CLÁUSULA {{numero}} – ANEXO DECLARAÇÃO DE INEXISTÊNCIA DE CONFLITO DE
+    INTERESSES
+
+
+    Agente Fiduciário Cadastrado na Comissão de Valores Mobiliários – CVM
+
+    [•]'
+- id: CRI_SDEST_035
+  titulo: Anexo Modelo de Boletim de Subscrição
+  categoria: anexos
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - anexo
+  - modelo
+  - boletim
+  - subscrição
+  regex_patterns:
+  - (?i)Anexo\ Modelo\ de\ Bole
+  template: 'CLÁUSULA {{numero}} – ANEXO MODELO DE BOLETIM DE SUBSCRIÇÃO
+
+
+    '
+- id: CRI_SDEST_036
+  titulo: Anexo Outras Emissões do Agente Fiduciário
+  categoria: agente_fiduciario
+  importancia: alta
+  obrigatoria: false
+  keywords:
+  - anexo
+  - outras
+  - emissões
+  - agente
+  - fiduciário
+  regex_patterns:
+  - (?i)Anexo\ Outras\ Emissõe
+  template: 'CLÁUSULA {{numero}} – ANEXO OUTRAS EMISSÕES DO AGENTE FIDUCIÁRIO
+
+
+    Nos termos da Resolução da CVM n.º 17, de 9 de fevereiro de 2021, conforme alterada,
+    o Agente Fiduciário identificou que prestou serviços de agente fiduciário nas
+    seguintes emissões da Securitizadora, e suas controladas e coligadas:
+
+    [•]'
+- id: CRI_SDEST_037
+  titulo: 'TABELA 1: “Adquirentes” | São as pessoas físicas e/ou jurídicas que adquiriram
+    imóveis dos'
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - tabela
+  - adquirentes
+  - pessoas
+  - físicas
+  - jurídicas
+  - adquiriram
+  - imóveis
+  - emissora
+  regex_patterns:
+  - (?i)TABELA\ 1:\ “Adquirent
+  template: 'CLÁUSULA {{numero}} – TABELA 1: “ADQUIRENTES” | SÃO AS PESSOAS FÍSICAS
+    E/OU JURÍDICAS QUE ADQUIRIRAM IMÓVEIS DOS
+
+
+    “Adquirentes” | São as pessoas físicas e/ou jurídicas que adquiriram imóveis dos
+    loteamentos “[•]”, por meio de cada Contrato de Compra e Venda de Imóvel, celebrado
+    com uma das Cedentes, e serão, por conseguinte, devedoras dos Créditos Imobiliários;
+
+    “Afiliada(s)” | Cada Controladora, Controlada, coligada e/ou sociedade sob Controle
+    comum, de forma indireta ou direta, de uma determinada sociedade e/ou de seus
+    respectivos sócios.
+
+    “Agente Fiduciário” ou “Instituição Custodiante das CCIs” | A [•], acima qualificada.
+
+    “Agente Liquidante” | O ITAÚ UNIBANCO S.A., instituição financeira com sede na
+    cidade de São Paulo, Estado de São Paulo, na Praça Alfredo Egydio de Souza Aranha,
+    nº 100, Torre Olavo Setubal, Bairro Parque Jabaquara, CEO 04344-902, inscrita
+    no CNPJ sob o nº 60.701.190/0001-04.
+
+    “Amortização Extraordinária” | A Amortização realizada de forma antecipada em
+    relação às respectivas Datas de Pagamento de amortização indicadas no Cronograma
+    de Pagamentos.
+
+    “Amortização Ordinária” | A Amo...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_038
+  titulo: 'TABELA 2: Característica | CRI'
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - tabela
+  - característica
+  - emissora
+  - garantia
+  - lastro
+  - crédito
+  - fiduciário
+  - vencimento
+  regex_patterns:
+  - (?i)TABELA\ 2:\ Caracterís
+  template: 'CLÁUSULA {{numero}} – TABELA 2: CARACTERÍSTICA | CRI
+
+
+    Característica | CRI
+
+    Emissão | [•]ª
+
+    Série | Única
+
+    Quantidade de CRI | R$ [•] ([•])
+
+    Valor de Emissão | R$ [•] ([•])
+
+    Valor Nominal Unitário | R$ 1.000,00 (mil reais), na Data de Emissão.
+
+    Data de Emissão | [•] de [•] de 2025
+
+    Data de Vencimento | [•] de [•] de 20[•]
+
+    Prazo da Emissão | [•] ([•]) dias, vencendo-se, portanto, em [•] de [•] de 20[•].
+
+    Local de Emissão | São Paulo, SP.
+
+    Forma de Emissão | Nominativa e escritural.
+
+    Juros Remuneratórios | Os CRI farão jus a uma Remuneração que contemplará juros
+    remuneratórios, com base em um ano com 252 (duzentos e cinquenta e dois) Dias
+    Úteis, de 100% (cem por cento) da variação acumulada da Taxa DI, acrescida de
+    uma sobretaxa da [•]% ([•] por cento).
+
+    Atualização Monetária | O Valor Nominal Unitário ou o saldo do Valor Nominal Unitário,
+    conforme o caso, não será atualizado monetariamente.
+
+    Periodicidade de Pagamento da Amortização Programada | De acordo com as respectivas
+    Datas de Pagamento indicadas no Anexo “Cronogramas de Pagamentos”.
+
+    Primeiro pa...
+
+
+    [Conteúdo completo no documento GOLD]'
+- id: CRI_SDEST_039
+  titulo: 'TABELA 3: Travessia Securitizadora S.A.'
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - tabela
+  - travessia
+  - securitizadora
+  regex_patterns:
+  - '(?i)TABELA\ 3:\ Travessia\ '
+  template: 'CLÁUSULA {{numero}} – TABELA 3: TRAVESSIA SECURITIZADORA S.A.
+
+
+    Travessia Securitizadora S.A.
+
+    Nome: Vinicius Bernardes Basile Silveira Stopa
+
+    Cargo: Diretor Presidente
+
+    CPF n.º: 218.718.568-09
+
+    E-mail: viniciusstopa@grupotravessia.com'
+- id: CRI_SDEST_040
+  titulo: 'TABELA 4: [AF] | [AF]'
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - tabela
+  regex_patterns:
+  - (?i)TABELA\ 4:\ \[AF\]\ \|\ \[AF
+  template: 'CLÁUSULA {{numero}} – TABELA 4: [AF] | [AF]
+
+
+    [AF] | [AF]
+
+    Nome: [•] | Nome: [•]
+
+    Cargo: [•] | Cargo: [•]
+
+    CPF n.º: [•] | CPF n.º: [•]
+
+    E-mail: [•] | E-mail: [•]'
+- id: CRI_SDEST_041
+  titulo: 'TABELA 5: Nome: Vinicius Bernardes Basile Silveira Stopa'
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - tabela
+  - nome
+  - vinicius
+  - bernardes
+  - basile
+  - silveira
+  - stopa
+  regex_patterns:
+  - (?i)TABELA\ 5:\ Nome:\ Vini
+  template: 'CLÁUSULA {{numero}} – TABELA 5: NOME: VINICIUS BERNARDES BASILE SILVEIRA
+    STOPA
+
+
+    Nome: Vinicius Bernardes Basile Silveira Stopa
+
+    Cargo: Diretor Presidente
+
+    CPF n.º: 218.718.568-09
+
+    E-mail: viniciusstopa@grupotravessia.com'
+- id: CRI_SDEST_042
+  titulo: 'TABELA 6: [•] | [•]'
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - tabela
+  regex_patterns:
+  - (?i)TABELA\ 6:\ \[•\]\ \|\ \[•\]
+  template: 'CLÁUSULA {{numero}} – TABELA 6: [•] | [•]
+
+
+    [•] | [•]
+
+    Nome: | Nome:
+
+    Cargo: | Cargo:
+
+    CPF n.º: | CPF n.º:
+
+    E-mail: | E-mail:'
+- id: CRI_SDEST_043
+  titulo: 'TABELA 7: [•] | [•]'
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - tabela
+  regex_patterns:
+  - (?i)TABELA\ 7:\ \[•\]\ \|\ \[•\]
+  template: 'CLÁUSULA {{numero}} – TABELA 7: [•] | [•]
+
+
+    [•] | [•]
+
+    Nome: | Nome:
+
+    Cargo: | Cargo:
+
+    CPF n.º: | CPF n.º:
+
+    E-mail: | E-mail:'
+- id: CRI_SDEST_044
+  titulo: 'TABELA 8: DATA: [•] | DATA: [•] | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS
+    DE RECEBÍVEIS IMOB'
+  categoria: outros
+  importancia: media
+  obrigatoria: false
+  keywords:
+  - tabela
+  - data
+  - boletim
+  - subscrição
+  - certificados
+  - recebíveis
+  - imob
+  - emissora
+  regex_patterns:
+  - '(?i)TABELA\ 8:\ DATA:\ \[•\]\ '
+  template: 'CLÁUSULA {{numero}} – TABELA 8: DATA: [•] | DATA: [•] | BOLETIM DE SUBSCRIÇÃO
+    DE CERTIFICADOS DE RECEBÍVEIS IMOB
+
+
+    DATA: [•] | DATA: [•] | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS DE RECEBÍVEIS IMOBILIÁRIOS
+    | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS DE RECEBÍVEIS IMOBILIÁRIOS | BOLETIM DE
+    SUBSCRIÇÃO DE CERTIFICADOS DE RECEBÍVEIS IMOBILIÁRIOS | BOLETIM DE SUBSCRIÇÃO
+    DE CERTIFICADOS DE RECEBÍVEIS IMOBILIÁRIOS | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS
+    DE RECEBÍVEIS IMOBILIÁRIOS | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS DE RECEBÍVEIS
+    IMOBILIÁRIOS | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS DE RECEBÍVEIS IMOBILIÁRIOS
+    | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS DE RECEBÍVEIS IMOBILIÁRIOS | BOLETIM DE
+    SUBSCRIÇÃO DE CERTIFICADOS DE RECEBÍVEIS IMOBILIÁRIOS | [•]
+
+    DATA: [•] | DATA: [•] | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS DE RECEBÍVEIS IMOBILIÁRIOS
+    | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS DE RECEBÍVEIS IMOBILIÁRIOS | BOLETIM DE
+    SUBSCRIÇÃO DE CERTIFICADOS DE RECEBÍVEIS IMOBILIÁRIOS | BOLETIM DE SUBSCRIÇÃO
+    DE CERTIFICADOS DE RECEBÍVEIS IMOBILIÁRIOS | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS
+    DE RECEBÍVEIS IMOBILIÁRIOS | BOLETIM DE...
+
+
+    [Conteúdo completo no documento GOLD]'
