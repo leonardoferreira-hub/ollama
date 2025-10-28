@@ -243,6 +243,94 @@ class DocumentVectorDB:
         content = f"{document_name}_{timestamp}"
         return hashlib.md5(content.encode()).hexdigest()[:12]
 
+    def save_feedback(
+        self,
+        catalog_clause_id: str,
+        doc_clause_title: str,
+        classification: str,
+        match_score: float,
+        rating: str,
+        catalog_name: str,
+        notes: str = ""
+    ):
+        """
+        Salva feedback do usuário sobre uma análise
+        
+        Args:
+            catalog_clause_id: ID da cláusula do catálogo
+            doc_clause_title: Título da cláusula encontrada no documento
+            classification: PRESENTE/PARCIAL/AUSENTE
+            match_score: Score de matching
+            rating: 'good' ou 'bad'
+            catalog_name: Nome do catálogo
+            notes: Notas adicionais do usuário
+        """
+        # Cria collection de feedback se não existir
+        try:
+            feedback_collection = self.client.get_or_create_collection(
+                name="feedback_analises",
+                metadata={"description": "Feedback de usuários sobre análises"}
+            )
+        except:
+            return
+        
+        timestamp = datetime.now().isoformat()
+        feedback_id = f"feedback_{hashlib.md5(f'{catalog_clause_id}_{timestamp}'.encode()).hexdigest()[:12]}"
+        
+        # Salva feedback
+        feedback_collection.add(
+            documents=[f"{catalog_clause_id}: {doc_clause_title} - {classification}"],
+            metadatas=[{
+                "catalog_clause_id": catalog_clause_id,
+                "doc_clause_title": doc_clause_title,
+                "classification": classification,
+                "match_score": match_score,
+                "rating": rating,
+                "catalog_name": catalog_name,
+                "notes": notes,
+                "timestamp": timestamp
+            }],
+            ids=[feedback_id]
+        )
+        
+        print(f"{'✅' if rating == 'good' else '⚠️'} Feedback salvo: {catalog_clause_id} - {rating}")
+    
+    def get_feedback_stats(self, catalog_name: str = None) -> Dict:
+        """
+        Retorna estatísticas de feedback
+        
+        Args:
+            catalog_name: Filtrar por catálogo específico
+            
+        Returns:
+            Dict com estatísticas
+        """
+        try:
+            feedback_collection = self.client.get_collection("feedback_analises")
+            
+            # Busca todos os feedbacks
+            results = feedback_collection.get()
+            
+            if not results['metadatas']:
+                return {'good': 0, 'bad': 0, 'total': 0}
+            
+            # Filtra por catálogo se necessário
+            metadatas = results['metadatas']
+            if catalog_name:
+                metadatas = [m for m in metadatas if m.get('catalog_name') == catalog_name]
+            
+            good_count = sum(1 for m in metadatas if m.get('rating') == 'good')
+            bad_count = sum(1 for m in metadatas if m.get('rating') == 'bad')
+            
+            return {
+                'good': good_count,
+                'bad': bad_count,
+                'total': good_count + bad_count,
+                'accuracy': (good_count / (good_count + bad_count) * 100) if (good_count + bad_count) > 0 else 0
+            }
+        except:
+            return {'good': 0, 'bad': 0, 'total': 0, 'accuracy': 0}
+
     def reset(self):
         """Reseta o banco de dados (use com cuidado!)"""
         self.client.reset()

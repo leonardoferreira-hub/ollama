@@ -698,6 +698,106 @@ with tab2:
 
         st.markdown("---")
 
+        # Sistema de Feedback e Avaliação
+        st.subheader("📊 Avaliação da Análise (Sistema de Aprendizado)")
+        
+        st.markdown("""
+        Ajude o sistema a melhorar! Avalie a qualidade das análises abaixo.
+        Suas avaliações são salvas e usadas para melhorar futuras análises.
+        """)
+        
+        # Exibe avaliação por cláusula
+        with st.expander("🎯 Avaliar Análises Individuais", expanded=False):
+            for idx, r in enumerate(results[:10]):  # Primeiras 10 para não sobrecarregar
+                cat_title = r['catalog_clause'].get('titulo', 'N/A')
+                doc_title = r.get('doc_clause', {}).get('title', 'Não encontrada') if r.get('doc_clause') else 'Não encontrada'
+                classification = r['classification']['classificacao']
+                
+                st.markdown(f"**{idx+1}. {cat_title[:60]}**")
+                
+                col1, col2, col3, col4 = st.columns([2, 2, 1, 1])
+                
+                with col1:
+                    st.text(f"Match: {doc_title[:50]}")
+                with col2:
+                    st.text(f"Status: {classification}")
+                with col3:
+                    st.text(f"Score: {r['match_score']:.1f}")
+                with col4:
+                    # Botões de avaliação
+                    feedback_key = f"feedback_{idx}"
+                    
+                    col_a, col_b = st.columns(2)
+                    with col_a:
+                        if st.button("👍", key=f"good_{idx}", help="Análise correta"):
+                            st.session_state[feedback_key] = {
+                                'rating': 'good',
+                                'clause_id': r['catalog_clause'].get('id'),
+                                'doc_clause': doc_title,
+                                'classification': classification,
+                                'match_score': r['match_score']
+                            }
+                            # Salva feedback
+                            try:
+                                st.session_state.vector_db.save_feedback(
+                                    catalog_clause_id=r['catalog_clause'].get('id'),
+                                    doc_clause_title=doc_title,
+                                    classification=classification,
+                                    match_score=r['match_score'],
+                                    rating='good',
+                                    catalog_name=catalog_key
+                                )
+                                st.success("✅ Feedback positivo salvo!")
+                            except:
+                                pass
+                    
+                    with col_b:
+                        if st.button("👎", key=f"bad_{idx}", help="Análise incorreta"):
+                            st.session_state[feedback_key] = {
+                                'rating': 'bad',
+                                'clause_id': r['catalog_clause'].get('id'),
+                                'doc_clause': doc_title,
+                                'classification': classification,
+                                'match_score': r['match_score']
+                            }
+                            # Salva feedback
+                            try:
+                                st.session_state.vector_db.save_feedback(
+                                    catalog_clause_id=r['catalog_clause'].get('id'),
+                                    doc_clause_title=doc_title,
+                                    classification=classification,
+                                    match_score=r['match_score'],
+                                    rating='bad',
+                                    catalog_name=catalog_key
+                                )
+                                st.warning("⚠️ Feedback negativo salvo. Sistema aprenderá com isso!")
+                            except:
+                                pass
+                
+                # Mostra se já foi avaliado
+                if feedback_key in st.session_state:
+                    rating = st.session_state[feedback_key]['rating']
+                    emoji = "✅" if rating == 'good' else "❌"
+                    st.caption(f"{emoji} Avaliado como: {rating}")
+                
+                st.markdown("---")
+        
+        # Estatísticas de feedback
+        if 'feedback_stats' in st.session_state:
+            stats = st.session_state['feedback_stats']
+            st.markdown("### 📈 Estatísticas de Feedback")
+            
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("Avaliações Positivas", stats.get('good', 0))
+            with col2:
+                st.metric("Avaliações Negativas", stats.get('bad', 0))
+            with col3:
+                accuracy = stats.get('good', 0) / (stats.get('good', 0) + stats.get('bad', 1)) * 100
+                st.metric("Taxa de Acerto", f"{accuracy:.1f}%")
+
+        st.markdown("---")
+
         # Downloads
         st.subheader("Baixar Relatórios")
 
