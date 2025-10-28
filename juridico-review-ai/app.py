@@ -679,15 +679,19 @@ with tab2:
 
             excel_data = []
             for r in results:
+                doc_title = r.get('doc_clause', {}).get('title', 'Não encontrada') if r.get('doc_clause') else 'Não encontrada'
+                cat_clause = r['catalog_clause']
+                
                 excel_data.append({
-                    'Cláusula Documento': r['clause']['title'],
-                    'Cláusula Catálogo': r['catalog_match']['titulo'] if r['catalog_match'] else 'N/A',
+                    'Cláusula Esperada': cat_clause.get('titulo', 'N/A'),
+                    'Encontrada no Doc': doc_title,
                     'Status': r['classification']['classificacao'],
                     'Confiança': r['classification'].get('confianca', 0),
                     'Justificativa': r['classification']['justificativa'],
                     'Sugestão': r['classification'].get('sugestao', 'N/A'),
-                    'Obrigatória': 'SIM' if r['catalog_match'] and r['catalog_match'].get('obrigatoria') else 'NÃO',
-                    'Categoria': r['catalog_match'].get('categoria', 'N/A') if r['catalog_match'] else 'N/A'
+                    'Obrigatória': 'SIM' if cat_clause.get('obrigatoria') else 'NÃO',
+                    'Categoria': cat_clause.get('categoria', 'N/A'),
+                    'Match Score': r['match_score']
                 })
 
             df_excel = pd.DataFrame(excel_data)
