@@ -447,62 +447,83 @@ with tab1:
 
             catalog = load_catalog(str(catalogs[catalog_key]['file']))
 
-            # 3. Classificação
+            # 3. Classificação - ABORDAGEM CORRETA: itera sobre CATÁLOGO
             status_text.text("Classificando com Gemini AI...")
             progress_bar.progress(40)
 
             results = []
-            total_clauses = len(document.clauses)
+            catalog_clauses = catalog.get('clausulas', [])
+            total_catalog = len(catalog_clauses)
 
-            for i, clause in enumerate(document.clauses):
+            # Junta todo conteúdo do documento para busca
+            doc_full_text = "\n\n".join([
+                f"{c['title']}\n{c['content']}" 
+                for c in document.clauses
+            ]).lower()
+
+            for i, cat_clause in enumerate(catalog_clauses):
                 # Update progress
-                progress = 40 + int((i / total_clauses) * 50)
+                progress = 40 + int((i / total_catalog) * 50)
                 progress_bar.progress(progress)
-                status_text.text(f"Analisando cláusula {i+1}/{total_clauses}: {clause['title'][:40]}...")
+                cat_title = cat_clause.get('titulo', 'Sem título')
+                status_text.text(f"Verificando cláusula {i+1}/{total_catalog}: {cat_title[:50]}...")
 
-                # Encontra melhor match no catálogo (simplificado)
-                best_match = None
+                # Encontra melhor match no documento
+                best_doc_clause = None
                 best_score = 0
 
-                for cat_clause in catalog['clausulas']:
+                for doc_clause in document.clauses:
                     # Score simples por keywords
                     score = 0
-                    text_combined = (clause['title'] + " " + clause['content'][:500]).lower()
+                    doc_text = (doc_clause['title'] + " " + doc_clause['content'][:1000]).lower()
 
                     for kw in cat_clause.get('keywords', []):
-                        if kw.lower() in text_combined:
+                        if kw.lower() in doc_text:
                             score += 1
 
                     if score > best_score:
                         best_score = score
-                        best_match = cat_clause
+                        best_doc_clause = doc_clause
+
+                # Se não achou match por keyword, verifica se há alguma menção no doc
+                if not best_doc_clause or best_score == 0:
+                    # Verifica se alguma keyword aparece em qualquer lugar do documento
+                    keywords_found = sum(1 for kw in cat_clause.get('keywords', []) 
+                                       if kw.lower() in doc_full_text)
+                    
+                    if keywords_found > 0 and document.clauses:
+                        # Pega primeira cláusula como placeholder
+                        best_doc_clause = document.clauses[0]
+                        best_score = keywords_found * 0.1
 
                 # Classifica e gera sugestão com Gemini + RAG
-                if best_match:
+                if best_doc_clause and best_score > 0:
                     classification = classify_and_suggest_with_gemini(
-                        clause['title'],
-                        clause['content'],
-                        best_match,
+                        best_doc_clause['title'],
+                        best_doc_clause['content'],
+                        cat_clause,
                         gemini_key,
                         vector_db=st.session_state.vector_db,
                         catalog_name=catalog_key
                     )
 
                     results.append({
-                        'clause': clause,
+                        'catalog_clause': cat_clause,
+                        'doc_clause': best_doc_clause,
                         'classification': classification,
-                        'catalog_match': best_match,
                         'match_score': best_score
                     })
                 else:
+                    # Cláusula do catálogo não encontrada no documento
                     results.append({
-                        'clause': clause,
+                        'catalog_clause': cat_clause,
+                        'doc_clause': None,
                         'classification': {
                             'classificacao': 'AUSENTE',
-                            'confianca': 0.0,
-                            'justificativa': 'Sem match no catálogo'
+                            'confianca': 1.0,
+                            'justificativa': f'Cláusula não encontrada no documento. Esperado: {cat_title}',
+                            'sugestao': cat_clause.get('template', 'Adicionar esta cláusula ao documento.')
                         },
-                        'catalog_match': None,
                         'match_score': 0
                     })
 
@@ -596,11 +617,15 @@ with tab2:
 
         table_data = []
         for r in results:
+            cat_title = r['catalog_clause'].get('titulo', 'N/A')
+            doc_title = r.get('doc_clause', {}).get('title', 'Não encontrada') if r.get('doc_clause') else 'Não encontrada'
+            
             row = {
-                'Cláusula': r['clause']['title'][:60],
+                'Cláusula Esperada': cat_title[:60],
+                'Encontrada no Doc': doc_title[:60],
                 'Status': r['classification']['classificacao'],
                 'Confiança': f"{r['classification'].get('confianca', 0):.0%}",
-                'Match Catálogo': r['catalog_match']['titulo'][:40] if r['catalog_match'] else 'N/A',
+                'Match Score': f"{r['match_score']:.2f}",
                 'Justificativa': r['classification']['justificativa'][:80]
             }
 
