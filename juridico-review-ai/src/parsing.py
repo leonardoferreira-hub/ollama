@@ -93,23 +93,22 @@ def extract_table_content(table) -> List[Dict]:
 
 def parse_docx(doc: Document) -> Document:
     """
-    Parse ROBUSTO para arquivos DOCX
+    Parse ULTRA ROBUSTO para arquivos DOCX
 
-    Captura:
+    Captura múltiplos padrões:
     - CLÁUSULA X - TÍTULO
-    - CAPÍTULO NOME
+    - CAPÍTULO NOME  
     - ANEXO NOME
+    - Numeração: 1., 1.1, 1.1.1
+    - Títulos com formatação (Bold, Heading)
+    - Texto em MAIÚSCULAS como título
     - Conteúdo de TABELAS
-    - Parágrafos numerados (1., 1.1, etc.)
     """
     docx_file = docx.Document(doc.filepath)
 
     current_clause = None
     current_content = []
     current_section = None
-
-    # Lista para rastrear se já processamos certa tabela
-    processed_elements = set()
 
     # Processa PARÁGRAFOS
     for idx, para in enumerate(docx_file.paragraphs):
@@ -118,29 +117,72 @@ def parse_docx(doc: Document) -> Document:
         if not text or len(text) < 3:
             continue
 
-        # REGEX EXPANDIDA: CLÁUSULA | CAPÍTULO | ANEXO | SEÇÃO | Numeração
+        # ====== DETECÇÃO DE TÍTULOS/CLÁUSULAS ======
+        
+        # 1. REGEX para palavras-chave comuns
         heading_match = re.match(
-            r'^(cl[áa]usula|se[çc][ãa]o|cap[íi]tulo|anexo)\s+(.+)$',
+            r'^(cl[áa]usula|se[çc][ãa]o|cap[íi]tulo|anexo|item|art|artigo|t[íi]tulo|par[áa]grafo)\s+(.+)$',
             text,
             re.IGNORECASE
         )
 
-        # Numeração (1., 1.1, etc.)
+        # 2. Numeração com ou sem título (muito flexível)
         number_match = re.match(
-            r'^(\d+(\.\d+){0,2})\s*[-–—]?\s*(.+)$',
+            r'^(\d+(\.\d+){0,3})[\.\)\s]*[-–—]?\s*(.*)$',
             text
         )
 
-        # Verifica se é estilo Heading
+        # 3. Letras (a), (b), etc.
+        letter_match = re.match(
+            r'^([a-z]\)|[a-z]\.|[A-Z]\)|[A-Z]\.)\s+(.+)$',
+            text
+        )
+
+        # 4. Verifica formatação (Bold, Heading, etc.)
+        is_bold = False
         is_heading_style = False
         try:
             style_name = getattr(para.style, 'name', '').lower()
-            is_heading_style = 'heading' in style_name or 'título' in style_name
+            is_heading_style = 'heading' in style_name or 'título' in style_name or 'title' in style_name
+            
+            # Verifica se tem runs em negrito
+            for run in para.runs:
+                if run.bold:
+                    is_bold = True
+                    break
         except:
             pass
 
-        # DETECTA CABEÇALHO (CLÁUSULA, CAPÍTULO, ANEXO, etc.)
-        if heading_match or (number_match and (text.isupper() or is_heading_style)):
+        # 5. Texto em MAIÚSCULAS (possível título)
+        is_upper = text.isupper() and len(text.split()) >= 2 and len(text.split()) <= 15
+
+        # 6. Linha curta seguida de dois pontos (ex: "Prazo:")
+        colon_match = re.match(r'^([^:]+):\s*$', text)
+
+        # ====== DECIDE SE É TÍTULO ======
+        is_title = False
+        
+        if heading_match:
+            is_title = True
+        elif number_match and number_match.group(3):  # Tem número E texto
+            # É título se: tem formatação OU texto curto OU maiúsculas
+            has_text = len(number_match.group(3).strip()) > 0
+            is_short = len(text.split()) <= 20
+            if has_text and (is_bold or is_heading_style or is_upper or is_short):
+                is_title = True
+        elif letter_match:
+            is_title = True
+        elif is_heading_style:
+            is_title = True
+        elif is_bold and len(text.split()) <= 15:  # Bold e curto = título
+            is_title = True
+        elif is_upper and len(text) > 10:  # MAIÚSCULAS = título
+            is_title = True
+        elif colon_match and len(text) <= 80:  # "Título:" = título
+            is_title = True
+
+        # ====== PROCESSA COMO TÍTULO OU CONTEÚDO ======
+        if is_title:
             # Salva cláusula anterior
             if current_clause:
                 doc.add_clause(
@@ -154,18 +196,22 @@ def parse_docx(doc: Document) -> Document:
             current_clause = text
             current_content = []
 
-            # Determina seção pelo tipo
+            # Determina seção
             if heading_match:
                 tipo = heading_match.group(1).upper()
                 current_section = f"{tipo}: {heading_match.group(2)}"
-
-        # Detecta SEÇÃO (texto curto em MAIÚSCULAS)
-        elif text.isupper() and len(text.split()) <= 6 and len(text) > 10:
-            current_section = text
+            elif is_upper and len(text.split()) <= 6:
+                current_section = text
 
         # Conteúdo da cláusula atual
-        elif current_clause:
-            current_content.append(text)
+        else:
+            if current_clause:
+                current_content.append(text)
+            else:
+                # Se ainda não há cláusula, cria uma genérica
+                if not current_clause and len(text) > 20:
+                    current_clause = f"PREÂMBULO/INTRODUÇÃO"
+                    current_content.append(text)
 
     # Adiciona última cláusula dos parágrafos
     if current_clause:
@@ -175,6 +221,54 @@ def parse_docx(doc: Document) -> Document:
             current_section,
             source="paragraph"
         )
+
+    # ====== FALLBACK: Se encontrou poucas cláusulas, divide por parágrafos grandes ======
+    min_expected_clauses = 5
+    if len(doc.clauses) < min_expected_clauses:
+        # Junta todos os parágrafos
+        all_paragraphs = []
+        for para in docx_file.paragraphs:
+            text = normalize_text(para.text)
+            if text and len(text) > 30:  # Ignora linhas muito curtas
+                all_paragraphs.append(text)
+        
+        # Divide em chunks de ~500 palavras
+        chunk_size = 100  # palavras por chunk
+        current_chunk = []
+        word_count = 0
+        chunk_num = 1
+        
+        for para_text in all_paragraphs:
+            words = para_text.split()
+            word_count += len(words)
+            current_chunk.append(para_text)
+            
+            if word_count >= chunk_size:
+                # Salva chunk
+                chunk_title = f"SEÇÃO {chunk_num}"
+                # Tenta extrair primeira frase como título
+                first_sentence = current_chunk[0][:100] if current_chunk else f"Seção {chunk_num}"
+                doc.add_clause(
+                    title=f"{chunk_title}: {first_sentence}",
+                    content='\n\n'.join(current_chunk),
+                    section=chunk_title,
+                    source="fallback"
+                )
+                
+                current_chunk = []
+                word_count = 0
+                chunk_num += 1
+        
+        # Adiciona último chunk
+        if current_chunk:
+            chunk_title = f"SEÇÃO {chunk_num}"
+            first_sentence = current_chunk[0][:100] if current_chunk else f"Seção {chunk_num}"
+            doc.add_clause(
+                title=f"{chunk_title}: {first_sentence}",
+                content='\n\n'.join(current_chunk),
+                section=chunk_title,
+                source="fallback"
+            )
 
     # Processa TABELAS
     for table_idx, table in enumerate(docx_file.tables):
