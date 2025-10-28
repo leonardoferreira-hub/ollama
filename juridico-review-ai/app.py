@@ -199,7 +199,7 @@ def rate_limit_wait():
     st.session_state.rate_limiter.append(time.time())
 
 
-def classify_and_suggest_with_gemini(clause_title, clause_content, catalog_clause, api_key, vector_db=None):
+def classify_and_suggest_with_gemini(clause_title, clause_content, catalog_clause, api_key, vector_db=None, catalog_name=""):
     """Classifica cláusula e gera sugestão usando Gemini API com RAG e rate limiting"""
 
     # Rate limiting: 10 RPM
@@ -224,6 +224,7 @@ def classify_and_suggest_with_gemini(clause_title, clause_content, catalog_claus
                 clause_title=clause_title,
                 clause_content=clause_content,
                 catalog_clause=catalog_clause,
+                catalog_name=catalog_name,
                 n_examples=2
             )
         except:
@@ -483,7 +484,8 @@ with tab1:
                         clause['content'],
                         best_match,
                         gemini_key,
-                        vector_db=st.session_state.vector_db
+                        vector_db=st.session_state.vector_db,
+                        catalog_name=catalog_key
                     )
 
                     results.append({
@@ -624,7 +626,7 @@ with tab2:
         # Aplicar estilo condicionalmente: só se a coluna 'Status' existir
         try:
             if 'Status' in df.columns:
-                styled = df.style.applymap(color_status, subset=['Status'])
+                styled = df.style.map(color_status, subset=['Status'])
             else:
                 styled = df
 
