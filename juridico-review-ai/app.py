@@ -319,6 +319,9 @@ st.markdown("""
 <div class="subtitle">Sistema inteligente de revisão automatizada de minutas jurídicas</div>
 """, unsafe_allow_html=True)
 
+# Aviso sobre nova funcionalidade
+st.info("📚 **Nova Funcionalidade!** Acesse a página **Gerenciar Cláusulas GOLD** no menu lateral (👈) para editar e personalizar as sugestões de explicação das cláusulas padrão usadas pela IA.")
+
 # Navegação por abas
 tab_analise, tab_catalogo = st.tabs(["📄 Análise de Documentos", "📝 Editar Catálogo"])
 
