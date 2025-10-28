@@ -1,0 +1,771 @@
+{
+  "documento": "CRI com Destinação - Modelo 2025",
+  "total_clausulas": 60,
+  "data_analise": "2025-10-28",
+  "clausulas_com_sugestoes": [
+    {
+      "numero": "1",
+      "titulo": "DEFINIÇÕES\t4",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "TERMO DE SECURITIZAÇÃO DE CRÉDITOS IMOBILIÁRIOS DA [•]ª ([•]) EMISSÃO, EM [•] SÉRIES, DA TRAVESSIA SECURITIZADORA S.A., LASTREADOS EM CRÉDITOS IMOBILIÁRIOS DEVIDOS PELA [•].\npara emissão de\nCertificad...",
+      "tamanho_conteudo": 423,
+      "sugestao_explicacao": "Esta cláusula estabelece os termos e definições utilizados ao longo do documento, garantindo interpretação uniforme.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "2",
+      "titulo": "APROVAÇÃO DA EMISSÃO\t4",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Define os procedimentos e requisitos para aprovação da emissão dos certificados.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "3",
+      "titulo": "OBJETO E CRÉDITOS IMOBILIÁRIOS\t5",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Descreve o objeto principal do termo e os créditos imobiliários que lastreiam os CRI.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "4",
+      "titulo": "IDENTIFICAÇÃO DOS CRI E FORMA DE DISTRIBUIÇÃO\t6",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Identifica os CRI emitidos, suas características e forma de distribuição.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "5",
+      "titulo": "SUBSCRIÇÃO E INTEGRALIZAÇÃO DOS CRI\t12",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Estabelece as regras para subscrição e integralização dos certificados.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "6",
+      "titulo": "REMUNERAÇÃO E ATUALIZAÇÃO MONETÁRIA\t17",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Define a forma de remuneração, atualização monetária e cálculo de juros dos CRI.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "7",
+      "titulo": "VENCIMENTO ANTECIPADO AUTOMÁTICO E NÃO AUTOMÁTICO DOS CRÉDITOS IMOBILIÁRIOS E O RESGATE ANTECIPADO DOS CRI\t21",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Estabelece as hipóteses e procedimentos de vencimento antecipado.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "8",
+      "titulo": "ASSEMBLEIA ESPECIAL DE TITULARES DE CRI\t29",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Regula a convocação e funcionamento das assembleias de titulares de CRI.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "9",
+      "titulo": "OBRIGAÇÕES E DECLARAÇÕES DA EMISSORA\t32",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Lista as obrigações e declarações da emissora perante os titulares.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "10",
+      "titulo": "RESGATE ANTECIPADO FACULTATIVO TOTAL DAS NOTAS COMERCIAIS, OFERTA DE RESGATE ANTECIPADO TOTAL DAS NOTAS COMERCIAIS, RESGATE ANTECIPADO TOTAL DAS NOTAS COMERCIAIS POR ALTERAÇÃO DE TRIBUTOS, RESGATE ANTECIPADO TOTAL OBRIGATÓRIO DOS CRI E OFERTA DE RESGATE ANTECIPADO TOTAL OBRIGATÓRIO DOS CRI",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Define as condições e procedimentos para resgate antecipado dos CRI.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "11",
+      "titulo": "REGIME FIDUCIÁRIO E ADMINISTRAÇÃO DO PATRIMÔNIO SEPARADO\t40",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de regime fiduciário e administração do patrimônio separado\t40.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "12",
+      "titulo": "AGENTE FIDUCIÁRIO\t42",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Estabelece as atribuições, responsabilidades e remuneração do agente fiduciário.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "13",
+      "titulo": "LIQUIDAÇÃO DO PATRIMÔNIO SEPARADO\t48",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de liquidação do patrimônio separado\t48.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "14",
+      "titulo": "DESPESAS DA EMISSÃO\t49",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de despesas da emissão\t49.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "15",
+      "titulo": "PUBLICIDADE\t57",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de publicidade\t57.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "16",
+      "titulo": "REGISTROS E DECLARAÇÕES\t57",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de registros e declarações\t57.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "17",
+      "titulo": "DISPOSIÇÕES GERAIS\t58",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de disposições gerais\t58.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "18",
+      "titulo": "NOTIFICAÇÕES\t59",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de notificações\t59.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "19",
+      "titulo": "RESOLUÇÃO DE CONFLITOS\t60",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de resolução de conflitos\t60.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "20",
+      "titulo": "ASSINATURA DIGITAL\t60",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "ANEXO I — MODELO DECLARAÇÃO DE CUSTÓDIA\t63\nANEXO II — DESCRIÇÃO DOS IMÓVEIS ELEGÍVEIS\t0\nANEXO III – MODELO DECLARAÇÃO DA COMPANHIA SECURITIZADORA\t1\nANEXO IV — TRATAMENTO TRIBUTÁRIO\t3\nANEXO V — PROPORÇ...",
+      "tamanho_conteudo": 64019,
+      "sugestao_explicacao": "Seção que trata de assinatura digital\t60. Estabelece obrigações específicas. Confere faculdades e direitos. Especifica prazos importantes.",
+      "pontos_atencao": [
+        "Contém especificação de prazos",
+        "Define condições de vencimento",
+        "Menciona garantias",
+        "Estabelece penalidades",
+        "Prevê aplicação de multas",
+        "Especifica taxas de juros",
+        "Regula situações de mora",
+        "Trata de inadimplemento",
+        "Prevê hipóteses de rescisão",
+        "Requer aprovação em assembleia",
+        "Define quórum necessário",
+        "Exige notificação prévia",
+        "Requer comunicação às partes",
+        "Necessita registro",
+        "Requer publicação"
+      ]
+    },
+    {
+      "numero": "TITULO_21",
+      "titulo": "ASSEMBLEIA ESPECIAL DE TITULARES DE CRI",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "Realização da Assembleia Especial de Titulares de CRI: Os Investidores poderão, a qualquer tempo, reunir-se em Assembleia Especial de Titulares de CRI, a fim de deliberar sobre matéria de interesse da...",
+      "tamanho_conteudo": 96046,
+      "sugestao_explicacao": "Regula a convocação e funcionamento das assembleias de titulares de CRI. Estabelece obrigações específicas. Confere faculdades e direitos. Especifica prazos importantes. Requer comunicações obrigatórias.",
+      "pontos_atencao": [
+        "Contém especificação de prazos",
+        "Define condições de vencimento",
+        "Menciona garantias",
+        "Estabelece penalidades",
+        "Prevê aplicação de multas",
+        "Especifica taxas de juros",
+        "Regula situações de mora",
+        "Trata de inadimplemento",
+        "Requer aprovação em assembleia",
+        "Define quórum necessário",
+        "Exige notificação prévia",
+        "Requer comunicação às partes",
+        "Necessita registro",
+        "Requer publicação"
+      ]
+    },
+    {
+      "numero": "TITULO_22",
+      "titulo": "PUBLICIDADE",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "Nos termos da Resolução CVM 60, fatos e atos relevantes de interesse dos Titulares dos CRI , tais como convocações de Assembleia Especial de Investidores, comunicados de resgate, amortização, notifica...",
+      "tamanho_conteudo": 7482,
+      "sugestao_explicacao": "Seção que trata de publicidade. Estabelece obrigações específicas. Confere faculdades e direitos. Especifica prazos importantes.",
+      "pontos_atencao": [
+        "Contém especificação de prazos",
+        "Trata de inadimplemento",
+        "Requer aprovação em assembleia",
+        "Necessita registro"
+      ]
+    },
+    {
+      "numero": "TITULO_23",
+      "titulo": "ASSINATURA DIGITAL",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "Para todos os fins e efeitos de direito, as Partes reconhecem e concordam que suas assinaturas no presente instrumento poderão ser realizadas por meio digital, desde que utilizem certificado digital e...",
+      "tamanho_conteudo": 18303,
+      "sugestao_explicacao": "Seção que trata de assinatura digital. Estabelece obrigações específicas. Especifica prazos importantes.",
+      "pontos_atencao": [
+        "Contém especificação de prazos",
+        "Menciona garantias",
+        "Necessita registro"
+      ]
+    },
+    {
+      "numero": "TITULO_24",
+      "titulo": "CRONOGRAMA DE PAGAMENTOS DOS CRI",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "[•]\nANEXO VII – MODELO DA DECLARAÇÃO DE INEXISTÊNCIA DE CONFLITO DE INTERESSES\nAGENTE FIDUCIÁRIO CADASTRADO NA CVM\nO Agente Fiduciário a seguir identificado:\nda oferta pública do seguinte valor mobili...",
+      "tamanho_conteudo": 38758,
+      "sugestao_explicacao": "Seção que trata de cronograma de pagamentos dos cri. Estabelece obrigações específicas. Requer comunicações obrigatórias.",
+      "pontos_atencao": [
+        "Define condições de vencimento",
+        "Menciona garantias",
+        "Estabelece penalidades",
+        "Prevê aplicação de multas",
+        "Especifica taxas de juros",
+        "Regula situações de mora",
+        "Trata de inadimplemento",
+        "Requer aprovação em assembleia",
+        "Necessita registro"
+      ]
+    },
+    {
+      "numero": "TITULO_25",
+      "titulo": "EMISSORA",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de emissora.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_26",
+      "titulo": "EMISSORA",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de emissora.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_27",
+      "titulo": "EMISSORA",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de emissora.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_28",
+      "titulo": "EMISSORA",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de emissora.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_29",
+      "titulo": "EMISSORA",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de emissora.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_30",
+      "titulo": "EMISSORA",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de emissora.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_31",
+      "titulo": "EMISSORA",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de emissora.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_32",
+      "titulo": "EMISSORA",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de emissora.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_33",
+      "titulo": "EMISSORA",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de emissora.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_34",
+      "titulo": "EMISSORA",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de emissora.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_35",
+      "titulo": "EMISSORA",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de emissora.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_36",
+      "titulo": "EMISSORA",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "TRAVESSIA SECURITIZADORA S.A., sociedade por ações, com sede na cidade de São Paulo, Estado de São Paulo, na Rua Tabapuã, nº 41, 13º Andar, sala 01, Itaim Bibi, CEP 04533-010, inscrita no CNPJ sob o n...",
+      "tamanho_conteudo": 4414,
+      "sugestao_explicacao": "Seção que trata de emissora.",
+      "pontos_atencao": [
+        "Define condições de vencimento",
+        "Necessita registro"
+      ]
+    },
+    {
+      "numero": "TITULO_37",
+      "titulo": "FORMA DE PAGAMENTO DOS CRI",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de forma de pagamento dos cri.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_38",
+      "titulo": "FORMA DE PAGAMENTO DOS CRI",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de forma de pagamento dos cri.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_39",
+      "titulo": "FORMA DE PAGAMENTO DOS CRI",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de forma de pagamento dos cri.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_40",
+      "titulo": "FORMA DE PAGAMENTO DOS CRI",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de forma de pagamento dos cri.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_41",
+      "titulo": "FORMA DE PAGAMENTO DOS CRI",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de forma de pagamento dos cri.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_42",
+      "titulo": "FORMA DE PAGAMENTO DOS CRI",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de forma de pagamento dos cri.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_43",
+      "titulo": "FORMA DE PAGAMENTO DOS CRI",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de forma de pagamento dos cri.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_44",
+      "titulo": "FORMA DE PAGAMENTO DOS CRI",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de forma de pagamento dos cri.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_45",
+      "titulo": "FORMA DE PAGAMENTO DOS CRI",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de forma de pagamento dos cri.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_46",
+      "titulo": "FORMA DE PAGAMENTO DOS CRI",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de forma de pagamento dos cri.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_47",
+      "titulo": "FORMA DE PAGAMENTO DOS CRI",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de forma de pagamento dos cri.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_48",
+      "titulo": "FORMA DE PAGAMENTO DOS CRI",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "Amortização\nAmortização\nAmortização\nAmortização\nAmortização\nJuros Remuneratórios\nJuros Remuneratórios\nJuros Remuneratórios\nJuros Remuneratórios\nJuros Remuneratórios\nJuros Remuneratórios\nJuros Remunera...",
+      "tamanho_conteudo": 11113,
+      "sugestao_explicacao": "Seção que trata de forma de pagamento dos cri.",
+      "pontos_atencao": [
+        "Menciona garantias",
+        "Especifica taxas de juros"
+      ]
+    },
+    {
+      "numero": "TITULO_49",
+      "titulo": "CRI SUBSCRITOS",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de cri subscritos.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_50",
+      "titulo": "CRI SUBSCRITOS",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de cri subscritos.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_51",
+      "titulo": "CRI SUBSCRITOS",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de cri subscritos.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_52",
+      "titulo": "CRI SUBSCRITOS",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de cri subscritos.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_53",
+      "titulo": "CRI SUBSCRITOS",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de cri subscritos.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_54",
+      "titulo": "CRI SUBSCRITOS",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de cri subscritos.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_55",
+      "titulo": "CRI SUBSCRITOS",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de cri subscritos.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_56",
+      "titulo": "CRI SUBSCRITOS",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de cri subscritos.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_57",
+      "titulo": "CRI SUBSCRITOS",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de cri subscritos.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_58",
+      "titulo": "CRI SUBSCRITOS",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de cri subscritos.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_59",
+      "titulo": "CRI SUBSCRITOS",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "",
+      "tamanho_conteudo": 0,
+      "sugestao_explicacao": "Seção que trata de cri subscritos.",
+      "pontos_atencao": [
+        "Revisar conteúdo completo da cláusula"
+      ]
+    },
+    {
+      "numero": "TITULO_60",
+      "titulo": "CRI SUBSCRITOS",
+      "tipo": "titulo",
+      "nivel": null,
+      "preview_conteudo": "Quantidade\nQuantidade\nQuantidade\nValor de Integralização por Unidade de CRI\nValor de Integralização por Unidade de CRI\nValor de Integralização por Unidade de CRI\nValor de Integralização por Unidade de...",
+      "tamanho_conteudo": 161095,
+      "sugestao_explicacao": "Seção que trata de cri subscritos. Estabelece obrigações específicas. Confere faculdades e direitos. Impõe restrições e limitações.",
+      "pontos_atencao": [
+        "Menciona garantias",
+        "Requer comunicação às partes",
+        "Necessita registro"
+      ]
+    }
+  ]
+}
