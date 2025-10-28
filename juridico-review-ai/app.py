@@ -468,33 +468,64 @@ with tab1:
                 cat_title = cat_clause.get('titulo', 'Sem título')
                 status_text.text(f"Verificando cláusula {i+1}/{total_catalog}: {cat_title[:50]}...")
 
-                # Encontra melhor match no documento
+                # Encontra melhor match no documento usando múltiplas estratégias
                 best_doc_clause = None
                 best_score = 0
+                
+                from rapidfuzz import fuzz
+                
+                cat_title_lower = cat_title.lower()
+                cat_keywords = [kw.lower() for kw in cat_clause.get('keywords', [])]
 
                 for doc_clause in document.clauses:
-                    # Score simples por keywords
+                    doc_title = doc_clause['title'].lower()
+                    doc_text = (doc_clause['title'] + " " + doc_clause['content'][:2000]).lower()
+                    
                     score = 0
-                    doc_text = (doc_clause['title'] + " " + doc_clause['content'][:1000]).lower()
-
-                    for kw in cat_clause.get('keywords', []):
-                        if kw.lower() in doc_text:
-                            score += 1
+                    
+                    # 1. Similaridade do título (peso alto)
+                    title_similarity = fuzz.partial_ratio(cat_title_lower, doc_title) / 100.0
+                    score += title_similarity * 50  # Peso 50 para título
+                    
+                    # 2. Similaridade fuzzy de palavras-chave importantes do título do catálogo
+                    cat_important_words = [w for w in cat_title_lower.split() if len(w) > 3]
+                    for word in cat_important_words:
+                        if word in doc_title:
+                            score += 10  # Bônus por palavra exata no título
+                        elif any(fuzz.ratio(word, doc_word) > 80 for doc_word in doc_title.split()):
+                            score += 5  # Bônus por palavra similar no título
+                    
+                    # 3. Keywords no texto (peso médio)
+                    keywords_in_text = sum(1 for kw in cat_keywords if kw in doc_text)
+                    score += keywords_in_text * 3
+                    
+                    # 4. Posição no documento (cláusulas iniciais têm leve bônus para empate)
+                    position_bonus = (1 - (doc_clause['index'] / max(len(document.clauses), 1))) * 2
+                    score += position_bonus
 
                     if score > best_score:
                         best_score = score
                         best_doc_clause = doc_clause
 
-                # Se não achou match por keyword, verifica se há alguma menção no doc
-                if not best_doc_clause or best_score == 0:
+                # Se não achou match razoável, busca em todo documento
+                if not best_doc_clause or best_score < 5:
                     # Verifica se alguma keyword aparece em qualquer lugar do documento
-                    keywords_found = sum(1 for kw in cat_clause.get('keywords', []) 
-                                       if kw.lower() in doc_full_text)
+                    keywords_found = sum(1 for kw in cat_keywords if kw in doc_full_text)
                     
                     if keywords_found > 0 and document.clauses:
-                        # Pega primeira cláusula como placeholder
-                        best_doc_clause = document.clauses[0]
-                        best_score = keywords_found * 0.1
+                        # Busca a cláusula que mais menciona as keywords
+                        best_kw_clause = None
+                        best_kw_count = 0
+                        for doc_clause in document.clauses:
+                            doc_text = (doc_clause['title'] + " " + doc_clause['content'][:2000]).lower()
+                            kw_count = sum(1 for kw in cat_keywords if kw in doc_text)
+                            if kw_count > best_kw_count:
+                                best_kw_count = kw_count
+                                best_kw_clause = doc_clause
+                        
+                        if best_kw_clause and best_kw_count > best_score:
+                            best_doc_clause = best_kw_clause
+                            best_score = best_kw_count * 2
 
                 # Classifica e gera sugestão com Gemini + RAG
                 if best_doc_clause and best_score > 0:
