@@ -2,7 +2,15 @@
   "permissions": {
     "allow": [
       "Bash(python:*)",
-      "Bash(pip install:*)"
+      "Bash(pip install:*)",
+      "Bash(timeout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfeat: Sistema RAG completo com Gold Standard e catálogos especializados\n\nImplementações principais:\n\n🎯 Sistema RAG com Aprendizado Contínuo\n- Banco de dados vetorial (ChromaDB) para histórico de documentos\n- Salvamento automático de cada documento analisado\n- Busca semântica por similaridade para sugestões contextualizadas\n- Persistência entre sessões\n\n⭐ Gold Standard com Prioridade\n- Documentos GOLD (prefixo GOLD_) têm prioridade máxima\n- Servem como referência permanente de qualidade\n- Nunca são substituídos por documentos ruins\n- Detecção automática pelo nome do arquivo\n\n🔍 Filtro de Qualidade Automático\n- Documentos GOLD: salva tudo (inclusive PARCIAL/AUSENTE)\n- Documentos normais: apenas cláusulas PRESENTE com confiança ≥70%\n- Evita contaminação da base com documentos ruins\n\n📚 Catálogos Especializados por Tipo\n- catalogo_cri_destinacao.yaml (CRI com destinação específica)\n- catalogo_cri_sem_destinacao.yaml (CRI sem destinação)\n- RAG isolado por tipo (CRI Dest não mistura com CRA)\n- Sugestões específicas para cada operação\n\n📄 Parsing Robusto\n- Detecta: CLÁUSULA, CAPÍTULO, ANEXO, SEÇÃO, numeração\n- Extração de conteúdo de tabelas (DOCX e PDF)\n- Remoção de placeholders {=}, [=]\n- Funciona com documentos lineares e com tabelas\n\n🎨 Interface Melhorada\n- Indicadores de base de conhecimento na sidebar\n- Contador de documentos GOLD\n- Download Excel com sugestões funcionando\n- API Key fixada para testes locais\n- Rate limiter (10 RPM) para Gemini API\n\n📖 Documentação Completa\n- SISTEMA_RAG_GOLD.md: guia completo do sistema\n- DEPLOY_STREAMLIT.md: instruções de deploy\n- QUICKSTART.md: início rápido\n- data/documentos_gold/README.md: guia de documentos gold\n\nBenefícios:\n- Sistema aprende com cada documento de qualidade\n- Sugestões melhoram exponencialmente com o uso\n- Zero manutenção manual\n- Qualidade garantida por documentos GOLD\n\n🤖 Generated with Claude Code\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)",
+      "Bash(git commit:*)",
+      "Bash(streamlit run:*)",
+      "Bash(dir:*)",
+      "Bash(findstr:*)"
     ],
     "deny": [],
     "ask": []
