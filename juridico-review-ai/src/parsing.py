@@ -154,7 +154,7 @@ def parse_docx(doc: Document) -> Document:
             pass
 
         # 5. Texto em MAIÚSCULAS (possível título)
-        is_upper = text.isupper() and len(text.split()) >= 2 and len(text.split()) <= 15
+        is_upper = text.isupper() and len(text.split()) >= 3 and len(text.split()) <= 15
 
         # 6. Linha curta seguida de dois pontos (ex: "Prazo:")
         colon_match = re.match(r'^([^:]+):\s*$', text)
@@ -165,20 +165,21 @@ def parse_docx(doc: Document) -> Document:
         if heading_match:
             is_title = True
         elif number_match and number_match.group(3):  # Tem número E texto
-            # É título se: tem formatação OU texto curto OU maiúsculas
-            has_text = len(number_match.group(3).strip()) > 0
+            # É título se: tem formatação E (texto razoável OU maiúsculas)
+            has_text = len(number_match.group(3).strip()) > 10
             is_short = len(text.split()) <= 20
-            if has_text and (is_bold or is_heading_style or is_upper or is_short):
+            # Só considera título se tiver formatação OU for maiúsculas
+            if has_text and (is_bold or is_heading_style or (is_upper and is_short)):
                 is_title = True
-        elif letter_match:
+        elif letter_match and len(text.split()) >= 3:  # Letras só se tiver texto razoável
             is_title = True
         elif is_heading_style:
             is_title = True
-        elif is_bold and len(text.split()) <= 15:  # Bold e curto = título
+        elif is_bold and len(text.split()) >= 3 and len(text.split()) <= 15:  # Bold + comprimento razoável
             is_title = True
-        elif is_upper and len(text) > 10:  # MAIÚSCULAS = título
+        elif is_upper and len(text) > 15 and len(text.split()) >= 3:  # MAIÚSCULAS com mínimo de palavras
             is_title = True
-        elif colon_match and len(text) <= 80:  # "Título:" = título
+        elif colon_match and len(text) <= 80 and len(text.split()) >= 2:  # "Título:" com mínimo palavras
             is_title = True
 
         # ====== PROCESSA COMO TÍTULO OU CONTEÚDO ======
