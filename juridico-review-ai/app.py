@@ -971,8 +971,8 @@ with tab_catalogo:
     
     # Carregar catálogo selecionado
     try:
-        catalog = load_catalog(catalog_key)
         catalog_file = f"data/catalogos/{catalog_key}.yaml"
+        catalog = load_catalog(catalog_file)
         
         st.subheader(f"Editando: {catalog['metadata']['nome']}")
         st.caption(f"Versão: {catalog['metadata']['versao']} | Total de cláusulas: {len(catalog.get('clausulas', []))}")
