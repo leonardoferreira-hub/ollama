@@ -1,0 +1,94 @@
+📁 ESTRUTURA COMPLETA - DOCUMENTOS GOLD CRI
+═════════════════════════════════════════════════════════════════
+
+📂 /home/user/webapp/documentos_gold/
+│
+├── 📄 DOCUMENTOS ORIGINAIS (DOCX)
+│   ├── GOLD_CRI_DESTINACAO_MODELO_2025.docx                (275 KB)
+│   └── GOLD_CRI_SEM_DESTINACAO_PADRAO.docx                 (344 KB)
+│
+├── 📝 CATÁLOGOS EM MARKDOWN (Para Consulta Humana)
+│   ├── GOLD_CRI_DESTINACAO_MODELO_2025_CATALOGO.md         (24 KB)
+│   │   ├── 60 cláusulas catalogadas
+│   │   ├── Sugestões de explicação
+│   │   └── Pontos de atenção
+│   │
+│   └── GOLD_CRI_SEM_DESTINACAO_PADRAO_CATALOGO.md          (24 KB)
+│       ├── 44 cláusulas catalogadas
+│       ├── Sugestões de explicação
+│       └── Pontos de atenção
+│
+├── 📊 DADOS ESTRUTURADOS JSON (Para Integração com Sistemas)
+│   ├── GOLD_CRI_DESTINACAO_MODELO_2025_catalogo_completo.json    (26 KB)
+│   ├── GOLD_CRI_SEM_DESTINACAO_PADRAO_catalogo_completo.json     (25 KB)
+│   ├── GOLD_CRI_DESTINACAO_MODELO_2025_analise.json              (415 KB)
+│   └── GOLD_CRI_SEM_DESTINACAO_PADRAO_analise.json               (318 KB)
+│
+├── 📖 DOCUMENTAÇÃO
+│   ├── README.md                      Documentação geral do projeto
+│   ├── INDICE_CATALOGOS.md           Índice de navegação rápida
+│   ├── RESUMO_EXECUTIVO.md           Resumo completo da análise
+│   └── ESTRUTURA.txt                 Este arquivo
+│
+└── 🔧 SCRIPTS PYTHON
+    ├── extrair_clausulas_completo.py      Script principal de extração
+    └── extrair_clausulas.py               Script inicial (versão 1)
+
+
+═════════════════════════════════════════════════════════════════
+📊 ESTATÍSTICAS GERAIS
+═════════════════════════════════════════════════════════════════
+
+Total de Arquivos:               13
+Total de Documentos Processados:  2
+Total de Cláusulas Catalogadas: 104
+Total de Elementos Extraídos:  2.789
+Tamanho Total:                 ~1.5 MB
+
+Formatos de Saída:
+  • Markdown (.md)      ✓ Para humanos
+  • JSON (.json)        ✓ Para sistemas
+  • Python (.py)        ✓ Para automação
+  • DOCX (.docx)        ✓ Originais preservados
+
+
+═════════════════════════════════════════════════════════════════
+🎯 NAVEGAÇÃO RÁPIDA
+═════════════════════════════════════════════════════════════════
+
+Começar aqui:
+  1. README.md              → Visão geral e instruções
+  2. INDICE_CATALOGOS.md    → Navegação entre catálogos
+  3. *_CATALOGO.md          → Consultar cláusulas específicas
+
+Para desenvolvedores:
+  1. *_catalogo_completo.json    → Integração com sistemas
+  2. extrair_clausulas_completo.py    → Reprocessar documentos
+
+Para gestores:
+  1. RESUMO_EXECUTIVO.md    → Resumo do projeto
+  2. ESTRUTURA.txt          → Este arquivo
+
+
+═════════════════════════════════════════════════════════════════
+🔄 COMO ATUALIZAR
+═════════════════════════════════════════════════════════════════
+
+Para reprocessar documentos após alterações:
+
+  $ cd /home/user/webapp/documentos_gold
+  $ python3 extrair_clausulas_completo.py
+
+Novos arquivos serão gerados automaticamente.
+
+
+═════════════════════════════════════════════════════════════════
+✅ STATUS: COMPLETO E OPERACIONAL
+═════════════════════════════════════════════════════════════════
+
+Data: 2025-10-28
+Versão: 1.0
+Commit: feat(documentos-gold): adicionar catálogo completo
+Branch: genspark_ai_developer
+Pull Request: https://github.com/leonardoferreira-hub/ollama/pull/1
+

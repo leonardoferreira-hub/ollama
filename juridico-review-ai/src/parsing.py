@@ -93,22 +93,22 @@ def extract_table_content(table) -> List[Dict]:
 
 def parse_docx(doc: Document) -> Document:
     """
-    Parse ULTRA ROBUSTO para arquivos DOCX
-
-    Captura múltiplos padrões:
-    - CLÁUSULA X - TÍTULO
-    - CAPÍTULO NOME  
-    - ANEXO NOME
-    - Numeração: 1., 1.1, 1.1.1
-    - Títulos com formatação (Bold, Heading)
-    - Texto em MAIÚSCULAS como título
-    - Conteúdo de TABELAS
+    Parse BASEADO EM ESTILOS NATIVOS DO WORD (Heading 1-9)
+    
+    PRIORIDADE:
+    1. Estilos Heading do Word (o que aparece em CTRL+L)
+    2. Estilos de Lista numerada
+    3. Palavras-chave (CLÁUSULA, SEÇÃO, etc.)
+    4. Formatação (negrito, maiúsculas)
+    
+    Isso garante parsing correto baseado na estrutura real do documento.
     """
     docx_file = docx.Document(doc.filepath)
 
     current_clause = None
     current_content = []
     current_section = None
+    heading_level = 0  # Rastreia nível hierárquico
 
     # Processa PARÁGRAFOS
     for idx, para in enumerate(docx_file.paragraphs):
@@ -117,69 +117,80 @@ def parse_docx(doc: Document) -> Document:
         if not text or len(text) < 3:
             continue
 
-        # ====== DETECÇÃO DE TÍTULOS/CLÁUSULAS ======
+        # ====== 1. PRIORIDADE MÁXIMA: ESTILOS HEADING DO WORD ======
+        style_name = ''
+        is_heading_style = False
+        current_heading_level = 0
         
-        # 1. REGEX para palavras-chave comuns
+        try:
+            style_name = getattr(para.style, 'name', '').lower()
+            
+            # Detecta Heading 1-9 (estrutura oficial do Word)
+            if 'heading' in style_name or 'título' in style_name:
+                is_heading_style = True
+                # Extrai nível (Heading 1 = nível 1, etc.)
+                import re as re_style
+                level_match = re_style.search(r'(\d+)', style_name)
+                if level_match:
+                    current_heading_level = int(level_match.group(1))
+                else:
+                    current_heading_level = 1  # Default
+        except:
+            pass
+
+        # ====== 2. DETECÇÃO ADICIONAL (backup se não tiver Heading) ======
+        
+        # Palavras-chave importantes
         heading_match = re.match(
             r'^(cl[áa]usula|se[çc][ãa]o|cap[íi]tulo|anexo|item|art|artigo|t[íi]tulo|par[áa]grafo)\s+(.+)$',
             text,
             re.IGNORECASE
         )
 
-        # 2. Numeração com ou sem título (muito flexível)
+        # Numeração
         number_match = re.match(
             r'^(\d+(\.\d+){0,3})[\.\)\s]*[-–—]?\s*(.*)$',
             text
         )
 
-        # 3. Letras (a), (b), etc.
-        letter_match = re.match(
-            r'^([a-z]\)|[a-z]\.|[A-Z]\)|[A-Z]\.)\s+(.+)$',
-            text
-        )
-
-        # 4. Verifica formatação (Bold, Heading, etc.)
+        # Bold (apenas para casos sem Heading)
         is_bold = False
-        is_heading_style = False
-        try:
-            style_name = getattr(para.style, 'name', '').lower()
-            is_heading_style = 'heading' in style_name or 'título' in style_name or 'title' in style_name
-            
-            # Verifica se tem runs em negrito
-            for run in para.runs:
-                if run.bold:
-                    is_bold = True
-                    break
-        except:
-            pass
+        if not is_heading_style:
+            try:
+                for run in para.runs:
+                    if run.bold:
+                        is_bold = True
+                        break
+            except:
+                pass
 
-        # 5. Texto em MAIÚSCULAS (possível título)
+        # Maiúsculas (apenas para casos sem Heading)
         is_upper = text.isupper() and len(text.split()) >= 3 and len(text.split()) <= 15
-
-        # 6. Linha curta seguida de dois pontos (ex: "Prazo:")
-        colon_match = re.match(r'^([^:]+):\s*$', text)
 
         # ====== DECIDE SE É TÍTULO ======
         is_title = False
         
-        if heading_match:
+        # PRIORIDADE 1: Estilo Heading do Word (confiança máxima)
+        if is_heading_style:
             is_title = True
-        elif number_match and number_match.group(3):  # Tem número E texto
-            # É título se: tem formatação E (texto razoável OU maiúsculas)
-            has_text = len(number_match.group(3).strip()) > 10
-            is_short = len(text.split()) <= 20
-            # Só considera título se tiver formatação OU for maiúsculas
-            if has_text and (is_bold or is_heading_style or (is_upper and is_short)):
+            heading_level = current_heading_level
+        
+        # PRIORIDADE 2: Palavras-chave estruturais
+        elif heading_match:
+            is_title = True
+        
+        # PRIORIDADE 3: Numeração COM formatação (Heading, Bold ou Maiúsculas)
+        elif number_match and number_match.group(3):
+            has_text = len(number_match.group(3).strip()) > 5
+            if has_text and (is_bold or is_upper):
                 is_title = True
-        elif letter_match and len(text.split()) >= 3:  # Letras só se tiver texto razoável
+        
+        # PRIORIDADE 4: Texto em MAIÚSCULAS (título de seção)
+        elif is_upper and len(text) > 10:
             is_title = True
-        elif is_heading_style:
-            is_title = True
-        elif is_bold and len(text.split()) >= 3 and len(text.split()) <= 15:  # Bold + comprimento razoável
-            is_title = True
-        elif is_upper and len(text) > 15 and len(text.split()) >= 3:  # MAIÚSCULAS com mínimo de palavras
-            is_title = True
-        elif colon_match and len(text) <= 80 and len(text.split()) >= 2:  # "Título:" com mínimo palavras
+        
+        # PRIORIDADE 5: Bold curto (possível subtítulo)
+        elif is_bold and len(text.split()) >= 2 and len(text.split()) <= 20:
             is_title = True
 
         # ====== PROCESSA COMO TÍTULO OU CONTEÚDO ======

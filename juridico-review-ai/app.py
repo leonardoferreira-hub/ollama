@@ -14,8 +14,8 @@ from collections import deque
 
 # Configuração da página
 st.set_page_config(
-    page_title="Revisor de Documentos - Travessia",
-    page_icon="📋",
+    page_title="🏠 Revisor de Documentos - Travessia",
+    page_icon="🏠",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -139,7 +139,7 @@ st.markdown("""
 
 # Importa módulos do backend
 try:
-    from src.parsing import parse_document
+    from src.parsing_v2 import parse_document  # Parsing V2 baseado em Headings do Word
     from src.utils import load_catalog
     from src.vector_db import DocumentVectorDB, get_rag_context_for_suggestion
 except:
@@ -230,11 +230,23 @@ def classify_and_suggest_with_gemini(clause_title, clause_content, catalog_claus
         except:
             rag_context = ""
 
+    # 🆕 EXPLICAÇÃO CONTEXTUAL (se disponível)
+    explicacao = catalog_clause.get('explicacao', '')
+    explicacao_section = ""
+    if explicacao and len(explicacao.strip()) > 10:
+        explicacao_section = f"""
+📚 EXPLICAÇÃO DETALHADA DO QUE ESTA CLÁUSULA DEVE CONTER:
+{explicacao}
+
+Esta explicação foi fornecida por especialistas e deve ser usada como referência principal para avaliar se o documento atende aos requisitos.
+"""
+
     prompt = f"""Você é um especialista em revisão de documentos jurídicos.
 
 CLÁUSULA ESPERADA: {catalog_clause.get('titulo')}
 Keywords: {keywords}
 Obrigatória: {'SIM' if catalog_clause.get('obrigatoria') else 'NÃO'}
+{explicacao_section}
 
 TEMPLATE PADRÃO:
 {template}
@@ -246,18 +258,18 @@ Texto: {content_preview}...
 
 TAREFAS:
 1. CLASSIFIQUE como:
-   - PRESENTE: contém TODOS elementos essenciais
-   - PARCIAL: existe mas incompleto
-   - AUSENTE: não trata do tema
+   - PRESENTE: contém TODOS elementos essenciais descritos na explicação acima
+   - PARCIAL: existe mas faltam elementos descritos na explicação
+   - AUSENTE: não trata do tema ou não contém os elementos essenciais
 
-2. Se PARCIAL ou AUSENTE, SUGIRA melhorias baseadas no template padrão E nos exemplos de boas práticas acima.
+2. Se PARCIAL ou AUSENTE, SUGIRA melhorias baseadas na explicação detalhada, template padrão E nos exemplos de boas práticas acima.
 
 RESPONDA APENAS COM JSON:
 {{
   "classificacao": "PRESENTE|PARCIAL|AUSENTE",
   "confianca": 0.0-1.0,
-  "justificativa": "breve explicação",
-  "sugestao": "texto da sugestão baseado no template e exemplos (só se PARCIAL/AUSENTE)"
+  "justificativa": "breve explicação comparando com a explicação detalhada fornecida",
+  "sugestao": "texto da sugestão baseado na explicação, template e exemplos (só se PARCIAL/AUSENTE)"
 }}"""
 
     try:
@@ -307,11 +319,14 @@ st.markdown("""
 <div class="subtitle">Sistema inteligente de revisão automatizada de minutas jurídicas</div>
 """, unsafe_allow_html=True)
 
+# Dica de navegação
+st.info("💡 **Dica:** Use o menu lateral (👈) para acessar o **Gerenciador de Cláusulas GOLD** e personalizar as definições usadas pela IA.")
+
 st.markdown("---")
 
 # Sidebar
 with st.sidebar:
-    st.header("Configurações")
+    st.markdown("### ⚙️ Configurações de Análise")
 
     # API Key Gemini
     import os
@@ -386,8 +401,8 @@ with st.sidebar:
     **Cada documento analisado enriquece a base de conhecimento!**
     """)
 
-# Main content
-tab1, tab2, tab3 = st.tabs(["Análise", "Resultados", "Ajuda"])
+# Main content - Abas principais
+tab1, tab2, tab3 = st.tabs(["📄 Análise", "📊 Resultados", "❓ Ajuda"])
 
 with tab1:
     st.header("Upload da Minuta")
@@ -471,22 +486,31 @@ with tab1:
                 # Encontra melhor match no documento usando múltiplas estratégias
                 best_doc_clause = None
                 best_score = 0
-                
+            
                 from rapidfuzz import fuzz
-                
+            
                 cat_title_lower = cat_title.lower()
                 cat_keywords = [kw.lower() for kw in cat_clause.get('keywords', [])]
+            
+                # 🆕 Extrai palavras-chave da explicação (se houver)
+                explicacao = cat_clause.get('explicacao', '')
+                cat_explicacao_keywords = []
+                if explicacao and len(explicacao.strip()) > 20:
+                    # Extrai palavras importantes da explicação (> 5 chars, não stopwords comuns)
+                    stopwords = {'esta', 'cláusula', 'deve', 'conter', 'incluir', 'sendo', 'para', 'pela', 'pelo', 'desta', 'deste', 'como', 'também', 'todos', 'todas'}
+                    words = explicacao.lower().split()
+                    cat_explicacao_keywords = [w for w in words if len(w) > 5 and w not in stopwords][:10]
 
                 for doc_clause in document.clauses:
                     doc_title = doc_clause['title'].lower()
-                    doc_text = (doc_clause['title'] + " " + doc_clause['content'][:2000]).lower()
-                    
+                    doc_text = (doc_clause['title'] + " " + doc_clause['content'][:3000]).lower()  # Aumentado para 3000 chars
+                
                     score = 0
-                    
+                
                     # 1. Similaridade do título (peso alto)
                     title_similarity = fuzz.partial_ratio(cat_title_lower, doc_title) / 100.0
                     score += title_similarity * 50  # Peso 50 para título
-                    
+                
                     # 2. Similaridade fuzzy de palavras-chave importantes do título do catálogo
                     cat_important_words = [w for w in cat_title_lower.split() if len(w) > 3]
                     for word in cat_important_words:
@@ -494,12 +518,16 @@ with tab1:
                             score += 10  # Bônus por palavra exata no título
                         elif any(fuzz.ratio(word, doc_word) > 80 for doc_word in doc_title.split()):
                             score += 5  # Bônus por palavra similar no título
-                    
+                
                     # 3. Keywords no texto (peso médio)
                     keywords_in_text = sum(1 for kw in cat_keywords if kw in doc_text)
                     score += keywords_in_text * 3
-                    
-                    # 4. Posição no documento (cláusulas iniciais têm leve bônus para empate)
+                
+                    # 🆕 4. Keywords da explicação no texto (peso médio-alto)
+                    explicacao_keywords_in_text = sum(1 for kw in cat_explicacao_keywords if kw in doc_text)
+                    score += explicacao_keywords_in_text * 4  # Peso maior pois são palavras contextuais importantes
+                
+                    # 5. Posição no documento (cláusulas iniciais têm leve bônus para empate)
                     position_bonus = (1 - (doc_clause['index'] / max(len(document.clauses), 1))) * 2
                     score += position_bonus
 
@@ -511,7 +539,7 @@ with tab1:
                 if not best_doc_clause or best_score < 5:
                     # Verifica se alguma keyword aparece em qualquer lugar do documento
                     keywords_found = sum(1 for kw in cat_keywords if kw in doc_full_text)
-                    
+                
                     if keywords_found > 0 and document.clauses:
                         # Busca a cláusula que mais menciona as keywords
                         best_kw_clause = None
@@ -522,7 +550,7 @@ with tab1:
                             if kw_count > best_kw_count:
                                 best_kw_count = kw_count
                                 best_kw_clause = doc_clause
-                        
+                    
                         if best_kw_clause and best_kw_count > best_score:
                             best_doc_clause = best_kw_clause
                             best_score = best_kw_count * 2
@@ -650,7 +678,7 @@ with tab2:
         for r in results:
             cat_title = r['catalog_clause'].get('titulo', 'N/A')
             doc_title = r.get('doc_clause', {}).get('title', 'Não encontrada') if r.get('doc_clause') else 'Não encontrada'
-            
+        
             row = {
                 'Cláusula Esperada': cat_title[:60],
                 'Encontrada no Doc': doc_title[:60],
@@ -700,23 +728,23 @@ with tab2:
 
         # Sistema de Feedback e Avaliação
         st.subheader("📊 Avaliação da Análise (Sistema de Aprendizado)")
-        
+    
         st.markdown("""
         Ajude o sistema a melhorar! Avalie a qualidade das análises abaixo.
         Suas avaliações são salvas e usadas para melhorar futuras análises.
         """)
-        
+    
         # Exibe avaliação por cláusula
         with st.expander("🎯 Avaliar Análises Individuais", expanded=False):
             for idx, r in enumerate(results[:10]):  # Primeiras 10 para não sobrecarregar
                 cat_title = r['catalog_clause'].get('titulo', 'N/A')
                 doc_title = r.get('doc_clause', {}).get('title', 'Não encontrada') if r.get('doc_clause') else 'Não encontrada'
                 classification = r['classification']['classificacao']
-                
+            
                 st.markdown(f"**{idx+1}. {cat_title[:60]}**")
-                
+            
                 col1, col2, col3, col4 = st.columns([2, 2, 1, 1])
-                
+            
                 with col1:
                     st.text(f"Match: {doc_title[:50]}")
                 with col2:
@@ -726,7 +754,7 @@ with tab2:
                 with col4:
                     # Botões de avaliação
                     feedback_key = f"feedback_{idx}"
-                    
+                
                     col_a, col_b = st.columns(2)
                     with col_a:
                         if st.button("👍", key=f"good_{idx}", help="Análise correta"):
@@ -750,7 +778,7 @@ with tab2:
                                 st.success("✅ Feedback positivo salvo!")
                             except:
                                 pass
-                    
+                
                     with col_b:
                         if st.button("👎", key=f"bad_{idx}", help="Análise incorreta"):
                             st.session_state[feedback_key] = {
@@ -773,20 +801,20 @@ with tab2:
                                 st.warning("⚠️ Feedback negativo salvo. Sistema aprenderá com isso!")
                             except:
                                 pass
-                
+            
                 # Mostra se já foi avaliado
                 if feedback_key in st.session_state:
                     rating = st.session_state[feedback_key]['rating']
                     emoji = "✅" if rating == 'good' else "❌"
                     st.caption(f"{emoji} Avaliado como: {rating}")
-                
+            
                 st.markdown("---")
-        
+    
         # Estatísticas de feedback
         if 'feedback_stats' in st.session_state:
             stats = st.session_state['feedback_stats']
             st.markdown("### 📈 Estatísticas de Feedback")
-            
+        
             col1, col2, col3 = st.columns(3)
             with col1:
                 st.metric("Avaliações Positivas", stats.get('good', 0))
@@ -812,7 +840,7 @@ with tab2:
             for r in results:
                 doc_title = r.get('doc_clause', {}).get('title', 'Não encontrada') if r.get('doc_clause') else 'Não encontrada'
                 cat_clause = r['catalog_clause']
-                
+            
                 excel_data.append({
                     'Cláusula Esperada': cat_clause.get('titulo', 'N/A'),
                     'Encontrada no Doc': doc_title,
@@ -918,11 +946,64 @@ with tab3:
     **Versão:** 1.0.0 | **Backend:** Gemini 1.5 Flash
     """)
 
-# Footer
-st.markdown("---")
-st.markdown("""
-<div style="text-align: center; color: #666; padding: 2rem;">
-    <strong>Jurídico Review AI</strong> | Powered by Gemini API<br>
-    Sistema de revisão automatizada de minutas jurídicas
-</div>
-""", unsafe_allow_html=True)
+# ========================================
+# FUNÇÃO: GERAR SUGESTÃO DE EXPLICAÇÃO
+# ========================================
+
+def gerar_sugestao_explicacao(titulo: str, categoria: str, keywords: list, template: str, api_key: str) -> str:
+    """
+    Gera sugestão automática de explicação para uma cláusula usando Gemini AI
+    
+    Args:
+        titulo: Título da cláusula
+        categoria: Categoria da cláusula (lastro, remuneração, etc.)
+        keywords: Lista de palavras-chave
+        template: Template da cláusula (se houver)
+        api_key: Gemini API Key
+        
+    Returns:
+        Sugestão de explicação detalhada
+    """
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel('gemini-2.0-flash-exp')
+
+    keywords_str = ', '.join(keywords[:10]) if keywords else 'N/A'
+    template_preview = template[:500] if template else 'N/A'
+
+    prompt = f"""Você é um especialista em documentos jurídicos de Certificados de Recebíveis Imobiliários (CRI).
+
+    TAREFA: Gerar uma explicação DETALHADA do que a seguinte cláusula deve conter.
+
+    CLÁUSULA:
+    Título: {titulo}
+    Categoria: {categoria}
+    Keywords: {keywords_str}
+
+    TEMPLATE (se disponível):
+    {template_preview}
+
+    INSTRUÇÕES:
+    1. Descreva em detalhes O QUE esta cláusula deve conter
+    2. Liste elementos ESSENCIAIS que devem aparecer
+    3. Mencione informações OBRIGATÓRIAS por lei ou regulação CVM
+    4. Dê exemplos concretos de texto esperado
+    5. Mencione o que NÃO confundir (se relevante)
+
+    FORMATO DA RESPOSTA:
+    Escreva em português, de forma clara e objetiva, usando:
+    - Bullets para listar elementos
+    - Exemplos práticos
+    - Referências legais quando aplicável
+    - Estrutura clara
+
+    NÃO repita apenas o título. Seja ESPECÍFICO sobre conteúdo esperado.
+
+    EXPLICAÇÃO DETALHADA:"""
+
+    try:
+        response = model.generate_content(prompt)
+        return response.text.strip()
+    except Exception as e:
+        return f"Erro ao gerar sugestão: {str(e)}"
+
+
