@@ -274,8 +274,8 @@ RESPONDA APENAS COM JSON:
   "confianca": 0.0-1.0,
   "justificativa": "breve explicação",
   "sugestao": "texto da sugestão baseado no template e exemplos (só se PARCIAL/AUSENTE)"
-}}"""
-
+}}
+"""
     try:
         response = model.generate_content(prompt)
 
