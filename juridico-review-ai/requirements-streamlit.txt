@@ -4,8 +4,11 @@
 # Core Streamlit
 streamlit>=1.28.0
 
-# Gemini API
+# Gemini API (frontier)
 google-generativeai>=0.3.0
+
+# HTTP
+requests>=2.28.0
 
 # Document processing (lightweight)
 python-docx>=0.8.11
@@ -17,5 +20,17 @@ pyyaml>=6.0
 pandas>=2.0.0
 openpyxl>=3.1.0
 
+# Lightweight fuzzy / lexical matching
+rapidfuzz>=3.0.0
+rank-bm25>=0.2.2
+
+# Templating / UI utils
+jinja2>=3.1.0
+
 # Utilities
 python-dotenv>=1.0.0
+
+# Notes:
+# - This requirements file is intended for Streamlit deployments (Streamlit Cloud or lightweight hosts).
+# - It avoids heavy ML runtime dependencies (torch, faiss, large transformers). If you need embeddings
+#   or local models, install the heavier packages from `requirements.txt` or a `requirements-full.txt`.
