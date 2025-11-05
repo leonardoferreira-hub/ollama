@@ -3,13 +3,50 @@ Módulo de Banco de Dados Vetorial para armazenar histórico de documentos
 Usa ChromaDB para busca semântica e RAG com sistema de qualidade
 """
 
+import os
+import json
+import hashlib
+from datetime import datetime
+from pathlib import Path
+from typing import List, Dict, Optional, Tuple
+
 import chromadb
 from chromadb.config import Settings
-from pathlib import Path
-from datetime import datetime
-from typing import List, Dict, Optional
-import hashlib
-import json
+from chromadb.api import EmbeddingFunction
+
+
+def get_vector_client(embedding="sentence-transformers"):
+    """
+    Initializes vector store client with specified embedding function
+    """
+    try:
+        import chromadb
+        from chromadb.config import Settings
+        
+        if embedding == "sentence-transformers":
+            from chromadb.utils import embedding_functions
+            ef = embedding_functions.SentenceTransformerEmbeddingFunction(
+                model_name=os.getenv("EMBED_MODEL", "all-MiniLM-L6-v2")
+            )
+        else:
+            # Fallback to default embedding
+            ef = None
+            
+        # Initialize persistent client
+        client = chromadb.PersistentClient(
+            path=str(Path("data/vector_db")),
+            settings=Settings(
+                anonymized_telemetry=False,
+                allow_reset=True
+            )
+        )
+        return client, ef
+        
+    except ImportError as e:
+        raise RuntimeError(
+            "ChromaDB não instalado. Adicione 'chromadb>=0.5.4' e 'sentence-transformers>=3.1' "
+            "ao requirements.txt e faça redeploy."
+        ) from e
 
 
 class DocumentVectorDB:
@@ -28,20 +65,18 @@ class DocumentVectorDB:
         self.persist_dir = Path(persist_directory)
         self.persist_dir.mkdir(parents=True, exist_ok=True)
 
-        # Inicializa ChromaDB em modo persistente
-        self.client = chromadb.PersistentClient(
-            path=str(self.persist_dir),
-            settings=Settings(
-                anonymized_telemetry=False,
-                allow_reset=True
+        try:
+            # Initialize vector client with embeddings
+            self.client, self.embedding_function = get_vector_client()
+            
+            # Collection para cláusulas
+            self.collection = self.client.get_or_create_collection(
+                name="clausulas_historico",
+                metadata={"description": "Histórico de cláusulas analisadas"},
+                embedding_function=self.embedding_function
             )
-        )
-
-        # Collection para cláusulas
-        self.collection = self.client.get_or_create_collection(
-            name="clausulas_historico",
-            metadata={"description": "Histórico de cláusulas analisadas"}
-        )
+        except Exception as e:
+            raise RuntimeError(f"Erro ao inicializar ChromaDB: {e}")
 
     def add_document(self, document_name: str, clauses: List[Dict], catalog_name: str, is_gold: bool = False):
         """
