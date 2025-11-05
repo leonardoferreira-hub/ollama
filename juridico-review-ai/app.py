@@ -181,15 +181,30 @@ if spec is None:
     st.error("Não encontrei o pacote 'backend'. Confirme que existe 'juridico-review-ai/backend/__init__.py'.")
     st.stop()
 
-# Import backend with explicit error handling
+# Import core functions with fallbacks
 try:
     from backend.parsing import parse_document
-    from backend.utils import load_catalog
+except Exception as e:
+    st.error(f"Falha ao importar parse_document: {e}")
+    st.stop()
+
+try:
+    from backend.utils.catalog import load_catalog
+except Exception as e:
+    # fallback simples usando PyYAML direto
+    st.warning("Usando fallback para load_catalog")
+    def load_catalog(path):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return yaml.safe_load(f)
+        except Exception as e:
+            st.error(f"Erro ao carregar catálogo: {e}")
+            st.stop()
+
+try:
     from backend.vector_db import DocumentVectorDB, get_rag_context_for_suggestion
 except Exception as e:
-    import traceback
-    st.error(f"Falha ao importar backend: {e}")
-    st.code("".join(traceback.format_exc()))
+    st.error(f"Falha ao importar vector_db: {e}")
     st.stop()
 
 # Inicializa banco vetorial (persiste entre sessões)
