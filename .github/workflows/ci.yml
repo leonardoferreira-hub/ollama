@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependências
+        run: |
+          cd juridico-review-ai
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Executar testes
+        run: |
+          cd juridico-review-ai
+          python -m pytest -v eval/test_pipeline.py
+
+      - name: Verificar imports dos módulos
+        run: |
+          cd juridico-review-ai
+          python -c "import src.parsers.pdf_pymupdf; print('✓ Parser OK')"
+          python -c "import src.retrieval.index_faiss; print('✓ Retrieval OK')"
+          python -c "import src.rules.engine; print('✓ Rules OK')"
+          python -c "import src.agents.gemini_validator; print('✓ Agent OK')"
+          python -c "import src.reports.html_report; print('✓ Reports OK')"

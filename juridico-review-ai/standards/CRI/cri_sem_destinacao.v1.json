@@ -1,0 +1,73 @@
+{
+  "version": "CRI-sem-destinacao.v1",
+  "jurisdiction": "BR",
+  "product": "CRI",
+  "clauses": [
+    {
+      "id": "C-001",
+      "title": "Objeto da Operação",
+      "required": true,
+      "must_include": ["certificados de recebíveis imobiliários"],
+      "must_not_include": ["destinação específica"],
+      "parameters": [
+        {"name":"lastro_tipo","type":"enum","values":["créditos imobiliários","direitos creditórios imobiliários"]}
+      ]
+    },
+    {
+      "id": "C-002",
+      "title": "Cessão Definitiva (True Sale)",
+      "required": true,
+      "must_include": ["cessão definitiva", "caráter irrevogável e irretratável"],
+      "must_not_include": ["recompra automática", "obrigação de retrocessão"],
+      "parameters": []
+    },
+    {
+      "id": "C-003",
+      "title": "Regime Fiduciário / Patrimônio Separado",
+      "required": true,
+      "must_include": ["regime fiduciário", "patrimônio separado"],
+      "must_not_include": [],
+      "parameters": []
+    },
+    {
+      "id": "C-004",
+      "title": "Critérios de Elegibilidade do Lastro",
+      "required": true,
+      "must_include": ["critérios de elegibilidade", "inadimplência", "concentração"],
+      "must_not_include": [],
+      "parameters": []
+    },
+    {
+      "id": "C-005",
+      "title": "Remuneração / Índice",
+      "required": true,
+      "must_include": ["remuneração", "índice"],
+      "must_not_include": [],
+      "parameters": []
+    },
+    {
+      "id": "C-006",
+      "title": "Amortização e Vencimento",
+      "required": true,
+      "must_include": ["prazo", "amortização"],
+      "must_not_include": [],
+      "parameters": []
+    },
+    {
+      "id": "C-007",
+      "title": "Eventos de Inadimplemento e Remédios",
+      "required": true,
+      "must_include": ["evento de inadimplemento", "vencimento antecipado"],
+      "must_not_include": [],
+      "parameters": []
+    },
+    {
+      "id": "C-008",
+      "title": "Foro e Lei Aplicável",
+      "required": true,
+      "must_include": ["foro", "lei aplicável"],
+      "must_not_include": [],
+      "parameters": []
+    }
+  ]
+}
