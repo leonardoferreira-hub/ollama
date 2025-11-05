@@ -7,13 +7,8 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from typing import Dict
-from src.parsers.pdf_pymupdf import extract_blocks as extract_pdf
-from src.parsers.docx_parser import extract_blocks_docx
-from src.retrieval.index_faiss import build_index, query_topk
-from src.rules.engine import apply_rules
-from src.agents.gemini_validator import judge_with_gemini
-from src.schemas import ClauseJudgement
-from src.reports.html_report import render_html
+from backend.parsing import parse_document
+from backend.report_v2 import gerar_relatorio_html
 
 def sha256_file(path: str) -> str:
     """

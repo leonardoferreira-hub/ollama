@@ -28,6 +28,6 @@ echo   Pressione Ctrl+C para encerrar
 echo ============================================================
 echo.
 
-streamlit run app_streamlit.py
+python -m streamlit run app.py
 
 pause
