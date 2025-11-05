@@ -1,0 +1,1012 @@
+{
+  "version": "CRI-COM-DESTINACAO.v2",
+  "jurisdiction": "BR",
+  "product": "CRI",
+  "metadata": {
+    "source": "Converted from YAML catalog",
+    "catalog_version": "2.0.0",
+    "catalog_hash": "cri_com_destinacao_gold_2025",
+    "conversion_date": "2025-10-28",
+    "total_clauses": 49,
+    "critical_clauses": 11,
+    "required_clauses": 14
+  },
+  "clauses": [
+    {
+      "id": "C-001",
+      "title": "DEFINIÇÕES",
+      "category": "definicoes",
+      "importance": "critica",
+      "required": true,
+      "must_include": [
+        "definições"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_001"
+    },
+    {
+      "id": "C-002",
+      "title": "APROVAÇÃO DA EMISSÃO",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "aprovação",
+        "emissão"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_002"
+    },
+    {
+      "id": "C-003",
+      "title": "OBJETO E CRÉDITOS IMOBILIÁRIOS",
+      "category": "lastro",
+      "importance": "critica",
+      "required": true,
+      "must_include": [
+        "objeto",
+        "créditos",
+        "imobiliários"
+      ],
+      "must_not_include": [
+        "sem lastro",
+        "lastro inexistente"
+      ],
+      "parameters": [
+        {
+          "name": "tipo_lastro",
+          "type": "string"
+        },
+        {
+          "name": "valor_lastro",
+          "type": "monetary"
+        },
+        {
+          "name": "percentual_lastro",
+          "type": "percent"
+        }
+      ],
+      "original_id": "CRI_DEST_003"
+    },
+    {
+      "id": "C-004",
+      "title": "IDENTIFICAÇÃO DOS CRI E FORMA DE DISTRIBUIÇÃO",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "identificação",
+        "forma"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_004"
+    },
+    {
+      "id": "C-005",
+      "title": "SUBSCRIÇÃO E INTEGRALIZAÇÃO DOS CRI",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "subscrição",
+        "integralização"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_005"
+    },
+    {
+      "id": "C-006",
+      "title": "REMUNERAÇÃO E ATUALIZAÇÃO MONETÁRIA",
+      "category": "remuneracao",
+      "importance": "critica",
+      "required": true,
+      "must_include": [
+        "remuneração",
+        "atualização",
+        "monetária",
+        "taxa",
+        "percentual",
+        "%"
+      ],
+      "must_not_include": [],
+      "parameters": [
+        {
+          "name": "indexador",
+          "type": "enum",
+          "values": [
+            "CDI",
+            "IPCA",
+            "IGPM",
+            "Prefixado"
+          ]
+        },
+        {
+          "name": "spread",
+          "type": "percent"
+        },
+        {
+          "name": "taxa_anual",
+          "type": "percent"
+        }
+      ],
+      "original_id": "CRI_DEST_006"
+    },
+    {
+      "id": "C-007",
+      "title": "VENCIMENTO ANTECIPADO AUTOMÁTICO E NÃO AUTOMÁTICO DOS CRÉDITOS IMOBILIÁRIOS E O RESGATE ANTECIPADO DOS CRI",
+      "category": "lastro",
+      "importance": "critica",
+      "required": true,
+      "must_include": [
+        "vencimento",
+        "antecipado",
+        "automático",
+        "créditos",
+        "imobiliários"
+      ],
+      "must_not_include": [
+        "sem lastro",
+        "lastro inexistente"
+      ],
+      "parameters": [
+        {
+          "name": "tipo_lastro",
+          "type": "string"
+        },
+        {
+          "name": "valor_lastro",
+          "type": "monetary"
+        },
+        {
+          "name": "percentual_lastro",
+          "type": "percent"
+        }
+      ],
+      "original_id": "CRI_DEST_007"
+    },
+    {
+      "id": "C-008",
+      "title": "ASSEMBLEIA ESPECIAL DE TITULARES DE CRI",
+      "category": "assembleia",
+      "importance": "alta",
+      "required": false,
+      "must_include": [
+        "assembleia",
+        "especial",
+        "titulares",
+        "quorum",
+        "deliberação"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_008"
+    },
+    {
+      "id": "C-009",
+      "title": "OBRIGAÇÕES E DECLARAÇÕES DA EMISSORA",
+      "category": "emissora",
+      "importance": "alta",
+      "required": true,
+      "must_include": [
+        "obrigações",
+        "declarações",
+        "emissora",
+        "securitizadora",
+        "CNPJ"
+      ],
+      "must_not_include": [],
+      "parameters": [
+        {
+          "name": "nome_emissora",
+          "type": "string"
+        },
+        {
+          "name": "cnpj_emissora",
+          "type": "string"
+        },
+        {
+          "name": "endereco_emissora",
+          "type": "string"
+        }
+      ],
+      "original_id": "CRI_DEST_009"
+    },
+    {
+      "id": "C-010",
+      "title": "RESGATE ANTECIPADO FACULTATIVO TOTAL DAS NOTAS COMERCIAIS, OFERTA DE RESGATE ANTECIPADO TOTAL DAS NOTAS COMERCIAIS, RESGATE ANTECIPADO TOTAL DAS NOTAS COMERCIAIS POR ALTERAÇÃO DE TRIBUTOS, RESGATE ANTECIPADO TOTAL OBRIGATÓRIO DOS CRI E OFERTA DE RESGATE ANTECIPADO TOTAL OBRIGATÓRIO DOS CRI.",
+      "category": "vencimento",
+      "importance": "alta",
+      "required": false,
+      "must_include": [
+        "resgate",
+        "antecipado",
+        "facultativo",
+        "prazo",
+        "vencimento",
+        "data"
+      ],
+      "must_not_include": [],
+      "parameters": [
+        {
+          "name": "data_vencimento",
+          "type": "date"
+        },
+        {
+          "name": "prazo_meses",
+          "type": "integer"
+        },
+        {
+          "name": "forma_amortizacao",
+          "type": "enum",
+          "values": [
+            "price",
+            "sac",
+            "bullet",
+            "series"
+          ]
+        }
+      ],
+      "original_id": "CRI_DEST_010"
+    },
+    {
+      "id": "C-011",
+      "title": "REGIME FIDUCIÁRIO E ADMINISTRAÇÃO DO PATRIMÔNIO SEPARADO",
+      "category": "patrimonio_separado",
+      "importance": "critica",
+      "required": true,
+      "must_include": [
+        "regime",
+        "fiduciário",
+        "administração",
+        "patrimônio",
+        "separado",
+        "isolamento"
+      ],
+      "must_not_include": [
+        "sem separação",
+        "patrimônio comum"
+      ],
+      "parameters": [
+        {
+          "name": "patrimonio_isolado",
+          "type": "boolean"
+        },
+        {
+          "name": "regime_fiduciario",
+          "type": "boolean"
+        }
+      ],
+      "original_id": "CRI_DEST_011"
+    },
+    {
+      "id": "C-012",
+      "title": "AGENTE FIDUCIÁRIO",
+      "category": "agente_fiduciario",
+      "importance": "alta",
+      "required": false,
+      "must_include": [
+        "agente",
+        "fiduciário",
+        "agente fiduciário",
+        "representante"
+      ],
+      "must_not_include": [],
+      "parameters": [
+        {
+          "name": "nome_agente_fiduciario",
+          "type": "string"
+        },
+        {
+          "name": "cnpj_agente_fiduciario",
+          "type": "string"
+        },
+        {
+          "name": "endereco_agente_fiduciario",
+          "type": "string"
+        }
+      ],
+      "original_id": "CRI_DEST_012"
+    },
+    {
+      "id": "C-013",
+      "title": "LIQUIDAÇÃO DO PATRIMÔNIO SEPARADO",
+      "category": "patrimonio_separado",
+      "importance": "critica",
+      "required": true,
+      "must_include": [
+        "liquidação",
+        "patrimônio",
+        "separado",
+        "isolamento",
+        "separação"
+      ],
+      "must_not_include": [
+        "sem separação",
+        "patrimônio comum"
+      ],
+      "parameters": [
+        {
+          "name": "patrimonio_isolado",
+          "type": "boolean"
+        },
+        {
+          "name": "regime_fiduciario",
+          "type": "boolean"
+        }
+      ],
+      "original_id": "CRI_DEST_013"
+    },
+    {
+      "id": "C-014",
+      "title": "DESPESAS DA EMISSÃO",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "despesas",
+        "emissão"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_014"
+    },
+    {
+      "id": "C-015",
+      "title": "PUBLICIDADE",
+      "category": "publicidade",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "publicidade"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_015"
+    },
+    {
+      "id": "C-016",
+      "title": "REGISTROS E DECLARAÇÕES",
+      "category": "declaracoes",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "registros",
+        "declarações"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_016"
+    },
+    {
+      "id": "C-017",
+      "title": "DISPOSIÇÕES GERAIS",
+      "category": "disposicoes_gerais",
+      "importance": "baixa",
+      "required": false,
+      "must_include": [
+        "disposições"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_017"
+    },
+    {
+      "id": "C-018",
+      "title": "NOTIFICAÇÕES",
+      "category": "notificacoes",
+      "importance": "baixa",
+      "required": false,
+      "must_include": [
+        "notificações"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_018"
+    },
+    {
+      "id": "C-019",
+      "title": "RESOLUÇÃO DE CONFLITOS",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "resolução",
+        "conflitos"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_019"
+    },
+    {
+      "id": "C-020",
+      "title": "ASSINATURA DIGITAL",
+      "category": "assinatura",
+      "importance": "baixa",
+      "required": false,
+      "must_include": [
+        "assinatura"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_020"
+    },
+    {
+      "id": "C-021",
+      "title": "ANEXO I — MODELO DECLARAÇÃO DE CUSTÓDIA",
+      "category": "declaracoes",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "modelo"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_021"
+    },
+    {
+      "id": "C-022",
+      "title": "ANEXO II — DESCRIÇÃO DOS IMÓVEIS ELEGÍVEIS",
+      "category": "anexos",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "descrição"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_022"
+    },
+    {
+      "id": "C-023",
+      "title": "ANEXO III – MODELO DECLARAÇÃO DA COMPANHIA SECURITIZADORA",
+      "category": "declaracoes",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "modelo"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_023"
+    },
+    {
+      "id": "C-024",
+      "title": "ANEXO IV — TRATAMENTO TRIBUTÁRIO",
+      "category": "anexos",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "tratamento"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_024"
+    },
+    {
+      "id": "C-025",
+      "title": "ANEXO V — PROPORÇÃO DOS RECURSOS CAPTADOS POR MEIO DA EMISSÃO A SER DESTINADA PARA CADA UM DOS IMÓVEIS ELEGÍVEIS E CRONOGRAMA INDICATIVO DE DESTINAÇÃO DE RECURSOSO DA EMISSÃO",
+      "category": "destinacao",
+      "importance": "critica",
+      "required": true,
+      "must_include": [
+        "anexo",
+        "proporção",
+        "recursos",
+        "captados",
+        "meio",
+        "destinação"
+      ],
+      "must_not_include": [],
+      "parameters": [
+        {
+          "name": "destinacao_especifica",
+          "type": "string"
+        },
+        {
+          "name": "percentual_destinado",
+          "type": "percent"
+        },
+        {
+          "name": "prazo_destinacao",
+          "type": "duration"
+        }
+      ],
+      "original_id": "CRI_DEST_025"
+    },
+    {
+      "id": "C-026",
+      "title": "ANEXO VI — CRONOGRAMA DE PAGAMENTOS",
+      "category": "anexos",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "cronograma"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_026"
+    },
+    {
+      "id": "C-027",
+      "title": "ANEXO VII – MODELO DA DECLARAÇÃO DE INEXISTÊNCIA DE CONFLITO DE INTERESSES",
+      "category": "declaracoes",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "modelo"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_027"
+    },
+    {
+      "id": "C-028",
+      "title": "ANEXO VIII - OUTRAS EMISSÕES DA EMISSORA QUE O AGENTE FIDUCIÁRIO ATUA NESTA DATA",
+      "category": "emissora",
+      "importance": "alta",
+      "required": true,
+      "must_include": [
+        "anexo",
+        "viii",
+        "outras",
+        "emissora",
+        "securitizadora",
+        "CNPJ"
+      ],
+      "must_not_include": [],
+      "parameters": [
+        {
+          "name": "nome_emissora",
+          "type": "string"
+        },
+        {
+          "name": "cnpj_emissora",
+          "type": "string"
+        },
+        {
+          "name": "endereco_emissora",
+          "type": "string"
+        }
+      ],
+      "original_id": "CRI_DEST_028"
+    },
+    {
+      "id": "C-029",
+      "title": "ANEXO IX – MODELO DE DESTINAÇÃO DOS RECURSOS REEMBOLSO DE CUSTOS E DESPESAS",
+      "category": "destinacao",
+      "importance": "critica",
+      "required": true,
+      "must_include": [
+        "anexo",
+        "modelo",
+        "destinação",
+        "recursos",
+        "reembolso",
+        "aplicação"
+      ],
+      "must_not_include": [],
+      "parameters": [
+        {
+          "name": "destinacao_especifica",
+          "type": "string"
+        },
+        {
+          "name": "percentual_destinado",
+          "type": "percent"
+        },
+        {
+          "name": "prazo_destinacao",
+          "type": "duration"
+        }
+      ],
+      "original_id": "CRI_DEST_029"
+    },
+    {
+      "id": "C-030",
+      "title": "ANEXO X — MODELO DE MANIFESTAÇÃO – ADESÃO À OFERTA DE RESGATE ANTECIPADO DOS CRI",
+      "category": "vencimento",
+      "importance": "alta",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "modelo",
+        "manifestação",
+        "prazo",
+        "vencimento",
+        "data"
+      ],
+      "must_not_include": [],
+      "parameters": [
+        {
+          "name": "data_vencimento",
+          "type": "date"
+        },
+        {
+          "name": "prazo_meses",
+          "type": "integer"
+        },
+        {
+          "name": "forma_amortizacao",
+          "type": "enum",
+          "values": [
+            "price",
+            "sac",
+            "bullet",
+            "series"
+          ]
+        }
+      ],
+      "original_id": "CRI_DEST_030"
+    },
+    {
+      "id": "C-031",
+      "title": "ANEXO XI - FATORES DE RISCO",
+      "category": "anexos",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "fatores"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_031"
+    },
+    {
+      "id": "C-032",
+      "title": "ANEXO XII – DESPESAS",
+      "category": "anexos",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "despesas"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_032"
+    },
+    {
+      "id": "C-033",
+      "title": "ANEXO I — MODELO DECLARAÇÃO DE CUSTÓDIA",
+      "category": "declaracoes",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "modelo"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_033"
+    },
+    {
+      "id": "C-034",
+      "title": "ANEXO II — EMPREENDIMENTO ALVO",
+      "category": "anexos",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "empreendimento"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_034"
+    },
+    {
+      "id": "C-035",
+      "title": "ANEXO III – MODELO DECLARAÇÃO DA COMPANHIA SECURITIZADORA",
+      "category": "declaracoes",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "modelo"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_035"
+    },
+    {
+      "id": "C-036",
+      "title": "ANEXO IV — TRATAMENTO TRIBUTÁRIO",
+      "category": "anexos",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "tratamento"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_036"
+    },
+    {
+      "id": "C-037",
+      "title": "ANEXO V — CRONOGRAMA INDICATIVO DE DESTINAÇÃO DE RECURSOSO DA EMISSÃO",
+      "category": "destinacao",
+      "importance": "critica",
+      "required": true,
+      "must_include": [
+        "anexo",
+        "cronograma",
+        "indicativo",
+        "destinação",
+        "recursoso",
+        "aplicação"
+      ],
+      "must_not_include": [],
+      "parameters": [
+        {
+          "name": "destinacao_especifica",
+          "type": "string"
+        },
+        {
+          "name": "percentual_destinado",
+          "type": "percent"
+        },
+        {
+          "name": "prazo_destinacao",
+          "type": "duration"
+        }
+      ],
+      "original_id": "CRI_DEST_037"
+    },
+    {
+      "id": "C-038",
+      "title": "ANEXO VI — CRONOGRAMA DE PAGAMENTOS",
+      "category": "anexos",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "cronograma"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_038"
+    },
+    {
+      "id": "C-039",
+      "title": "ANEXO VII – MODELO DA DECLARAÇÃO DE INEXISTÊNCIA DE CONFLITO DE INTERESSES",
+      "category": "declaracoes",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "modelo"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_039"
+    },
+    {
+      "id": "C-040",
+      "title": "ANEXO VIII - OUTRAS EMISSÕES DA EMISSORA QUE O AGENTE FIDUCIÁRIO ATUA NESTA DATA",
+      "category": "emissora",
+      "importance": "alta",
+      "required": true,
+      "must_include": [
+        "anexo",
+        "viii",
+        "outras",
+        "emissora",
+        "securitizadora",
+        "CNPJ"
+      ],
+      "must_not_include": [],
+      "parameters": [
+        {
+          "name": "nome_emissora",
+          "type": "string"
+        },
+        {
+          "name": "cnpj_emissora",
+          "type": "string"
+        },
+        {
+          "name": "endereco_emissora",
+          "type": "string"
+        }
+      ],
+      "original_id": "CRI_DEST_040"
+    },
+    {
+      "id": "C-041",
+      "title": "ANEXO IX – MODELO DE DESTINAÇÃO DOS RECURSOS REEMBOLSO DE CUSTOS E DESPESAS",
+      "category": "destinacao",
+      "importance": "critica",
+      "required": true,
+      "must_include": [
+        "anexo",
+        "modelo",
+        "destinação",
+        "recursos",
+        "reembolso",
+        "aplicação"
+      ],
+      "must_not_include": [],
+      "parameters": [
+        {
+          "name": "destinacao_especifica",
+          "type": "string"
+        },
+        {
+          "name": "percentual_destinado",
+          "type": "percent"
+        },
+        {
+          "name": "prazo_destinacao",
+          "type": "duration"
+        }
+      ],
+      "original_id": "CRI_DEST_041"
+    },
+    {
+      "id": "C-042",
+      "title": "ANEXO X — MODELO DE MANIFESTAÇÃO – ADESÃO À OFERTA DE RESGATE ANTECIPADO DOS CRI",
+      "category": "vencimento",
+      "importance": "alta",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "modelo",
+        "manifestação",
+        "prazo",
+        "vencimento",
+        "data"
+      ],
+      "must_not_include": [],
+      "parameters": [
+        {
+          "name": "data_vencimento",
+          "type": "date"
+        },
+        {
+          "name": "prazo_meses",
+          "type": "integer"
+        },
+        {
+          "name": "forma_amortizacao",
+          "type": "enum",
+          "values": [
+            "price",
+            "sac",
+            "bullet",
+            "series"
+          ]
+        }
+      ],
+      "original_id": "CRI_DEST_042"
+    },
+    {
+      "id": "C-043",
+      "title": "ANEXO XI - FATORES DE RISCO",
+      "category": "anexos",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "fatores"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_043"
+    },
+    {
+      "id": "C-044",
+      "title": "ANEXO XII – DESPESAS",
+      "category": "anexos",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "despesas"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_044"
+    },
+    {
+      "id": "C-045",
+      "title": "Anexo XIII – BOLETIM DE SUBSCRIÇÃO",
+      "category": "anexos",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "xiii"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_045"
+    },
+    {
+      "id": "C-046",
+      "title": "TABELA 1: “Afiliadas”: | É qualquer sociedade que seja controlada pela Devedora ou pelos A",
+      "category": "partes",
+      "importance": "alta",
+      "required": false,
+      "must_include": [
+        "tabela",
+        "afiliadas",
+        "qualquer"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_046"
+    },
+    {
+      "id": "C-047",
+      "title": "TABELA 2: Razão Social: [•] Endereço: [•] Cidade / Estado: [•] CNPJ/MF nº: [•] Representad",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "tabela",
+        "razão"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_047"
+    },
+    {
+      "id": "C-048",
+      "title": "TABELA 3: Valor Mobiliário Objeto da Oferta: Certificados de Crédito Imobiliário (CRI) Núm",
+      "category": "lastro",
+      "importance": "critica",
+      "required": true,
+      "must_include": [
+        "tabela",
+        "valor",
+        "mobiliário",
+        "objeto",
+        "oferta"
+      ],
+      "must_not_include": [
+        "sem lastro",
+        "lastro inexistente"
+      ],
+      "parameters": [
+        {
+          "name": "tipo_lastro",
+          "type": "string"
+        },
+        {
+          "name": "valor_lastro",
+          "type": "monetary"
+        },
+        {
+          "name": "percentual_lastro",
+          "type": "percent"
+        }
+      ],
+      "original_id": "CRI_DEST_048"
+    },
+    {
+      "id": "C-049",
+      "title": "TABELA 4: DATA: [•] | DATA: [•] | DATA: [•] | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS DE REC",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "tabela",
+        "data"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_DEST_049"
+    }
+  ]
+}

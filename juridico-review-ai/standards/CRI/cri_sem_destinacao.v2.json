@@ -1,0 +1,762 @@
+{
+  "version": "CRI-SEM-DESTINACAO.v2",
+  "jurisdiction": "BR",
+  "product": "CRI",
+  "metadata": {
+    "source": "Converted from YAML catalog",
+    "catalog_version": "2.0.0",
+    "catalog_hash": "cri_sem_destinacao_gold_2025",
+    "conversion_date": "2025-10-28",
+    "total_clauses": 44,
+    "critical_clauses": 3,
+    "required_clauses": 5
+  },
+  "clauses": [
+    {
+      "id": "C-013",
+      "title": "Seção Partes",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "seção",
+        "partes"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_001"
+    },
+    {
+      "id": "C-013",
+      "title": "Seção Termos Definidos e Regras de Interpretação",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "seção",
+        "termos"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_002"
+    },
+    {
+      "id": "C-013",
+      "title": "Seção Considerações Preliminares",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "seção",
+        "considerações"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_003"
+    },
+    {
+      "id": "C-013",
+      "title": "Seção Cláusulas",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "seção",
+        "cláusulas"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_004"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Aprovação e Emissão",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "aprovação"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_005"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Objeto e Créditos Imobiliários",
+      "category": "lastro",
+      "importance": "critica",
+      "required": true,
+      "must_include": [
+        "capítulo",
+        "objeto",
+        "créditos",
+        "imobiliários",
+        "emissora"
+      ],
+      "must_not_include": [
+        "sem lastro",
+        "lastro inexistente"
+      ],
+      "parameters": [
+        {
+          "name": "tipo_lastro",
+          "type": "string"
+        },
+        {
+          "name": "valor_lastro",
+          "type": "monetary"
+        },
+        {
+          "name": "percentual_lastro",
+          "type": "percent"
+        }
+      ],
+      "original_id": "CRI_SDEST_006"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Características dos CRI",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "características"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_007"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Distribuição e Ofertas",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "distribuição"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_008"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Subscrição e Integralização",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "subscrição"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_009"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Remuneração, Amortização e Resgate",
+      "category": "vencimento",
+      "importance": "alta",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "remuneração",
+        "amortização",
+        "prazo",
+        "vencimento",
+        "data"
+      ],
+      "must_not_include": [],
+      "parameters": [
+        {
+          "name": "data_vencimento",
+          "type": "date"
+        },
+        {
+          "name": "prazo_meses",
+          "type": "integer"
+        },
+        {
+          "name": "forma_amortizacao",
+          "type": "enum",
+          "values": [
+            "price",
+            "sac",
+            "bullet",
+            "series"
+          ]
+        }
+      ],
+      "original_id": "CRI_SDEST_010"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Cascata de Pagamentos",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "cascata"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_011"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo [Garantias]",
+      "category": "garantias",
+      "importance": "alta",
+      "required": true,
+      "must_include": [
+        "capítulo",
+        "garantias",
+        "cedente"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_012"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Vencimento Antecipado",
+      "category": "vencimento",
+      "importance": "alta",
+      "required": true,
+      "must_include": [
+        "capítulo",
+        "vencimento",
+        "antecipado",
+        "prazo",
+        "data"
+      ],
+      "must_not_include": [],
+      "parameters": [
+        {
+          "name": "data_vencimento",
+          "type": "date"
+        },
+        {
+          "name": "prazo_meses",
+          "type": "integer"
+        },
+        {
+          "name": "forma_amortizacao",
+          "type": "enum",
+          "values": [
+            "price",
+            "sac",
+            "bullet",
+            "series"
+          ]
+        }
+      ],
+      "original_id": "CRI_SDEST_013"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Despesas",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "despesas"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_014"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Patrimônio Separado",
+      "category": "patrimonio_separado",
+      "importance": "critica",
+      "required": true,
+      "must_include": [
+        "capítulo",
+        "patrimônio",
+        "separado",
+        "emissora",
+        "devedor",
+        "isolamento"
+      ],
+      "must_not_include": [
+        "sem separação",
+        "patrimônio comum"
+      ],
+      "parameters": [
+        {
+          "name": "patrimonio_isolado",
+          "type": "boolean"
+        },
+        {
+          "name": "regime_fiduciario",
+          "type": "boolean"
+        }
+      ],
+      "original_id": "CRI_SDEST_015"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Securitizadora",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "securitizadora"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_016"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Agente Fiduciário",
+      "category": "agente_fiduciario",
+      "importance": "alta",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "agente",
+        "fiduciário",
+        "agente fiduciário",
+        "representante"
+      ],
+      "must_not_include": [],
+      "parameters": [
+        {
+          "name": "nome_agente_fiduciario",
+          "type": "string"
+        },
+        {
+          "name": "cnpj_agente_fiduciario",
+          "type": "string"
+        },
+        {
+          "name": "endereco_agente_fiduciario",
+          "type": "string"
+        }
+      ],
+      "original_id": "CRI_SDEST_017"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Assembleia",
+      "category": "assembleia",
+      "importance": "alta",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "assembleia",
+        "emissora",
+        "quorum",
+        "deliberação"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_018"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Término",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "término"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_019"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Fatores de Risco",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "fatores"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_020"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Tributação",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "tributação"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_021"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Publicidade",
+      "category": "publicidade",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "publicidade"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_022"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Registro",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "registro"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_023"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Comunicações",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "comunicações"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_024"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Disposições Gerais",
+      "category": "disposicoes_gerais",
+      "importance": "baixa",
+      "required": false,
+      "must_include": [
+        "capítulo"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_025"
+    },
+    {
+      "id": "C-013",
+      "title": "Capítulo Legislação Aplicável e Foro",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "capítulo",
+        "legislação"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_026"
+    },
+    {
+      "id": "C-013",
+      "title": "Anexo Cronograma de Pagamentos",
+      "category": "anexos",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "cronograma"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_027"
+    },
+    {
+      "id": "C-013",
+      "title": "Anexo Características dos Créditos Imobiliários",
+      "category": "lastro",
+      "importance": "critica",
+      "required": true,
+      "must_include": [
+        "anexo",
+        "características",
+        "créditos",
+        "imobiliários"
+      ],
+      "must_not_include": [
+        "sem lastro",
+        "lastro inexistente"
+      ],
+      "parameters": [
+        {
+          "name": "tipo_lastro",
+          "type": "string"
+        },
+        {
+          "name": "valor_lastro",
+          "type": "monetary"
+        },
+        {
+          "name": "percentual_lastro",
+          "type": "percent"
+        }
+      ],
+      "original_id": "CRI_SDEST_028"
+    },
+    {
+      "id": "C-013",
+      "title": "Anexo Despesas da Operação",
+      "category": "anexos",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "despesas"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_029"
+    },
+    {
+      "id": "C-013",
+      "title": "Anexo Fórmulas",
+      "category": "anexos",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "fórmulas"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_030"
+    },
+    {
+      "id": "C-013",
+      "title": "Anexo Declaração da Securitizadora",
+      "category": "declaracoes",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "declaração"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_031"
+    },
+    {
+      "id": "C-013",
+      "title": "Anexo Declaração da Instituição Custodiante",
+      "category": "declaracoes",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "declaração"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_032"
+    },
+    {
+      "id": "C-013",
+      "title": "Anexo [Declaração do Coordenador Líder]",
+      "category": "declaracoes",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "declaração"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_033"
+    },
+    {
+      "id": "C-013",
+      "title": "Anexo Declaração de Inexistência de Conflito de Interesses",
+      "category": "declaracoes",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "declaração"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_034"
+    },
+    {
+      "id": "C-013",
+      "title": "Anexo Modelo de Boletim de Subscrição",
+      "category": "anexos",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "modelo"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_035"
+    },
+    {
+      "id": "C-013",
+      "title": "Anexo Outras Emissões do Agente Fiduciário",
+      "category": "agente_fiduciario",
+      "importance": "alta",
+      "required": false,
+      "must_include": [
+        "anexo",
+        "outras",
+        "emissões",
+        "agente fiduciário",
+        "representante"
+      ],
+      "must_not_include": [],
+      "parameters": [
+        {
+          "name": "nome_agente_fiduciario",
+          "type": "string"
+        },
+        {
+          "name": "cnpj_agente_fiduciario",
+          "type": "string"
+        },
+        {
+          "name": "endereco_agente_fiduciario",
+          "type": "string"
+        }
+      ],
+      "original_id": "CRI_SDEST_036"
+    },
+    {
+      "id": "C-013",
+      "title": "TABELA 1: “Adquirentes” | São as pessoas físicas e/ou jurídicas que adquiriram imóveis dos",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "tabela",
+        "adquirentes"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_037"
+    },
+    {
+      "id": "C-013",
+      "title": "TABELA 2: Característica | CRI",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "tabela",
+        "característica"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_038"
+    },
+    {
+      "id": "C-013",
+      "title": "TABELA 3: Travessia Securitizadora S.A.",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "tabela",
+        "travessia"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_039"
+    },
+    {
+      "id": "C-013",
+      "title": "TABELA 4: [AF] | [AF]",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "tabela"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_040"
+    },
+    {
+      "id": "C-013",
+      "title": "TABELA 5: Nome: Vinicius Bernardes Basile Silveira Stopa",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "tabela",
+        "nome"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_041"
+    },
+    {
+      "id": "C-013",
+      "title": "TABELA 6: [•] | [•]",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "tabela"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_042"
+    },
+    {
+      "id": "C-013",
+      "title": "TABELA 7: [•] | [•]",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "tabela"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_043"
+    },
+    {
+      "id": "C-013",
+      "title": "TABELA 8: DATA: [•] | DATA: [•] | BOLETIM DE SUBSCRIÇÃO DE CERTIFICADOS DE RECEBÍVEIS IMOB",
+      "category": "outros",
+      "importance": "media",
+      "required": false,
+      "must_include": [
+        "tabela",
+        "data"
+      ],
+      "must_not_include": [],
+      "parameters": [],
+      "original_id": "CRI_SDEST_044"
+    }
+  ]
+}
