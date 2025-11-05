@@ -6,7 +6,7 @@ Sistema de revisão automatizada de minutas jurídicas usando Gemini API
 import streamlit as st
 
 # Attempt to import required packages; handle missing ones gracefully so
-# the Streamlit app can still load and display a useful error instead of crashing.
+# the Streamlit app can still load and display useful errors instead of crashing.
 try:
     import google.generativeai as genai
 except Exception:
@@ -15,14 +15,23 @@ except Exception:
 try:
     import yaml
 except ImportError:
-    st.error("📦 Pacote PyYAML não instalado. Executando: `pip install pyyaml`")
-    import subprocess
-    try:
-        subprocess.check_call(['pip', 'install', 'pyyaml>=6.0.1'])
-        import yaml
-    except:
-        st.error("❌ Não foi possível instalar PyYAML. Por favor, instale manualmente: `pip install pyyaml>=6.0.1`")
-        st.stop()
+    import streamlit as st
+    st.error("""
+    ### ❌ Erro: Pacote PyYAML não instalado
+
+    **Se rodando localmente:**
+    ```bash
+    pip install pyyaml>=6.0.1
+    ```
+
+    **Se no Streamlit Cloud:**
+    1. Verifique se `pyyaml>=6.0.1` está listado em:
+       - `requirements.txt` (root)
+       - `juridico-review-ai/requirements-streamlit.txt`
+    2. Force um redeploy no Streamlit Cloud
+    3. Se o erro persistir, tente limpar o cache do Streamlit Cloud
+    """)
+    st.stop()
 
 from pathlib import Path
 import time
