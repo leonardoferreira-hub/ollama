@@ -10,7 +10,9 @@
       "Bash(git commit:*)",
       "Bash(streamlit run:*)",
       "Bash(dir:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(git pull:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": [],
     "ask": []
