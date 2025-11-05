@@ -152,13 +152,44 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Importa módulos do backend
+# --- PATH SAFEGUARD: garante que o Python ache "backend" ---
+from pathlib import Path
+import sys, importlib.util, os
+
+APP_DIR = Path(__file__).resolve().parent
+REPO_ROOT = APP_DIR.parent
+
+# candidatos que podem conter "backend/"
+CANDIDATES = [
+    APP_DIR,                      # .../juridico-review-ai
+    REPO_ROOT,                    # .../ (raiz do repo)
+    REPO_ROOT / "juridico-review-ai",  # redundância pra ambientes que mudam cwd
+]
+
+for p in CANDIDATES:
+    if p.is_dir() and str(p) not in sys.path:
+        sys.path.insert(0, str(p))
+
+# diagnóstico útil na sidebar
+st.sidebar.write("CWD:", os.getcwd())
+st.sidebar.write("APP_DIR:", str(APP_DIR))
+st.sidebar.write("sys.path[0:3]:", sys.path[:3])
+
+spec = importlib.util.find_spec("backend")
+st.sidebar.write("backend spec:", None if spec is None else getattr(spec, "origin", spec))
+if spec is None:
+    st.error("Não encontrei o pacote 'backend'. Confirme que existe 'juridico-review-ai/backend/__init__.py'.")
+    st.stop()
+
+# Import backend with explicit error handling
 try:
-    from src.parsing import parse_document
-    from src.utils import load_catalog
-    from src.vector_db import DocumentVectorDB, get_rag_context_for_suggestion
-except:
-    st.error("Erro ao importar módulos do backend. Verifique se está na pasta correta.")
+    from backend.parsing import parse_document
+    from backend.utils import load_catalog
+    from backend.vector_db import DocumentVectorDB, get_rag_context_for_suggestion
+except Exception as e:
+    import traceback
+    st.error(f"Falha ao importar backend: {e}")
+    st.code("".join(traceback.format_exc()))
     st.stop()
 
 # Inicializa banco vetorial (persiste entre sessões)
