@@ -210,20 +210,19 @@ def classify_and_suggest_with_gemini(clause_title, clause_content, catalog_claus
 
     # Rate limiting: 10 RPM
     rate_limit_wait()
+    # If the Google Generative client is not available, return a safe fallback so
+    # the app doesn't crash on Streamlit Cloud. The user will see the "justificativa"
+    # explaining the missing dependency.
+    if genai is None:
+        return {
+            'classificacao': 'PARCIAL',
+            'confianca': 0.0,
+            'justificativa': 'Google Generative AI client não instalado (google-generative-ai).',
+            'sugestao': catalog_clause.get('template', 'Template não disponível')
+        }
 
-        # If the Google Generative client is not available, return a safe fallback so
-        # the app doesn't crash on Streamlit Cloud. The user will see the "justificativa"
-        # explaining the missing dependency.
-        if genai is None:
-            return {
-                'classificacao': 'PARCIAL',
-                'confianca': 0.0,
-                'justificativa': 'Google Generative AI client não instalado (google-generative-ai).',
-                'sugestao': catalog_clause.get('template', 'Template não disponível')
-            }
-
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-2.0-flash-exp')
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel('gemini-2.0-flash-exp')
 
     # Trunca conteúdo
     content_preview = clause_content[:800]
