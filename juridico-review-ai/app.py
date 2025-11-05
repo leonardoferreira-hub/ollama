@@ -5,15 +5,27 @@ Sistema de revisão automatizada de minutas jurídicas usando Gemini API
 
 import streamlit as st
 
-# Attempt to import Google Generative AI client; handle missing package gracefully so
+# Attempt to import required packages; handle missing ones gracefully so
 # the Streamlit app can still load and display a useful error instead of crashing.
 try:
     import google.generativeai as genai
 except Exception:
     genai = None
+
+try:
+    import yaml
+except ImportError:
+    st.error("📦 Pacote PyYAML não instalado. Executando: `pip install pyyaml`")
+    import subprocess
+    try:
+        subprocess.check_call(['pip', 'install', 'pyyaml>=6.0.1'])
+        import yaml
+    except:
+        st.error("❌ Não foi possível instalar PyYAML. Por favor, instale manualmente: `pip install pyyaml>=6.0.1`")
+        st.stop()
+
 from pathlib import Path
 import time
-import yaml
 import io
 from datetime import datetime
 from collections import deque
