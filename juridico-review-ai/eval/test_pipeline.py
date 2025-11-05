@@ -17,6 +17,7 @@ def test_pipeline_imports():
     import importlib
     modules = [
         "src.parsers.pdf_pymupdf",
+        "src.parsers.docx_parser",
         "src.retrieval.embeddings",
         "src.retrieval.index_faiss",
         "src.rules.engine",

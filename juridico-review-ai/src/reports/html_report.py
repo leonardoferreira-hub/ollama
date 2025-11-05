@@ -26,7 +26,13 @@ pre { white-space: pre-wrap; }
       <td class="status-{{ r.status }}">{{ r.status }}</td>
       <td>
         {% if r.evidence %}
-          <div><b>Pág.:</b> {{ r.evidence.page }}</div>
+          {% if r.evidence.page %}
+            <div><b>Pág.:</b> {{ r.evidence.page }}</div>
+          {% elif r.evidence.section_path %}
+            <div><b>Seção:</b> {{ r.evidence.section_path }}</div>
+            {% if r.evidence.para_idx %}<div><b>Parágrafo:</b> {{ r.evidence.para_idx }}</div>{% endif %}
+            {% if r.evidence.table_ref %}<div><b>Tabela:</b> {{ r.evidence.table_ref }}</div>{% endif %}
+          {% endif %}
           <pre>{{ r.evidence.text }}</pre>
         {% else %}-{% endif %}
       </td>

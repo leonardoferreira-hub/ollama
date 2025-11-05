@@ -7,7 +7,8 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from typing import Dict
-from src.parsers.pdf_pymupdf import extract_blocks
+from src.parsers.pdf_pymupdf import extract_blocks as extract_pdf
+from src.parsers.docx_parser import extract_blocks_docx
 from src.retrieval.index_faiss import build_index, query_topk
 from src.rules.engine import apply_rules
 from src.agents.gemini_validator import judge_with_gemini
@@ -30,12 +31,33 @@ def sha256_file(path: str) -> str:
             h.update(chunk)
     return h.hexdigest()
 
+def load_blocks(any_path: str):
+    """
+    Carrega blocos de um documento PDF ou DOCX.
+
+    Args:
+        any_path: Caminho do arquivo (.pdf ou .docx)
+
+    Returns:
+        Lista de blocos extraídos
+
+    Raises:
+        ValueError: Se o formato não for suportado
+    """
+    ext = os.path.splitext(any_path)[1].lower()
+    if ext == ".pdf":
+        return extract_pdf(any_path)
+    elif ext == ".docx":
+        return extract_blocks_docx(any_path)
+    else:
+        raise ValueError("Formato não suportado. Use PDF (.pdf) ou DOCX (.docx).")
+
 def validate(pdf_path: str, standard_path: str, k: int = 5, use_llm: bool = True, out_html: str = "report.html"):
     """
     Pipeline completo de validação documental.
 
     Etapas:
-    1. Extração de blocos do PDF (PyMuPDF)
+    1. Extração de blocos do documento (PDF ou DOCX)
     2. Construção de índice FAISS
     3. Para cada cláusula:
        a. Retrieval top-k
@@ -44,7 +66,7 @@ def validate(pdf_path: str, standard_path: str, k: int = 5, use_llm: bool = True
     4. Geração de relatório HTML
 
     Args:
-        pdf_path: Caminho do PDF a validar
+        pdf_path: Caminho do documento a validar (.pdf ou .docx)
         standard_path: Caminho do standard JSON
         k: Número de blocos a recuperar (default: 5)
         use_llm: Se deve usar LLM para casos ambíguos (default: True)
@@ -53,8 +75,8 @@ def validate(pdf_path: str, standard_path: str, k: int = 5, use_llm: bool = True
     print(f"[1/4] Carregando standard: {standard_path}")
     std = json.load(open(standard_path, 'r', encoding='utf-8'))
 
-    print(f"[2/4] Extraindo blocos do PDF: {pdf_path}")
-    blocks = extract_blocks(pdf_path)
+    print(f"[2/4] Extraindo blocos do documento: {pdf_path}")
+    blocks = load_blocks(pdf_path)
     print(f"      Blocos extraídos: {len(blocks)}")
 
     print(f"[3/4] Construindo índice FAISS...")

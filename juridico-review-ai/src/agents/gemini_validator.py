@@ -56,7 +56,10 @@ def judge_with_gemini(clause: Dict, candidates: List[Dict]) -> Dict:
 
     user_payload = {
       "clause": clause,
-      "candidates": candidates[:5]
+      "candidates": [
+        {k: v for k, v in c.items() if k in ("mode","page","bbox","section_path","para_idx","table_ref","text")}
+        for c in candidates[:5]
+      ]
     }
 
     res = model.generate_content(

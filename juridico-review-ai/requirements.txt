@@ -3,8 +3,9 @@
 # Pipeline híbrido (regras + IA) com saída 100% estruturada em JSON
 # ============================================================================
 
-# PDF Parsing (PyMuPDF para bbox + página)
-pymupdf>=1.23.0
+# Document Parsing
+pymupdf>=1.23.0          # PDF parsing (bbox + página)
+python-docx>=0.8.11      # DOCX parsing (seção + parágrafo + tabela)
 
 # Retrieval e Embeddings
 faiss-cpu>=1.7.4
